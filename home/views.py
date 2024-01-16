@@ -126,6 +126,9 @@ def index(request):
     return render(request, 'index.html', context)
 
 
+def privacy_policy(request):
+    return render(request, 'privacy_policy_page.html')
+
 
 def searchbar(request):
     keyword = request.GET.get('keyword')

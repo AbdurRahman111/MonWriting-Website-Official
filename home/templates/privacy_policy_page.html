@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ get_article.Title }}{% endblock %}
+
+{% block page_meta_description %}{{ get_article.tags }}{% endblock %}
+{% block page_meta_keywords %}{{ get_article.tags }}{% endblock %}
+
+{% block body %}
+
+<style>
+    body{
+    background:rgb(255, 255, 255);
+}
+
+.card{
+    border-left: none;
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.card:before{
+    
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#E1BEE7;
+    transform:scaleY(1);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+
+.card:after{
+    
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#8E24AA;
+    transform:scaleY(0);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+
+.card:hover::after{
+    transform:scaleY(1);
+}
+
+
+.fonts{
+    font-size:11px;
+}
+
+.social-list{
+    display:flex;
+    list-style:none;
+    justify-content:center;
+    padding:0;
+}
+
+.social-list li{
+    padding:10px;
+    color:#8E24AA;
+    font-size:19px;
+}
+
+
+.buttons button:nth-child(1){
+       border:1px solid #8E24AA !important;
+       color:#8E24AA;
+       height:40px;
+}
+
+.buttons button:nth-child(1):hover{
+       border:1px solid #8E24AA !important;
+       color:#fff;
+       height:40px;
+       background-color:#8E24AA;
+}
+
+.buttons button:nth-child(2){
+       border:1px solid #8E24AA !important;
+       background-color:#8E24AA;
+       color:#fff;
+        height:40px;
+}
+</style>
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+
+<div class="col-md-8" style="margin-left:auto; margin-right:auto">
+<div class="container ">
+    <h1>Privacy & Policy</h1><hr>
+    <p>Welcome to MonWriting! This Privacy Policy describes how MonWriting collects, uses, and protects your personal information when you visit our website, use our services, or interact with us.</p>
+
+<h2><strong>1. Information We Collect</strong></h2>
+
+<h3><strong>a. Personal Information</strong></h3>
+
+<ul>
+	<li>When you visit MonWriting, we may collect personal information such as your name, email address, and other contact details when voluntarily provided by you.</li>
+</ul>
+
+<h3>b. Log Data</h3>
+
+<ul>
+	<li>We automatically collect log data, including your IP address, browser type, referring pages, and other usage information when you access MonWriting.</li>
+</ul>
+
+<h3>c. Cookies</h3>
+
+<ul>
+	<li>MonWriting uses cookies and similar tracking technologies to enhance your user experience. You can manage your cookie preferences through your browser settings.</li>
+</ul>
+
+<h2>2. How We Use Your Information</h2>
+
+<ul>
+	<li>MonWriting uses the collected information for the following purposes:
+	<ul>
+		<li>To provide and maintain our services.</li>
+		<li>To personalize your experience on our website.</li>
+		<li>To send newsletters, updates, and promotional materials (if you have opted in).</li>
+		<li>To process transactions for digital products.</li>
+	</ul>
+	</li>
+</ul>
+
+<h2>3. Information Sharing and Disclosure</h2>
+
+<ul>
+	<li>We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except for the purpose of providing our services.</li>
+</ul>
+
+<h2>4. Data Security</h2>
+
+<ul>
+	<li>MonWriting implements industry-standard security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction.</li>
+</ul>
+
+<h2>5. Your Rights</h2>
+
+<h3>a. <strong>GDPR Compliance</strong></h3>
+
+<ul>
+	<li>If you are a resident of the European Economic Area (EEA), you have specific rights under the <strong>General Data Protection Regulation (GDPR)</strong>. These include the right to access, rectify, or erase your personal data. You can also object to the processing of your personal data or request the restriction of such processing. Contact us at [insert contact email] for assistance.</li>
+</ul>
+
+<h3>b. <strong>CCPA Compliance</strong></h3>
+
+<ul>
+	<li>If you are a California resident, you have specific rights under the <strong>California Consumer Privacy Act (CCPA)</strong>. These include the right to know about and delete your personal information. You have the right to opt-out of the sale of your personal information. Contact us at [insert contact email] for assistance.</li>
+</ul>
+
+<h2>6. Third-Party Links</h2>
+
+<ul>
+	<li>MonWriting may contain links to third-party websites. We are not responsible for the privacy practices or content of these external sites.</li>
+</ul>
+
+<h2>7. Changes to This Privacy Policy</h2>
+
+<ul>
+	<li>MonWriting may update this Privacy Policy to reflect changes in our data practices. We will notify you of any significant changes via email or a prominent notice on our website.</li>
+</ul>
+
+<h2>8. Contact Us</h2>
+
+<ul>
+	<li>If you have questions or concerns about this Privacy Policy, contact us at monwritings@gmail.com</li>
+</ul>
+
+</div>
+</div>
+{% endblock %}
+
+
