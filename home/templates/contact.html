@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block active_contact %}active{% endblock %}
+{% block body %}
+
+
+<div class="widget rounded col-md-6 col-lg-6" style="margin-left:auto; margin-right:auto; margin-top:40px; margin-bottom:40px;">
+    <div class="widget-header text-center">
+        <h3 class="widget-title">Contact Us !!</h3>
+    </div>
+    <div class="widget-content">
+<!--        <span class="newsletter-headline text-center mb-3">Join 50,000 subscribers</span>-->
+        <form method="POST"> {% csrf_token %}
+            <div class="mb-2">
+                <input type="text" name="name" class="form-control w-100 text-center mb-3"
+                    placeholder="Name *">
+
+                <input type="email" name="email" class="form-control w-100 text-center mb-3"
+                    placeholder="Email address...">
+
+                <input type="text" name="subject" class="form-control w-100 text-center mb-3"
+                    placeholder="Subject *">
+                <textarea name="message" placeholder="Message" class="form-control"></textarea>
+
+            </div>
+            <button class="btn btn-default btn-full">Send Massage</button>
+
+        </form>
+        <span class="newsletter-privacy text-center mt-3">
+            Thanks For Visit!
+        </span>
+    </div>
+</div>
+
+
+{% endblock %}

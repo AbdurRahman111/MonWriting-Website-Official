@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Edit Blog{% endblock %}
+
+
+{% block body %}
+
+<style>
+
+</style>
+
+<script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
+
+
+<div class="widget rounded col-md-6 col-lg-6" style="margin-left:auto; margin-right:auto; margin-top:40px; margin-bottom:40px;">
+    <div class="widget-header text-center">
+        <h3 class="widget-title" style="font-size:28px;">Create Your Article Here</h3>
+        <h3 class="widget-title" style="font-size:16px;"><a href="/writer/{{request.user.username}}">See My Articles</a></h3>
+    </div>
+    <div class="widget-content">
+<!--        <span class="newsletter-headline text-center mb-3">Join 50,000 subscribers</span>-->
+        <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="mb-2">
+                <input type="text" name="title" value="{{get_article.Title}}" class="form-control w-100 text-center mb-3" placeholder="Title *">
+                <input type="hidden" name="article_id" value="{{get_article.id}}" >
+
+                <select name="category_select" class="form-control w-100 text-center mb-3">
+                  <option value="{{get_article.Category.id}}">{{get_article.Category.name}}</option>
+                    {% for category in all_categories %}
+                  <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+
+
+                <select name="chapter_select" class="form-control w-100 text-center mb-3" onchange="new_chapter_function(this.value)">
+                  <option value="{{get_article.Chapter.id}}" selected>{{get_article.Chapter.name}}</option>
+                  <option value="new_chapter">Create New Chapter</option>
+                    {% for chapter in all_chapter %}
+                  <option value="{{ chapter.id }}">{{ chapter.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <div id="new_chapter_input_id"></div>
+
+                <div id="div_subchapter_input_id">
+                    <select name="subchapter_select" class="form-control w-100 text-center mb-3" onchange="new_subchapter_function(this.value)">
+                      <option value="{{get_article.Subchapter.id}}" selected>{{get_article.Subchapter.name}}</option>
+                      <option value="new_subchapter">Create New Subchapter</option>
+                        {% for subchapter in all_subchapter_in_this_chapter %}
+                      <option value="{{ subchapter.id }}">{{ subchapter.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div id="new_subchapter_input_id"></div>
+
+
+<!--                <input type="text" name="chapter" class="form-control w-100 text-center mb-3"-->
+<!--                    placeholder="Chapter *">-->
+
+<!--                <input type="text" name="subchapter" class="form-control w-100 text-center mb-3"-->
+<!--                    placeholder="Subchapter *">-->
+
+
+                <img src="{% if get_article.image %}{{ get_article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="img-fluid rounded mx-auto d-block" alt="..." width="40%" style="margin-top:28px; margin-bottom:22px;">
+                <input type="file" name="Article_image" class="form-control w-100 text-center mb-3">
+
+                <textarea name="Short_Description" placeholder="Short Description" class="form-control">{{ get_article.Short_Description }}</textarea>
+
+                <div style="padding-top:20px; padding-bottom:20px;">
+                    <textarea name="editor1" >{{ get_article.Description }}</textarea>
+                </div>
+
+                <script>
+                        CKEDITOR.replace( 'editor1' );
+                </script>
+
+
+                <input type="text" name="tags_article" value="{{ get_article.tags }}" class="form-control w-100 text-center mb-3"
+                    placeholder="Tags(add tags using comma) *">
+
+
+            </div>
+            <button class="btn btn-default btn-full">Create Article</button>
+
+        </form>
+        <span class="newsletter-privacy text-center mt-3">
+            Thanks For Your Contribution !
+        </span>
+    </div>
+</div>
+
+<script>
+    function new_chapter_function(value){
+        console.log(value);
+        console.log('this');
+        if (value == 'new_chapter'){
+            document.getElementById('new_chapter_input_id').innerHTML = `<input type="text" name="new_chapter" class="form-control w-100 text-center mb-3"placeholder="Type New Chapter *">`;
+
+            document.getElementById('div_subchapter_input_id').innerHTML = `<input type="text" name="new_subchapter" class="form-control w-100 text-center mb-3"placeholder="Type New Subhapter *">`;
+        }
+        else{
+            document.getElementById('new_chapter_input_id').innerHTML = ``;
+
+            $.ajax({
+                url : '{% url 'getsubchapters' %}',
+                type : 'POST',
+                data : {value:value}
+            })
+            .done(function(response){
+                console.log(response);
+
+                var subchapter_list = JSON.parse(response);
+
+                var len = subchapter_list.length;
+                var full_subchapter_dropdown_html = `<select name="subchapter_select" class="form-control w-100 text-center mb-3" onchange="new_subchapter_function(this.value)">
+                  <option selected>Select Subchapter</option>
+                  <option value="new_subchapter">Create New Subchapter</option>`;
+
+                for(var i=0;i<len;i++){
+                    var sub_name3 = JSON.stringify(subchapter_list[i].fields.name);
+                    var sub_name2 = sub_name3.slice(0, -1)
+                    var sub_name = sub_name2.slice(1);
+
+                    var sub_slug3 = JSON.stringify(subchapter_list[i].fields.slug);
+                    var sub_slug2 = sub_slug3.slice(0, -1)
+                    var sub_slug = sub_slug2.slice(1);
+
+                    var sub_pk = JSON.stringify(subchapter_list[i].pk);
+
+
+                    full_subchapter_dropdown_html = full_subchapter_dropdown_html + `<option value="${sub_pk}">${sub_name}</option>`
+                }
+                full_subchapter_dropdown_html = full_subchapter_dropdown_html + `</select>`;
+                console.log(full_subchapter_dropdown_html);
+
+                document.getElementById('div_subchapter_input_id').innerHTML = full_subchapter_dropdown_html;
+            })
+        }
+    }
+
+
+
+    function new_subchapter_function(value){
+        if (value == 'new_subchapter'){
+            document.getElementById('new_subchapter_input_id').innerHTML = `<input type="text" name="new_subchapter" class="form-control w-100 text-center mb-3"placeholder="Type New Subhapter *">`;
+        }
+        else{
+            document.getElementById('new_subchapter_input_id').innerHTML = "";
+        }
+    }
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+
+
+
+{% endblock %}

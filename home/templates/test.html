@@ -1,0 +1,223 @@
+<!-- --------------------- Created By InCoder --------------------- -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+
+<style>
+    /* --------------------- Created By InCoder --------------------- */
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    ::selection{
+        color: #fff;
+        background-color: #fab759;
+    }
+
+    .container{
+        display: flex;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(216deg, #fab759, #ec9e3e);
+    }
+
+    .container .wrapper{
+        width: 20rem;
+        padding: 0 .2rem;
+        background: #fff;
+        border-radius: .5rem;
+        color: rgb(0 0 0 / 90%);
+    }
+
+    .container .wrapper .header {
+        display: flex;
+        margin-top: .4rem;
+        margin-left: .8rem;
+        align-items: center;
+        color: rgb(0 0 0 / 90%);
+    }
+
+    .container .wrapper .header i {
+        margin-right: .2rem;
+    }
+
+    .container .wrapper .body p {
+        font-size: .8rem;
+        margin-left: .8rem;
+    }
+
+    .input-form ul {
+        cursor: text;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 .4rem;
+        align-items: center;
+        margin: .4rem .4rem;
+        border-radius: .4rem;
+        transition: border .2s ease-in-out;
+        border: 2px solid rgb(0 0 0 / 30%);
+    }
+
+    .input-form ul li {
+        margin: .4rem .2rem;
+        list-style: none;
+        padding: .2rem .4rem;
+        border-radius: .3rem;
+        background: rgb(0 0 0 / 10%);
+    }
+
+    .input-form ul li i {
+        cursor: pointer;
+        border-radius: 50rem;
+        padding: .2rem .3rem;
+        color: rgb(0 0 0 / 50%);
+    }
+
+    .input-form ul li i:hover {
+        background: rgb(0 0 0 / 10%);
+    }
+
+    .input-form ul.focus {
+        border: 2px solid #ec9e3e;
+    }
+
+    .input-form ul input {
+        flex: 1;
+        height: 2rem;
+        border: none;
+        outline: none;
+    }
+
+    .clearAll{
+        border: 0;
+        float: right;
+        color: #fff;
+        cursor: pointer;
+        font-size: .9rem;
+        margin-top: .2rem;
+        margin-right: 1rem;
+        padding: .4rem 1rem;
+        border-radius: .4rem;
+        margin-bottom: .6rem;
+        background: rgb(236 158 62 / 90%);
+        transition: color .2s ease-in-out, background .2s ease-in-out;
+    }
+
+    .clearAll:hover {
+        background: rgb(236 158 62 / 100%);
+    }
+
+    .clearAll:focus {
+        outline-offset: 2px;
+        background: rgb(236 158 62);
+        outline: 2px solid rgb(236 158 62);
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <div class="header">
+                <i class="fa-solid fa-tags"></i>
+                <h3>Tags</h3>
+            </div>
+            <div class="body">
+                <p>Press enter or add comma after each tag.</p>
+                <div class="input-form">
+                    <ul>
+                        <input type="text" placeholder="Add Tags">
+                    </ul>
+                </div>
+            </div>
+            <div class="footer">
+                <button class="clearAll">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        // --------------------- Created By InCoder ---------------------
+
+        let inputForm = document.querySelector('.input-form')
+        input = document.querySelector('.input-form input')
+        ul = document.querySelector('.input-form ul')
+
+        input.addEventListener('focus', () => {
+            inputForm.querySelector('ul').classList.toggle('focus')
+        })
+
+        inputForm.addEventListener('click', () => {
+            input.focus()
+            inputForm.querySelector('ul').classList.add('focus')
+        })
+
+        document.addEventListener('click', (e) => {
+            if (e.target != input) inputForm.querySelector('ul').classList.remove('focus')
+        })
+
+        let tags = []
+
+        const createNewTag = () => {
+            ul.querySelectorAll("li").forEach(li => li.remove());
+            tags.slice().reverse().forEach(tag => {
+                let LI = `<li>${tag} <i class="fa-solid fa-times" onClick="removeTag(this, '${tag}')"></i></li>`
+                ul.insertAdjacentHTML('afterbegin', LI)
+            })
+        }
+
+        const addTag = (e) => {
+            if (e.key == 'Enter' || e.keyCode == 32) {
+                let tag = e.target.value.replace(/\s+/g, ' ')
+                if (tag.length > 1 && !tags.includes(tag)) {
+                    tag.split(',').forEach(tag => {
+                        tags.push(tag)
+                        createNewTag()
+                    })
+                }
+                e.target.value = ''
+            }
+
+            if (e.target.value.length > 0) return
+            if (e.key == 'Backspace') {
+                tags = [...tags.slice(0, tags.length - 1)];
+                ul.querySelectorAll("li").forEach(li => li.remove())
+                createNewTag()
+            }
+        }
+
+        const removeTag = (elem, tag) => {
+            let index = tags.indexOf(tag);
+            tags = [...tags.slice(0, index), ...tags.slice(index + 1)];
+            elem.parentElement.remove();
+        }
+
+        input.addEventListener('keyup', (e) => addTag(e))
+
+        clearAll = document.querySelector('.clearAll')
+
+        clearAll.addEventListener('click', () => {
+            tags = []
+            createNewTag()
+        })
+    </script>
+</body>
+
+</html>

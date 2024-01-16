@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block active_account %}active{% endblock %}
+{% block body %}
+
+
+<div class="widget rounded col-md-6 col-lg-6" style="margin-left:auto; margin-right:auto; margin-top:40px; margin-bottom:40px;">
+    <div class="widget-header text-center">
+        <h3 class="widget-title">Signup Here !!</h3>
+    </div>
+    {% if erorr_message %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>{{ erorr_message }}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+
+    <div class="widget-content">
+<!--        <span class="newsletter-headline text-center mb-3">Join 50,000 subscribers</span>-->
+        <form method="POST" action="{% url 'submit_signup' %}">{% csrf_token %}
+            <div class="mb-2">
+
+                <input type="text" name="first_name" value="{{ first_name }}" class="form-control w-100 text-center mb-3" placeholder="First Name *" maxlength="150" id="id_first_name">
+
+                <input type="text" name="last_name" value="{{ last_name }}" class="form-control w-100 text-center mb-3" placeholder="Last Name *" maxlength="150" id="id_last_name">
+
+                <input type="email" name="email" value="{{ email }}" class="form-control w-100 text-center mb-3" placeholder="Email address..." maxlength="254" id="id_email">
+
+                <input type="password" name="password1" class="form-control w-100 text-center mb-3" placeholder="***********" required="" id="id_password1">
+
+                <input type="password" name="password2" class="form-control w-100 text-center mb-3" placeholder="***********" required="" id="id_password2">
+
+            </div>
+            <button type="submit" class="btn btn-default btn-full">Sign Up</button>
+
+        </form>
+        <span class="newsletter-privacy text-center mt-3">
+            Already Have Account ?? <a href="/account/login">Login</a>
+        </span>
+    </div>
+</div>
+
+
+<!--<div class="widget rounded col-md-6 col-lg-6" style="margin-left:auto; margin-right:auto; margin-top:40px; margin-bottom:40px;">-->
+<!--    <div class="widget-header text-center">-->
+<!--        <h3 class="widget-title">Signup Here !!</h3>-->
+<!--    </div>-->
+
+<!--    {% if messages %}-->
+<!--            {% for message in messages %}-->
+<!--                <div class="alert alert-danger">-->
+<!--                    {{message}}-->
+<!--                </div>-->
+<!--            {% endfor %}-->
+<!--        {% endif %}-->
+<!--    <div class="widget-content">-->
+<!--&lt;!&ndash;        <span class="newsletter-headline text-center mb-3">Join 50,000 subscribers</span>&ndash;&gt;-->
+<!--        <form method="POST">-->
+<!--            {% csrf_token %}-->
+<!--            <div class="mb-2">-->
+<!--                {{ form.username }}-->
+
+<!--                {{ form.first_name }}-->
+
+<!--                {{ form.last_name }}-->
+
+<!--                {{ form.email }}-->
+
+<!--                {{ form.password1 }}-->
+
+<!--                {{ form.password2 }}-->
+
+<!--            </div>-->
+<!--            <button type="submit" class="btn btn-default btn-full">Sign Up</button>-->
+
+<!--        </form>-->
+<!--        <span class="newsletter-privacy text-center mt-3">-->
+<!--            Already Have Account ?? <a href="{% url 'login_function' %}">Login</a>-->
+<!--        </span>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+{% endblock %}

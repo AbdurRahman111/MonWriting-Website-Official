@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block active_article %}active{% endblock %}
+
+{% block body %}
+
+        <!-- main content  -->
+
+        <section class="main-content">
+            <div class="container-xl">
+                <div class="row gy-4">
+
+                    <!-- left part 1st section  -->
+                    <div class="col-lg-8">
+                        <div class="padding-30 rounded bordered">
+                            <div class="row">
+                            <h4>{{ get_category.name }}</h4>
+                            {% if filter_article %}
+                                {% for article in filter_article %}
+                                <div class="col-md-12 col-sm-6">
+                                    <!-- post  -->
+                                    <div class="post post-list clearfix">
+                                        <div class="thumb rounded">
+                                            <span class="post-format-sm">
+                                                <i class="icon-picture"></i>
+                                            </span>
+                                            <a href="{% url 'writer' article.get_profile.user.username %}">
+                                                <div class="inner">
+                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details">
+                                            <ul class="meta list-inline mb-3">
+                                                <li class="list-inline-item">
+                                                    <a href="{% url 'writer' article.get_profile.user.username %}">
+                                                        <img src="{% if article.get_profile %}{{ article.get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="author" alt="" style="width:28px;;">
+                                                        {% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="{% url 'category_articles' article.Category.slug %}">{{ article.Category.name }}</a>
+                                                </li>
+                                                <li class="list-inline-item">{{ article.Time.date }}</li>
+                                            </ul>
+                                            <h5 class="post-tile">
+                                                <a href="{% url 'article_details' article.slug %}">
+                                                    {{ article.Title }}
+                                                </a>
+                                            </h5>
+                                            <p class="excerpt mb-0">
+                                                {{ article.Short_Description }}
+                                            </p>
+                                            <div class="post-bottom clearfix d-flex align-items-center">
+                                                <div class="social-share me-auto">
+                                                    <button class="toggle-button icon-share"></button>
+                                                    <ul class="icons list-unstyled list-inline mb-0">
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="far fa-envelope"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="more-button float-end">
+                                                    <a href="#"><span class="icon-options"></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <h5>No Article</h5>
+                            {% endif %}
+
+
+<!--                                <div class="col-md-12 col-sm-6">-->
+<!--                                    &lt;!&ndash; post  &ndash;&gt;-->
+<!--                                    <div class="post post-list clearfix">-->
+<!--                                        <div class="thumb rounded">-->
+<!--                                            <span class="post-format-sm">-->
+<!--                                                <i class="icon-picture"></i>-->
+<!--                                            </span>-->
+<!--                                            <a href="#">-->
+<!--                                                <div class="inner">-->
+<!--                                                    <img src="{% static '' %}images/posts/latest-1.jpg" alt="">-->
+<!--                                                </div>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="details">-->
+<!--                                            <ul class="meta list-inline mb-3">-->
+<!--                                                <li class="list-inline-item">-->
+<!--                                                    <a href="#">-->
+<!--                                                        <img src="{% static '' %}images/other/author-sm.jpg" class="author" alt="">-->
+<!--                                                        Techie Coder-->
+<!--                                                    </a>-->
+<!--                                                </li>-->
+<!--                                                <li class="list-inline-item">-->
+<!--                                                    <a href="#">Trending</a>-->
+<!--                                                </li>-->
+<!--                                                <li class="list-inline-item">26 May 2021</li>-->
+<!--                                            </ul>-->
+<!--                                            <h5 class="post-tile">-->
+<!--                                                <a href="{% url 'article_page_details' %}">-->
+<!--                                                    360-seater plane flies to Dubai from Mumbai with only 1 Passenger-->
+<!--                                                </a>-->
+<!--                                            </h5>-->
+<!--                                            <p class="excerpt mb-0">-->
+<!--                                                This is Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi,-->
+<!--                                                iure.-->
+<!--                                            </p>-->
+<!--                                            <div class="post-bottom clearfix d-flex align-items-center">-->
+<!--                                                <div class="social-share me-auto">-->
+<!--                                                    <button class="toggle-button icon-share"></button>-->
+<!--                                                    <ul class="icons list-unstyled list-inline mb-0">-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-facebook-f"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-twitter"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-pinterest"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-telegram-plane"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="far fa-envelope"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                    </ul>-->
+<!--                                                </div>-->
+<!--                                                <div class="more-button float-end">-->
+<!--                                                    <a href="#"><span class="icon-options"></span></a>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+                            </div>
+                        </div>
+                        <!-- left part over here  -->
+                    </div>
+                    <!-- right part starts from here  -->
+
+                    <div class="col-lg-4">
+                        <div class="sidebar">
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Explore Topics</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <ul class="list">
+                                        {% for category in all_categories %}
+                                        <li><a href="{% url 'category_articles' category.slug %}">{{ category.name }}</a><span>({{ category.total_article }})</span></li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 50%;margin-bottom: 20px;">
+                                    <p class="mb-4" style="text-align: justify;">"Empowering through tech solutions and education at MonWriting - where potential meets innovation."</p>
+                                    <ul class="social-icons list-unstyled list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/MonWriting"><i class="fab fa-facebook-f"></i></a>
+                                        </li>
+<!--                                        <li class="list-inline-item">-->
+<!--                                            <a href="#"><i class="fab fa-twitter"></i></a>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-inline-item">-->
+<!--                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-inline-item">-->
+<!--                                            <a href="#"><i class="fab fa-pinterest"></i></a>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-inline-item">-->
+<!--                                            <a href="#"><i class="fab fa-telegram-plane"></i></a>-->
+<!--                                        </li>-->
+                                        <li class="list-inline-item">
+                                            <a href="https://www.youtube.com/channel/UCuA2xnyzuj45u3uoPC3yNkw"><i class="fab fa-youtube"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Tag Clouds</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <a href="/searchbar?keyword=Trending" class="tag">#Trending</a>
+                                    <a href="/searchbar?keyword=Cooking" class="tag">#Cooking</a>
+                                    <a href="/searchbar?keyword=Featured" class="tag">#Featured</a>
+                                    <a href="/searchbar?keyword=Beauty" class="tag">#Beauty</a>
+                                    <a href="/searchbar?keyword=Finance" class="tag">#Finance</a>
+                                    <a href="/searchbar?keyword=Celebrities" class="tag">#Celebrities</a>
+                                </div>
+                            </div>
+
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Newsletter</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <span class="newsletter-headline text-center mb-3">Join 5,000+ subscribers</span>
+                                    <form action="{% url 'submit_newsletter' %}" method="POST">{% csrf_token %}
+                                        <div class="mb-2">
+                                            <input type="email" name="email" class="form-control w-100 text-center"
+                                                placeholder="Email address...">
+                                        </div>
+                                        <button class="btn btn-default btn-full">Sign Up</button>
+
+                                    </form>
+                                    <span class="newsletter-privacy text-center mt-3">
+                                        By signing up, you agree to our <a href="#">Privacy policy</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+{% endblock %}

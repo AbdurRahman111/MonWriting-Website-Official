@@ -1,0 +1,565 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Home - MonWriting{% endblock %}
+
+{% block active_home %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+        <!-- section starts  -->
+        <section id="hero">
+            <div class="container-xl">
+                <div class="row gy-4">
+                    <div class="col-lg-8">
+                        {% for article in bennar_article %}
+                        <div class="post featured-post-lg">
+                            <div class="details clearfix">
+                                <a href="#" class="category-badge">{{ article.Category.name }}</a>
+                                <h2 class="post-title">
+                                    <a href="{% url 'article_details' article.slug %}">{{ article.Title }}</a>
+                                </h2>
+                                <ul class="meta list-inline mb-0">
+                                    <li class="list-inline-item">
+                                        <a href="{% url 'writer' article.get_profile.user.username %}">{% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}</a>
+                                    </li>
+                                    <li class="list-inline-item">{{ article.Time }}</li>
+                                </ul>
+                            </div>
+                            <a href="{% url 'article_details' article.slug %}">
+                                <div class="thumb rounded">
+                                    <div class="inner data-bg-image" data-bg-image="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="post-tabs rounded bordered">
+                            <ul class="nav nav-tabs nav-pills nav-fill" id="postTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button aria-controls="popular" aria-selected="true" class="nav-link active"
+                                        data-bs-target="#popular" data-bs-toggle="tab" id="popular-tab" role="tab"
+                                        type="button">
+                                        Popular
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button aria-controls="recent" aria-selected="false" class="nav-link"
+                                        data-bs-target="#recent" data-bs-toggle="tab" id="recent-tab" role="tab"
+                                        type="button">
+                                        Recent
+                                    </button>
+                                </li>
+
+                            </ul>
+
+                            <!-- content  -->
+                            <div class="tab-content" id="postsTabContent">
+                                <!-- loader -->
+                                <div class="lds-dual-ring"></div>
+                                <!-- pop post  -->
+
+                                <div class="tab-pane fade show active" id="popular" aria-labelledby="popular-tab"
+                                    role="tabpanel">
+                                    <!-- post  -->
+                                    {% for article in popular_article %}
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="{% url 'article_details' article.slug %}">
+                                                <div class="inner">
+                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="" style="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{% url 'article_details' article.slug %}" style="font-size: 13px;">{{ article.Title }}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{ article.Time }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+
+                                <!-- recent  -->
+                                <div class="tab-pane fade" id="recent" aria-labelledby="recent-tab" role="tabpanel">
+                                    <!-- post  -->
+                                    {% for article in recent_article %}
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="{% url 'article_details' article.slug %}">
+                                                <div class="inner">
+                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{% url 'article_details' article.slug %}">{{ article.Title }}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{ article.Time }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </section>
+
+        <!-- main content  -->
+        <section class="main-content">
+            <div class="container-xl">
+                <div class="row gy-4">
+
+                    <!-- left part 1st section  -->
+                    <div class="col-lg-8">
+
+                        {% if recommended_article %}
+                        <div class="section-header">
+                            <h3 class="section-title">Recommended</h3>
+                        </div>
+
+                        <div class="padding-30 rounded bordered">
+                            <div class="row gy-5">
+                                <div class="col-sm-6">
+                                    <!-- post  -->
+                                    {% for article in recommended_article2 %}
+                                    <div class="post">
+                                        <div class="thumb rounded">
+                                            <a href="{% url 'category_articles' article.Category.slug %}" class="category-badge position-absolute">{{ article.Category.name }}</a>
+                                            <span class="post-format">
+                                                <i class="icon-picture"></i>
+                                            </span>
+                                            <a href="{% url 'article_details' article.slug %}">
+                                                <div class="inner">
+                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <ul class="meta list-inline mt-4 mb-0">
+                                            <li class="list-inline-item">
+                                                <a href="{% url 'writer' article.get_profile.user.username %}">
+                                                    <img class="author" src="{% if article.get_profile %}{{ article.get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="" style="width:40px;">
+                                                    {% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">{{ article.Time }}</li>
+                                        </ul>
+                                        <h5 class="post-title mb-3 mt-3">
+                                            <a href="{% url 'article_details' article.slug %}">{{ article.Title }}</a>
+                                        </h5>
+                                        <p class="excerpt mb-0">
+                                            {{ article.Short_Description }}
+                                        </p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-sm-6">
+                                    {% for article in recommended_article %}
+                                    <div class="post post-list-sm square">
+                                        <div class="thumb rounded">
+                                            <a href="{% url 'article_details' article.slug %}">
+                                                <div class="inner">
+                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{% url 'article_details' article.slug %}">
+                                                    {{ article.Title }}
+                                                </a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{ article.Time }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {% endif %}
+
+
+<!--                        <div class="spacer" data-height="50"></div>-->
+
+<!--                        <div class="section-header">-->
+<!--                            <h3 class="section-title">Trending</h3>-->
+<!--                        </div>-->
+
+<!--                        <div class="padding-30 rounded bordered">-->
+<!--                            <div class="row gy-5">-->
+<!--                                <div class="col-sm-6">-->
+<!--                                    <div class="post">-->
+<!--                                        <div class="thumb rounded">-->
+<!--                                            <a href="#" class="category-badge position-absolute">Business</a>-->
+<!--                                            <span class="post-format">-->
+<!--                                                <i class="icon-picture"></i>-->
+<!--                                            </span>-->
+<!--                                            <a href="#">-->
+<!--                                                <div class="inner">-->
+<!--                                                    <img src="{% static '' %}images/posts/tren-lg-1.jpg" alt="">-->
+<!--                                                </div>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <ul class="meta list-inline mt-4 mb-0">-->
+<!--                                            <li class="list-inline-item">-->
+<!--                                                <a href="#">-->
+<!--                                                    <img src="{% static '' %}images/other/author-sm.jpg" class="author" alt="">-->
+<!--                                                    Techie Coder-->
+<!--                                                </a>-->
+<!--                                            </li>-->
+<!--                                            <li class="list-inline-item">24 May 2021</li>-->
+<!--                                        </ul>-->
+<!--                                        <h5 class="post-title mb-3 mt-3">-->
+<!--                                            <a href="#">Bitcoin investors lost $14.2bn in recent cypto crash</a>-->
+<!--                                        </h5>-->
+<!--                                        <p class="excerpt mb-0">-->
+<!--                                            This is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus,-->
+<!--                                            id.-->
+<!--                                        </p>-->
+<!--                                    </div>-->
+
+<!--                                    <div class="post post-list-sm square before-seperator">-->
+<!--                                        <div class="thumb rounded">-->
+<!--                                            <a href="#">-->
+<!--                                                <div class="inner">-->
+<!--                                                    <img src="{% static '' %}images/posts/tren-sm-1.jpg" alt="">-->
+<!--                                                </div>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="details clearfix">-->
+<!--                                            <h6 class="post-title my-0">-->
+<!--                                                <a href="#">IPL 2021 to resume in sept 3rd week in UAE</a>-->
+<!--                                            </h6>-->
+<!--                                            <ul class="meta list-inline mt-1 mb-0">-->
+<!--                                                <li class="list-inline-item">25 May 2021</li>-->
+<!--                                            </ul>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="post post-list-sm square before-seperator">-->
+<!--                                        <div class="thumb rounded">-->
+<!--                                            <a href="#">-->
+<!--                                                <div class="inner">-->
+<!--                                                    <img src="{% static '' %}images/posts/tren-sm-2.jpg" alt="">-->
+<!--                                                </div>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="details clearfix">-->
+<!--                                            <h6 class="post-title my-0">-->
+<!--                                                <a href="#">HDFC Bank concerned over retail asset quality in-->
+<!--                                                    near-term</a>-->
+<!--                                            </h6>-->
+<!--                                            <ul class="meta list-inline mt-1 mb-0">-->
+<!--                                                <li class="list-inline-item">25 May 2021</li>-->
+<!--                                            </ul>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+
+<!--                                </div>-->
+
+<!--                                <div class="col-sm-6">-->
+<!--                                    <div class="post">-->
+<!--                                        <div class="thumb rounded">-->
+<!--                                            <a href="#" class="category-badge position-absolute">Inspiration</a>-->
+<!--                                            <span class="post-format">-->
+<!--                                                <i class="icon-earphones"></i>-->
+<!--                                            </span>-->
+<!--                                            <a href="#">-->
+<!--                                                <div class="inner">-->
+<!--                                                    <img src="{% static '' %}images/posts/tren-lg-2.jpg" alt="">-->
+<!--                                                </div>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <ul class="meta list-inline mt-4 mb-0">-->
+<!--                                            <li class="list-inline-item">-->
+<!--                                                <a href="#">-->
+<!--                                                    <img src="{% static '' %}images/other/author-sm.jpg" class="author" alt="">-->
+<!--                                                    Techie Coder-->
+<!--                                                </a>-->
+<!--                                            </li>-->
+<!--                                            <li class="list-inline-item">29 May 2021</li>-->
+<!--                                        </ul>-->
+<!--                                        <h5 class="post-title mb-3 mt-3">-->
+<!--                                            <a href="#">Spotify gives a discount for student</a>-->
+<!--                                        </h5>-->
+<!--                                        <p class="excerpt mb-0">-->
+<!--                                            This is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus,-->
+<!--                                            id.-->
+<!--                                        </p>-->
+<!--                                    </div>-->
+
+<!--                                    <div class="post post-list-sm square before-seperator">-->
+<!--                                        <div class="thumb rounded">-->
+<!--                                            <a href="#">-->
+<!--                                                <div class="inner">-->
+<!--                                                    <img src="{% static '' %}images/posts/tren-sm-3.jpg" alt="">-->
+<!--                                                </div>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="details clearfix">-->
+<!--                                            <h6 class="post-title my-0">-->
+<!--                                                <a href="#">Arogya ap to display vaccination status</a>-->
+<!--                                            </h6>-->
+<!--                                            <ul class="meta list-inline mt-1 mb-0">-->
+<!--                                                <li class="list-inline-item">25 May 2021</li>-->
+<!--                                            </ul>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="post post-list-sm square before-seperator">-->
+<!--                                        <div class="thumb rounded">-->
+<!--                                            <a href="#">-->
+<!--                                                <div class="inner">-->
+<!--                                                    <img src="{% static '' %}images/posts/tren-sm-4.jpg" alt="">-->
+<!--                                                </div>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="details clearfix">-->
+<!--                                            <h6 class="post-title my-0">-->
+<!--                                                <a href="#">Petrol, diesel prices hiked again today.</a>-->
+<!--                                            </h6>-->
+<!--                                            <ul class="meta list-inline mt-1 mb-0">-->
+<!--                                                <li class="list-inline-item">25 May 2021</li>-->
+<!--                                            </ul>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="spacer" data-height="50"></div>
+
+                        <div class="section-header">
+                            <h3 class="section-title">Trending</h3>
+                            <div class="slick-arrows-top">
+                                <buttton class="carousel-topNav-prev slick-custom-buttons" type="button"
+                                    data-role="none" aria-label="Previous">
+                                    <i class="icon-arrow-left"></i>
+                                </buttton>
+                                <buttton class="carousel-topNav-next slick-custom-buttons" type="button"
+                                    data-role="none" aria-label="Next">
+                                    <i class="icon-arrow-right"></i>
+                                </buttton>
+                            </div>
+                        </div>
+
+                        <div class="row post-carousel-twoCol post-carousel">
+                            {% for article in trending_article %}
+                            <div class="post post-over-content col-md-6">
+                                <div class="details clearfix">
+                                    <a href="{% url 'category_articles' article.Category.slug %}" class="category-badge">{{ article.Category.name }}</a>
+                                    <h4 class="post-title">
+                                        <a href="{% url 'article_details' article.slug %}">{{ article.Title }}</a>
+                                    </h4>
+                                    <ul class="meta list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="{% url 'writer' article.get_profile.user.username %}">{% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}</a>
+                                        </li>
+                                        <li class="list-inline-item">{{ article.Time }}</li>
+                                    </ul>
+                                </div>
+                                <a href="{% url 'article_details' article.slug %}">
+                                    <div class="thumb rounded">
+                                        <div class="inner">
+                                            <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+
+
+                        </div>
+
+
+                        <div class="spacer" data-height="50"></div>
+
+                        <div class="section-header">
+                            <h3 class="section-title">Latest Posts</h3>
+                        </div>
+
+                        <div class="padding-30 rounded bordered">
+                            <div class="row">
+                                {% for article in all_article %}
+                                <div class="col-md-12 col-sm-6">
+                                    <!-- post  -->
+                                    <div class="post post-list clearfix">
+                                        <div class="thumb rounded">
+                                            <span class="post-format-sm">
+                                                <i class="icon-picture"></i>
+                                            </span>
+                                            <a href="{% url 'writer' article.get_profile.user.username %}">
+                                                <div class="inner">
+                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details">
+                                            <ul class="meta list-inline mb-3">
+                                                <li class="list-inline-item">
+                                                    <a href="{% url 'writer' article.get_profile.user.username %}">
+                                                        <img src="{% if article.get_profile %}{{ article.get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="author" alt="" style="width:28px;;">
+                                                        {% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="{% url 'category_articles' article.Category.slug %}">{{ article.Category.name }}</a>
+                                                </li>
+                                                <li class="list-inline-item">{{ article.Time.date }}</li>
+                                            </ul>
+                                            <h5 class="post-tile">
+                                                <a href="{% url 'article_details' article.slug %}">
+                                                    {{ article.Title }}
+                                                </a>
+                                            </h5>
+                                            <p class="excerpt mb-0">
+                                                {{ article.Short_Description }}
+                                            </p>
+                                            <div class="post-bottom clearfix d-flex align-items-center">
+                                                <div class="social-share me-auto">
+                                                    <button class="toggle-button icon-share"></button>
+                                                    <ul class="icons list-unstyled list-inline mb-0">
+                                                        <li class="list-inline-item">
+                                                            <a href="https://www.facebook.com/MonWriting"><i class="fab fa-facebook-f"></i></a>
+                                                        </li>
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-twitter"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-pinterest"></i></a>-->
+<!--                                                        </li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a href="#"><i class="fab fa-telegram-plane"></i></a>-->
+<!--                                                        </li>-->
+                                                        <li class="list-inline-item">
+                                                            <a href="https://www.youtube.com/channel/UCuA2xnyzuj45u3uoPC3yNkw"><i class="far fa-youtube"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="more-button float-end">
+                                                    <a href="#"><span class="icon-options"></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <!-- left part over here  -->
+                    </div>
+                    <!-- right part starts from here  -->
+
+                    <div class="col-lg-4">
+                        <div class="sidebar">
+
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Explore Topics</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <ul class="list">
+                                        {% for category in all_categories %}
+                                        <li><a href="{% url 'category_articles' category.slug %}">{{ category.name }}</a><span>({{ category.total_article }})</span></li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Newsletter</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <span class="newsletter-headline text-center mb-3">Join 5,000+ subscribers</span>
+                                    <form action="{% url 'submit_newsletter' %}" method="POST">{% csrf_token %}
+                                        <div class="mb-2">
+                                            <input type="email" name="email" class="form-control w-100 text-center"
+                                                placeholder="Email address...">
+                                        </div>
+                                        <button class="btn btn-default btn-full">Sign Up</button>
+
+                                    </form>
+                                    <span class="newsletter-privacy text-center mt-3">
+                                        By signing up, you agree to our <a href="#">Privacy policy</a>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Tag Clouds</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <a href="/searchbar?keyword=Trending" class="tag">#Trending</a>
+                                    <a href="/searchbar?keyword=Cooking" class="tag">#Cooking</a>
+                                    <a href="/searchbar?keyword=Featured" class="tag">#Featured</a>
+                                    <a href="/searchbar?keyword=Beauty" class="tag">#Beauty</a>
+                                    <a href="/searchbar?keyword=Finance" class="tag">#Finance</a>
+                                    <a href="/searchbar?keyword=Celebrities" class="tag">#Celebrities</a>
+                                </div>
+                            </div>
+
+
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 50%;margin-bottom: 20px;">
+                                    <p class="mb-4" style="text-align: justify;">"Empowering through tech solutions and education at MonWriting - where potential meets innovation."</p>
+                                    <ul class="social-icons list-unstyled list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/MonWriting"><i class="fab fa-facebook-f"></i></a>
+                                        </li>
+<!--                                        <li class="list-inline-item">-->
+<!--                                            <a href="#"><i class="fab fa-twitter"></i></a>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-inline-item">-->
+<!--                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-inline-item">-->
+<!--                                            <a href="#"><i class="fab fa-pinterest"></i></a>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-inline-item">-->
+<!--                                            <a href="#"><i class="fab fa-telegram-plane"></i></a>-->
+<!--                                        </li>-->
+                                        <li class="list-inline-item">
+                                            <a href="https://www.youtube.com/channel/UCuA2xnyzuj45u3uoPC3yNkw"><i class="fab fa-youtube"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+{% endblock %}

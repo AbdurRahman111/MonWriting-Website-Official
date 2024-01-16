@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ get_article.Title }}{% endblock %}
+
+{% block page_meta_description %}{{ get_article.tags }}{% endblock %}
+{% block page_meta_keywords %}{{ get_article.tags }}{% endblock %}
+
+{% block body %}
+
+<style>
+    body{
+    background:rgb(255, 255, 255);
+}
+
+.card{
+    border-left: none;
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.card:before{
+    
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#E1BEE7;
+    transform:scaleY(1);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+
+.card:after{
+    
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#8E24AA;
+    transform:scaleY(0);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+
+.card:hover::after{
+    transform:scaleY(1);
+}
+
+
+.fonts{
+    font-size:11px;
+}
+
+.social-list{
+    display:flex;
+    list-style:none;
+    justify-content:center;
+    padding:0;
+}
+
+.social-list li{
+    padding:10px;
+    color:#8E24AA;
+    font-size:19px;
+}
+
+
+.buttons button:nth-child(1){
+       border:1px solid #8E24AA !important;
+       color:#8E24AA;
+       height:40px;
+}
+
+.buttons button:nth-child(1):hover{
+       border:1px solid #8E24AA !important;
+       color:#fff;
+       height:40px;
+       background-color:#8E24AA;
+}
+
+.buttons button:nth-child(2){
+       border:1px solid #8E24AA !important;
+       background-color:#8E24AA;
+       color:#fff;
+        height:40px;
+}
+</style>
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+
+<div class="col-md-8" style="margin-left:auto; margin-right:auto">
+<div class="container ">
+    <div class="row">
+        <div class="col-md-10 col-md-push-6 border-top">
+            <div class="post-meta d-flex mb-3">
+                <div class="bio-pic m-3">
+                    <a href="{% url 'writer' get_profile.user.username %}">
+                    <img src="{% if get_profile.image %}{{ get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" width="50"  alt="Image" class="  rounded-circle">
+                    </a>
+                </div>
+                <div class="vcard m-3">
+                    <span class="d-block"><a href="{% url 'writer' get_profile.user.username %}">{{ get_profile.user.first_name }} {{ get_profile.user.last_name }}</a> </span>
+                    <span class="date-read">{{ get_article.Time }} <span class="mx-1">•</span> {{ get_article.Read_Time }} read <span class="icon-star2"></span></span>
+                    <span class="date-read"><span class="mx-1">•</span>{{ get_article.Category.name }}</span>
+                </div>
+            </div>
+            <div>
+                {% if request.user == get_article.Author %}<a href="{% url 'edit_article' get_article.slug %}" class="btn btn-primary" style="font-size:14px;float: right;"><i class='fas fa-edit'></i> Edit</a>{% endif %}
+                <h1>{{ get_article.Title }} </h1>
+            </div>
+            <div class="text-center pb-5" alt="Responsive image">
+                <img src="{% if get_article.image %}{{ get_article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="rounded" >
+            </div>
+            
+            {{ get_article.Description | safe }}
+        </div>
+
+            <!-- PROFILE SECTION -->
+<!--        <div class="col-md-4 col-md-pull-6">-->
+<!--            <div class="card p-3 py-4 border-right-0">-->
+<!--                -->
+<!--                <div class="text-center">-->
+<!--                    <img src="{% if get_profile.image %}{{ get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" width="100" class="rounded-circle">-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="text-center mt-3">-->
+<!--                    <span class="bg-secondary p-1 px-4 rounded text-white">{{ get_profile.level }}</span>-->
+<!--                    <a href="{% url 'writer' get_profile.user.username %}">-->
+<!--                        <h5 class="mt-2 mb-0">{{ get_profile.user.username }}</h5>-->
+<!--                    </a>-->
+
+<!--                    <span>{{ get_profile.designation }}</span>-->
+
+<!--                    <br><span>{{ get_profile.followers.all.count }} Followers</span>-->
+
+<!--                    <div style="font-size:36px; color:#8E24AA;">-->
+<!--                        <a href="{{ get_profile.facebook_profile }}" target="_blank">-->
+<!--                            <i class="fa fa-facebook-square"></i>-->
+<!--                        </a>-->
+<!--                        <a href="{{ get_profile.Instagram_profile }}" target="_blank">-->
+<!--                            <i class="fa fa-instagram"></i>-->
+<!--                        </a>-->
+<!--                        <a href="{{ get_profile.linkedin_profile }}" target="_blank">-->
+<!--                            <i class="fa fa-linkedin-square"></i>-->
+<!--                        </a>-->
+<!--                        <a href="{{ get_profile.twitter_profile }}" target="_blank">-->
+<!--                            <i class="fa fa-twitter-square"></i>-->
+<!--                        </a>-->
+
+<!--                    </div>-->
+<!--                    -->
+<!--                    <div class="px-4 mt-1">-->
+
+<!--                        <p class="fonts"> {{ get_profile.bio }}</p>-->
+<!--                    </div>-->
+<!--                    -->
+<!--                    <div class="buttons">-->
+<!--                        {% if request.user.is_authenticated %}-->
+<!--                            {% if var_follow %}-->
+<!--&lt;!&ndash;                            <button class="btn px-4 ms-3" style="background-color:#8E24AA; color:white;">&#10003; Followed </button>&ndash;&gt;-->
+<!--                            <form action="{% url 'follow_writer' %}" method="POST">{% csrf_token %}-->
+<!--                                <input name="profile_id" type="hidden" value="{{ get_profile.id }}">-->
+<!--                                <button class="btn px-4 ms-3" style="background-color:#0039D2; color:white;">&#10003; Unfollow </button>-->
+<!--                            </form>-->
+<!--                            {% else %}-->
+<!--                            <form action="{% url 'follow_writer' %}" method="POST">{% csrf_token %}-->
+<!--                                <input name="profile_id" type="hidden" value="{{ get_profile.id }}">-->
+<!--                                <button class="btn px-4 ms-3" style="background-color:#8E24AA; color:white;">Follow <span><st>+</st></span></button>-->
+<!--                            </form>-->
+<!--                            {% endif %}-->
+<!--                        {% else %}-->
+<!--                        <a class="btn px-4 ms-3" href="{% url 'login_function' %}">Login</a>-->
+<!--                        {% endif %}-->
+<!--&lt;!&ndash;                        <button class="btn btn-outline-primary px-4">Message</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button class="btn btn-primary px-4 ms-3">Contact</button>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    -->
+<!--                    -->
+<!--                </div>-->
+<!--                -->
+<!--               -->
+<!--                -->
+<!--                -->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</div>
+</div>
+{% endblock %}
+
+

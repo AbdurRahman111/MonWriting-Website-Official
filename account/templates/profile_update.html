@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block active_contact %}active{% endblock %}
+{% block body %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<div class="contianer">
+    <div class="row" >
+
+        <div class="widget rounded col-md-6 col-lg-6" style="margin-left: auto;">
+            <div class="widget-header text-center">
+                <h3 class="widget-title">Porfile Info</h3>
+            </div>
+            <div class="widget-content">
+        <!--        <span class="newsletter-headline text-center mb-3">Join 50,000 subscribers</span>-->
+
+
+                <form enctype="multipart/form-data" method="POST">{% csrf_token %}
+                  <img src="{{get_profile.image.url}}" class="rounded mx-auto d-block" alt="..." width="40%">
+
+                  <div class="form-group mt-4">
+                    <label for="exampleInputEmail1" style="color:#8E24AA;">Change Picture</label>
+                    <input type="file" class="form-control" name="profile_image" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  </div>
+
+                  <div class="form-group mt-3">
+                    <label for="" style="color:#8E24AA;">Username</label>
+                    <input type="text" class="form-control" id="" value="{{get_profile.user.username}}" aria-describedby="emailHelp" readonly>
+                  </div>
+
+                  <div class="form-group mt-3">
+                    <label for="" style="color:#8E24AA;">Email</label>
+                    <input type="email" class="form-control" id="" value="{{get_profile.user.email}}" readonly>
+                  </div>
+                  <div class="form-group mt-3">
+                    <label for="" style="color:#8E24AA;">Designation</label>
+                    <input type="text" class="form-control" name="designation" id="" value="{{get_profile.designation}}" aria-describedby="emailHelp">
+                  </div>
+                  <div class="form-group mt-3">
+                    <label for="" style="color:#8E24AA;">Bio</label>
+                      <textarea type="text" class="form-control" name="bio" id="" aria-describedby="emailHelp"> value="{{get_profile.bio}}"</textarea>
+                  </div>
+                  <div class="form-group mt-3">
+                    <label for="" style="color:#8E24AA;">Facebook Profile</label>
+                    <input type="text" class="form-control" name="facebook_profile" id="" value="{{get_profile.facebook_profile}}" aria-describedby="emailHelp">
+                  </div>
+
+                  <div class="form-group mt-3">
+                    <label for="" style="color:#8E24AA;">Linkedin Profile</label>
+                    <input type="text" class="form-control" id="" name="linkedin_profile" value="{{get_profile.linkedin_profile}}" aria-describedby="emailHelp">
+                  </div>
+
+                  <div class="form-group mt-3">
+                    <label for="" style="color:#8E24AA;">Instagram Profile</label>
+                    <input type="text" class="form-control" id="" name="Instagram_profile" value="{{get_profile.Instagram_profile}}" aria-describedby="emailHelp">
+                  </div>
+
+                  <div class="form-group mt-3">
+                    <label for="" style="color:#8E24AA;">Twitter Profile</label>
+                    <input type="text" class="form-control" id="" name="twitter_profile" value="{{get_profile.twitter_profile}}" aria-describedby="emailHelp">
+                  </div>
+
+                  <button type="submit" class="btn btn-primary btn-default mt-4">Update</button>
+                </form>
+
+
+
+<!--                <form method="POST" enctype="multipart/form-data">-->
+<!--                    {% csrf_token %}-->
+<!--                    <div class="mb-2">-->
+
+<!--                        <div class="col-auto">-->
+<!--                            <div class="input-group mb-2">-->
+<!--                              <div class="input-group-prepend">-->
+<!--                                <div class="input-group-text">Username</div>-->
+<!--                              </div>-->
+<!--                              {{ u_form.username }}-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="col-auto">-->
+<!--                            <div class="input-group mb-2">-->
+<!--                              <div class="input-group-prepend">-->
+<!--                                <div class="input-group-text">Email</div>-->
+<!--                              </div>-->
+<!--                              {{ u_form.email }}-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
+
+<!--                        <div class="col-auto">-->
+<!--                            <div class="input-group mb-2">-->
+<!--                              <div class="input-group-prepend">-->
+<!--                                <div class="input-group-text">Designation</div>-->
+<!--                              </div>-->
+<!--                              {{ u_form.designation }}-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
+<!--                        <div class="form-group">-->
+<!--                            <label for="profile_picture">Profile Picture</label>-->
+<!--                            {{ p_form.image }}-->
+<!--                        </div>-->
+<!--                        -->
+<!--                        {{ p_form.bio }}-->
+<!--        -->
+<!--                    </div>-->
+<!--                    <button type="submit" class="btn btn-default btn-full">Update</button>-->
+<!--        -->
+<!--                </form>-->
+                <span class="newsletter-privacy text-center mt-3">
+                </span>
+            </div>
+        </div>
+    
+        <div class="col-md-4 order-2 " style="margin-right: auto;">
+    
+            <div class="card p-3 py-4 border-right-0 col-md-push-6">
+
+            <div class="text-center">
+                <img src="{% if get_profile.image %}{{ get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" width="100" class="rounded-circle">
+            </div>
+
+            <div class="text-center mt-3">
+                <span class="bg-secondary p-1 px-4 rounded text-white">{{ get_profile.level }}</span>
+                <h5 class="mt-2 mb-0">{{ get_profile.user.username }}</h5>
+
+                <span>{{ get_profile.designation }}</span>
+
+                <br><span>{{ get_profile.followers.all.count }} Followers</span>
+
+                <div style="font-size:36px; color:#8E24AA;">
+                    <a href="{{ get_profile.facebook_profile }}" target="_blank">
+                        <i class="fa fa-facebook-square"></i>
+                    </a>
+                    <a href="{{ get_profile.Instagram_profile }}" target="_blank">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                    <a href="{{ get_profile.linkedin_profile }}" target="_blank">
+                        <i class="fa fa-linkedin-square"></i>
+                    </a>
+                    <a href="{{ get_profile.twitter_profile }}" target="_blank">
+                        <i class="fa fa-twitter-square"></i>
+                    </a>
+
+                </div>
+
+                <div class="px-4 mt-1">
+
+                    <p class="fonts"> {{ get_profile.bio }}</p>
+                </div>
+
+                <div class="buttons">
+<!--                    <button class="btn  px-4 ms-3">Follow <span><st>+</st></span></button>-->
+                    {% if request.user.is_authenticated %}
+                        {% if var_follow %}
+    <!--                            <button class="btn px-4 ms-3" style="background-color:#8E24AA; color:white;">&#10003; Followed </button>-->
+                        <form action="{% url 'follow_writer' %}" method="POST">{% csrf_token %}
+                            <input name="profile_id" type="hidden" value="{{ get_profile.id }}">
+                            <button class="btn px-4 ms-3" style="background-color:#0039D2; color:white;">&#10003; Unfollow </button>
+                        </form>
+                        {% else %}
+                        <form action="{% url 'follow_writer' %}" method="POST">{% csrf_token %}
+                            <input name="profile_id" type="hidden" value="{{ get_profile.id }}">
+                            <button class="btn px-4 ms-3" style="background-color:#8E24AA; color:white;">Follow <span><st>+</st></span></button>
+                        </form>
+                        {% endif %}
+                    {% else %}
+                    <a class="btn px-4 ms-3" href="{% url 'login_function' %}">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+      
+          </div>
+    </div>
+    
+</div>
+
+
+
+
+{% endblock %}
