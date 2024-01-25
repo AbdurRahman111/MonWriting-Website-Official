@@ -13,6 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('account/', include('account.urls')),
+    path('tools/', include('tools.urls')),
     path('froala_editor/',include('froala_editor.urls')),
 ]
 if settings.DEBUG:

@@ -1,0 +1,588 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Dynamic Alphabet Color - MonWriting{% endblock %}
+
+{% block active_home %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+<style>
+
+    .color-word {
+      display: inline-block;
+      padding: 10px;
+      margin: 5px;
+      font-size: 24px;
+      transition: background-color 0.1s ease-in-out;
+    }
+
+    .color-word.active {
+      background-color: var(--color);
+      color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .color-word.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 2px solid #fff;
+      z-index: -1;
+    }
+
+    @media (min-width: 768px) {
+      .color-word.active::before {
+        border: 2px solid #fff;
+        border-right: none;
+      }
+    }
+
+    /* Define colors */
+    .aqua-blue { --color: #00FFFF; }
+    .apricot { --color: #FBCEB1; }
+    .amethyst { --color: #9966CC; }
+    .azure { --color: #007FFF; }
+    .alabaster { --color: #F8F8FF; }
+    .auburn { --color: #A52A2A; }
+    .apple-green { --color: #8DB600; }
+    .ash-gray { --color: #B2BEB5; }
+    .avocado { --color: #568203; }
+    .amaranth-pink { --color: #F19CBB; }
+.burgundy { --color: #800020; }
+    .baby-blue { --color: #89CFF0; }
+    .bronze { --color: #CD7F32; }
+    .blush { --color: #DE5D83; }
+    .burnt-orange { --color: #CC5500; }
+    .bamboo { --color: #8F5935; }
+    .blue-velvet { --color: #4169E1; }
+    .brick-red { --color: #CB4154; }
+    .banana-yellow { --color: #FFE135; }
+    .battleship-gray { --color: #848482; }
+.coral { --color: #FF7F50; }
+    .cerulean { --color: #007BA7; }
+    .cinnamon { --color: #D2691E; }
+    .cyan { --color: #00FFFF; }
+    .champagne { --color: #F7E7CE; }
+    .chestnut { --color: #954535; }
+    .chartreuse { --color: #7FFF00; }
+    .charcoal { --color: #36454F; }
+    .cornflower { --color: #6495ED; }
+    .copper { --color: #B87333; }
+.denim { --color: #1560BD; }
+    .dark-magenta { --color: #8B008B; }
+    .dusty-rose { --color: #CABAA7; }
+    .dark-slate-gray { --color: #2F4F4F; }
+    .dandelion { --color: #FED85D; }
+    .deep-blue { --color: #0000CD; }
+    .driftwood { --color: #A67B5B; }
+    .dark-olive { --color: #556B2F; }
+    .dove-gray { --color: #6D6D6D; }
+    .desert-sand { --color: #EDC9AF; }
+.emerald { --color: #50C878; }
+    .electric-blue { --color: #7DF9FF; }
+    .eggplant { --color: #614051; }
+    .ecru { --color: #C2B280; }
+    .ebony { --color: #555D50; }
+    .earth-brown { --color: #926F5B; }
+    .eucalyptus { --color: #44D7A8; }
+    .egyptian-blue { --color: #1034A6; }
+    .english-rose { --color: #D31A5B; }
+    .espresso { --color: #6F2D35; }
+.fuchsia { --color: #FF00FF; }
+    .forest-green { --color: #228B22; }
+    .flamingo-pink { --color: #FC8EAC; }
+    .french-blue { --color: #0072BB; }
+    .fern-green { --color: #4F7942; }
+    .frost-white { --color: #F6F7FF; }
+    .firebrick { --color: #B22222; }
+    .fuscia { --color: #FF00FF; }
+    .free-speech-red { --color: #C8102E; }
+    .fulvous { --color: #E48400; }
+.gold { --color: #FFD700; }
+    .green-tea { --color: #BFFF80; }
+    .gray { --color: #808080; }
+    .grape { --color: #6F2DA8; }
+    .ginger { --color: #B06500; }
+    .ghost-white { --color: #F8F8FF; }
+    .garnet { --color: #733635; }
+    .goldenrod { --color: #DAA520; }
+    .gainsboro { --color: #DCDCDC; }
+    .grass-green { --color: #4CAF50; }
+.honey { --color: #FFC300; }
+    .hunter-green { --color: #355E3B; }
+    .heliotrope { --color: #DF73FF; }
+    .hot-pink { --color: #FF69B4; }
+    .harvest-gold { --color: #DAA520; }
+    .honeysuckle { --color: #D94F70; }
+    .heather { --color: #B7C3D0; }
+    .hollywood-cerise { --color: #F400A1; }
+    .hurricane-gray { --color: #898E8C; }
+    .heliconia { --color: #D642A1; }
+.iris { --color: #5A4FCF; }
+    .ice-blue { --color: #B4F2E1; }
+    .indian-red { --color: #CD5C5C; }
+    .indigo { --color: #4B0082; }
+    .ivory { --color: #FFFFF0; }
+    .imperial-blue { --color: #00274D; }
+    .iced-coffee { --color: #DBC8A8; }
+    .irish-green { --color: #009900; }
+    .international-orange { --color: #FF4F00; }
+    .illuminating-yellow { --color: #FFD100; }
+.jade-green { --color: #00A86B; }
+    .jasper { --color: #D73E3E; }
+    .jasmine { --color: #F8DE7E; }
+    .jelly-bean-blue { --color: #1974D2; }
+    .jet-black { --color: #000000; }
+    .jonquil { --color: #F4CA16; }
+    .juniper { --color: #6B8E23; }
+    .jungle-green { --color: #29AB87; }
+    .jaffa { --color: #FFA500; }
+    .japanese-violet { --color: #5B3256; }
+.khaki { --color: #C3B091; }
+    .kelly-green { --color: #4CBB17; }
+    .key-lime { --color: #E8F96F; }
+    .kobi { --color: #E79FC4; }
+    .kumquat { --color: #FFA500; }
+    .kombu-green { --color: #354230; }
+    .kournikova { --color: #FFDDA0; }
+    .kuro-green { --color: #354230; }
+    .kingfisher-daisy { --color: #4D8A7D; }
+.klein-blue { --color: #002FA7; }
+.lavender { --color: #E6E6FA; }
+    .lemon { --color: #FFFACD; }
+    .lilac { --color: #C8A2C8; }
+    .lime { --color: #00FF00; }
+    .linen { --color: #FAF0E6; }
+    .lava { --color: #CF1020; }
+    .licorice { --color: #1A1110; }
+    .laurel-green { --color: #A9BA9D; }
+    .lavender-blush { --color: #FFF0F5; }
+    .lagoon-blue { --color: #0085A1; }
+    .magenta { --color: #FF00FF; }
+    .mauve { --color: #E0B0FF; }
+    .mahogany { --color: #C04000; }
+    .mint { --color: #3EB489; }
+    .maroon { --color: #800000; }
+    .melon { --color: #FEBAAD; }
+    .midnight-blue { --color: #191970; }
+    .mocha { --color: #8D6842; }
+    .mulberry { --color: #C54B8C; }
+    .malachite-green { --color: #00A86B; }
+.navy-blue { --color: #000080; }
+    .nectarine { --color: #F08000; }
+    .nutmeg { --color: #8B4513; }
+    .neon-green { --color: #39FF14; }
+    .nickel { --color: #727472; }
+    .nimbus-gray { --color: #708090; }
+    .nadeshiko-pink { --color: #F6ADC6; }
+    .napa-red { --color: #9E3329; }
+    .nautical-blue { --color: #1974D2; }
+    .neon-carrot { --color: #FFA343; }
+    .olive { --color: #808000; }
+    .orange { --color: #FFA500; }
+    .orchid { --color: #DA70D6; }
+    .onyx { --color: #353839; }
+    .opal { --color: #A8A8A8; }
+    .oyster { --color: #D1D0CE; }
+    .ocean-blue { --color: #4F42B5; }
+    .old-gold { --color: #CFB53B; }
+    .oxford-blue { --color: #002147; }
+    .ochre { --color: #CC7722; }
+    .peach { --color: #FFE5B4; }
+    .periwinkle { --color: #CCCCFF; }
+    .plum { --color: #8E4585; }
+    .powder-blue { --color: #B0E0E6; }
+    .pink { --color: #FFC0CB; }
+    .pumpkin { --color: #FF7518; }
+    .pine-green { --color: #01796F; }
+    .pale-rose { --color: #EFD6DA; }
+    .paprika { --color: #8D5511; }
+    .pansy-purple { --color: #78184A; }
+.quartz-gray { --color: #6C6960; }
+    .quasar-crimson { --color: #8E3A59; }
+    .queen-blue { --color: #436B95; }
+    .quince { --color: #EBD309; }
+    .quetzal-green { --color: #297B58; }
+    .quill-gray { --color: #D6D6D6; }
+    .quinacridone-magenta { --color: #8E3A59; }
+    .quack-yellow { --color: #FFD834; }
+    .quarterback-brown { --color: #8E735B; }
+    .quail-green { --color: #4D594B; }
+    .ruby-red { --color: #E0115F; }
+    .rose { --color: #FF007F; }
+    .raspberry { --color: #E30B5C; }
+    .royal-blue { --color: #4169E1; }
+    .rust { --color: #B7410E; }
+    .redwood { --color: #A45A52; }
+    .robin-egg-blue { --color: #00CCCC; }
+    .rainforest-green { --color: #308446; }
+    .raw-umber { --color: #826644; }
+    .razzmatazz { --color: #E30B5C; }
+    .sapphire { --color: #0F52BA; }
+    .salmon { --color: #FA8072; }
+    .sky-blue { --color: #87CEEB; }
+    .silver { --color: #C0C0C0; }
+    .scarlet { --color: #FF2400; }
+    .spring-green { --color: #00FF7F; }
+    .slate-gray { --color: #708090; }
+    .seafoam-green { --color: #64E986; }
+    .sienna { --color: #A0522D; }
+    .saffron { --color: #F4C430; }
+    .turquoise { --color: #40E0D0; }
+    .tan { --color: #D2B48C; }
+    .teal { --color: #008080; }
+    .tangerine { --color: #F28500; }
+    .tawny { --color: #CD5700; }
+    .thistle { --color: #D8BFD8; }
+    .taupe { --color: #483C32; }
+    .tomato-red { --color: #FF6347; }
+    .topaz { --color: #FFD700; }
+    .tropical-rainforest { --color: #00755E; }
+.ultramarine { --color: #120A8F; }
+    .umber { --color: #635147; }
+    .ube { --color: #8878C3; }
+    .unbleached-silk { --color: #FFDDCA; }
+    .up-forest-green { --color: #014421; }
+    .upsdell-red { --color: #AE2029; }
+    .urobilin { --color: #E1AD21; }
+    .ultra-pink { --color: #FF6FFF; }
+    .ua-blue { --color: #0033AA; }
+    .ua-red { --color: #D9004C; }
+    .violet { --color: #8F00FF; }
+    .vermilion { --color: #E34234; }
+    .viridian { --color: #40826D; }
+    .vanilla { --color: #F3E5AB; }
+    .verdigris { --color: #43B3AE; }
+    .venetian-red { --color: #C80815; }
+    .vivid-tangerine { --color: #FFA089; }
+    .vivid-violet { --color: #9F00FF; }
+    .viridian-green { --color: #009698; }
+    .viking-yellow { --color: #FF9900; }
+    .white { --color: #FFFFFF; }
+    .wheat { --color: #F5DEB3; }
+    .watermelon { --color: #FC6C85; }
+    .wisteria { --color: #C9A0DC; }
+    .windsor-tan { --color: #A75502; }
+    .wild-blue-yonder { --color: #A2ADD0; }
+    .willow-green { --color: #99B388; }
+    .wenge { --color: #645452; }
+    .wild-strawberry { --color: #FF43A4; }
+    .wild-watermelon { --color: #FC6C85; }
+ .xanadu { --color: #738678; }
+    .xanthic { --color: #EEED09; }
+    .ximenez { --color: #837050; }
+    .xanthe { --color: #EFAFFF; }
+    .xanthenes { --color: #D8AEAE; }
+    .xanthine { --color: #66B7E1; }
+    .xenon-blue { --color: #6B8E23; }
+    .xanthe-gold { --color: #FCC200; }
+    .xanthous { --color: #F1B82D; }
+    .xyston { --color: #CAC7A7; }
+    .yellow { --color: #FFFF00; }
+    .yarrow { --color: #D2AC7E; }
+    .yarn { --color: #E1DBB9; }
+    .yabba-dabba-doo { --color: #FFEFD5; }
+    .yucatan { --color: #7B3F00; }
+    .yuletide { --color: #FF6766; }
+    .yellow-orange { --color: #FFA500; }
+    .yinmn-blue { --color: #2E5090; }
+    .ygrain-yellow { --color: #E2AF26; }
+    .zaffre { --color: #0014A8; }
+    .zomp { --color: #39A78E; }
+    .zinnwaldite { --color: #1C7E16; }
+    .zircon { --color: #F5F5F5; }
+    .zebra-white { --color: #F4F1DE; }
+    .zomp-green { --color: #347C17; }
+    .zombie-green { --color: #44A317; }
+    .zinc { --color: #728FCE; }
+    .zaffre-blue { --color: #0011AF; }
+  </style>
+
+  <div class="color-word aqua-blue">Aqua Blue</div>
+  <div class="color-word apricot">Apricot</div>
+  <div class="color-word amethyst">Amethyst</div>
+  <div class="color-word azure">Azure</div>
+  <div class="color-word alabaster">Alabaster</div>
+  <div class="color-word auburn">Auburn</div>
+  <div class="color-word apple-green">Apple Green</div>
+  <div class="color-word ash-gray">Ash Gray</div>
+  <div class="color-word avocado">Avocado</div>
+  <div class="color-word amaranth-pink">Amaranth Pink</div>
+<div class="color-word burgundy">Burgundy</div>
+  <div class="color-word baby-blue">Baby Blue</div>
+  <div class="color-word bronze">Bronze</div>
+  <div class="color-word blush">Blush</div>
+  <div class="color-word burnt-orange">Burnt Orange</div>
+  <div class="color-word bamboo">Bamboo</div>
+  <div class="color-word blue-velvet">Blue Velvet</div>
+  <div class="color-word brick-red">Brick Red</div>
+  <div class="color-word banana-yellow">Banana Yellow</div>
+  <div class="color-word battleship-gray">Battleship Gray</div>
+<div class="color-word coral">Coral</div>
+  <div class="color-word cerulean">Cerulean</div>
+  <div class="color-word cinnamon">Cinnamon</div>
+  <div class="color-word cyan">Cyan</div>
+  <div class="color-word champagne">Champagne</div>
+  <div class="color-word chestnut">Chestnut</div>
+  <div class="color-word chartreuse">Chartreuse</div>
+  <div class="color-word charcoal">Charcoal</div>
+  <div class="color-word cornflower">Cornflower</div>
+  <div class="color-word copper">Copper</div>
+<div class="color-word denim">Denim</div>
+  <div class="color-word dark-magenta">Dark Magenta</div>
+  <div class="color-word dusty-rose">Dusty Rose</div>
+  <div class="color-word dark-slate-gray">Dark Slate Gray</div>
+  <div class="color-word dandelion">Dandelion</div>
+  <div class="color-word deep-blue">Deep Blue</div>
+  <div class="color-word driftwood">Driftwood</div>
+  <div class="color-word dark-olive">Dark Olive</div>
+  <div class="color-word dove-gray">Dove Gray</div>
+  <div class="color-word desert-sand">Desert Sand</div>
+<div class="color-word emerald">Emerald</div>
+  <div class="color-word electric-blue">Electric Blue</div>
+  <div class="color-word eggplant">Eggplant</div>
+  <div class="color-word ecru">Ecru</div>
+  <div class="color-word ebony">Ebony</div>
+  <div class="color-word earth-brown">Earth Brown</div>
+  <div class="color-word eucalyptus">Eucalyptus</div>
+  <div class="color-word egyptian-blue">Egyptian Blue</div>
+  <div class="color-word english-rose">English Rose</div>
+  <div class="color-word espresso">Espresso</div>
+<div class="color-word fuchsia">Fuchsia</div>
+  <div class="color-word forest-green">Forest Green</div>
+  <div class="color-word flamingo-pink">Flamingo Pink</div>
+  <div class="color-word french-blue">French Blue</div>
+  <div class="color-word fern-green">Fern Green</div>
+  <div class="color-word frost-white">Frost White</div>
+  <div class="color-word firebrick">Firebrick</div>
+  <div class="color-word fuscia">Fuscia</div>
+  <div class="color-word free-speech-red">Free Speech Red</div>
+  <div class="color-word fulvous">Fulvous</div>
+<div class="color-word gold">Gold</div>
+  <div class="color-word green-tea">Green Tea</div>
+  <div class="color-word gray">Gray</div>
+  <div class="color-word grape">Grape</div>
+  <div class="color-word ginger">Ginger</div>
+  <div class="color-word ghost-white">Ghost White</div>
+  <div class="color-word garnet">Garnet</div>
+  <div class="color-word goldenrod">Goldenrod</div>
+  <div class="color-word gainsboro">Gainsboro</div>
+  <div class="color-word grass-green">Grass Green</div>
+<div class="color-word honey">Honey</div>
+  <div class="color-word hunter-green">Hunter Green</div>
+  <div class="color-word heliotrope">Heliotrope</div>
+  <div class="color-word hot-pink">Hot Pink</div>
+  <div class="color-word harvest-gold">Harvest Gold</div>
+  <div class="color-word honeysuckle">Honeysuckle</div>
+  <div class="color-word heather">Heather</div>
+  <div class="color-word hollywood-cerise">Hollywood Cerise</div>
+  <div class="color-word hurricane-gray">Hurricane Gray</div>
+  <div class="color-word heliconia">Heliconia</div>
+<div class="color-word iris">Iris</div>
+  <div class="color-word ice-blue">Ice Blue</div>
+  <div class="color-word indian-red">Indian Red</div>
+  <div class="color-word indigo">Indigo</div>
+  <div class="color-word ivory">Ivory</div>
+  <div class="color-word imperial-blue">Imperial Blue</div>
+  <div class="color-word iced-coffee">Iced Coffee</div>
+  <div class="color-word irish-green">Irish Green</div>
+  <div class="color-word international-orange">International Orange</div>
+  <div class="color-word illuminating-yellow">Illuminating Yellow</div>
+<div class="color-word jade-green">Jade Green</div>
+  <div class="color-word jasper">Jasper</div>
+  <div class="color-word jasmine">Jasmine</div>
+  <div class="color-word jelly-bean-blue">Jelly Bean Blue</div>
+  <div class="color-word jet-black">Jet Black</div>
+  <div class="color-word jonquil">Jonquil</div>
+  <div class="color-word juniper">Juniper</div>
+  <div class="color-word jungle-green">Jungle Green</div>
+  <div class="color-word jaffa">Jaffa</div>
+  <div class="color-word japanese-violet">Japanese Violet</div>
+<div class="color-word khaki">Khaki</div>
+  <div class="color-word kelly-green">Kelly Green</div>
+  <div class="color-word key-lime">Key Lime</div>
+  <div class="color-word kobi">Kobi</div>
+  <div class="color-word kumquat">Kumquat</div>
+  <div class="color-word kombu-green">Kombu Green</div>
+  <div class="color-word kournikova">Kournikova</div>
+  <div class="color-word kuro-green">Kuro Green</div>
+  <div class="color-word kingfisher-daisy">Kingfisher Daisy</div>
+  <div class="color-word klein-blue">Klein Blue</div>
+<div class="color-word lavender">Lavender</div>
+  <div class="color-word lemon">Lemon</div>
+  <div class="color-word lilac">Lilac</div>
+  <div class="color-word lime">Lime</div>
+  <div class="color-word linen">Linen</div>
+  <div class="color-word lava">Lava</div>
+  <div class="color-word licorice">Licorice</div>
+  <div class="color-word laurel-green">Laurel Green</div>
+  <div class="color-word lavender-blush">Lavender Blush</div>
+  <div class="color-word lagoon-blue">Lagoon Blue</div>
+  <div class="color-word magenta">Magenta</div>
+  <div class="color-word mauve">Mauve</div>
+  <div class="color-word mahogany">Mahogany</div>
+  <div class="color-word mint">Mint</div>
+  <div class="color-word maroon">Maroon</div>
+  <div class="color-word melon">Melon</div>
+  <div class="color-word midnight-blue">Midnight Blue</div>
+  <div class="color-word mocha">Mocha</div>
+  <div class="color-word mulberry">Mulberry</div>
+  <div class="color-word malachite-green">Malachite Green</div>
+<div class="color-word navy-blue">Navy Blue</div>
+  <div class="color-word nectarine">Nectarine</div>
+  <div class="color-word nutmeg">Nutmeg</div>
+  <div class="color-word neon-green">Neon Green</div>
+  <div class="color-word nickel">Nickel</div>
+  <div class="color-word nimbus-gray">Nimbus Gray</div>
+  <div class="color-word nadeshiko-pink">Nadeshiko Pink</div>
+  <div class="color-word napa-red">Napa Red</div>
+  <div class="color-word nautical-blue">Nautical Blue</div>
+  <div class="color-word neon-carrot">Neon Carrot</div>
+  <div class="color-word olive">Olive</div>
+  <div class="color-word orange">Orange</div>
+  <div class="color-word orchid">Orchid</div>
+  <div class="color-word onyx">Onyx</div>
+  <div class="color-word opal">Opal</div>
+  <div class="color-word oyster">Oyster</div>
+  <div class="color-word ocean-blue">Ocean Blue</div>
+  <div class="color-word old-gold">Old Gold</div>
+  <div class="color-word oxford-blue">Oxford Blue</div>
+  <div class="color-word ochre">Ochre</div>
+  <div class="color-word peach">Peach</div>
+  <div class="color-word periwinkle">Periwinkle</div>
+  <div class="color-word plum">Plum</div>
+  <div class="color-word powder-blue">Powder Blue</div>
+  <div class="color-word pink">Pink</div>
+  <div class="color-word pumpkin">Pumpkin</div>
+  <div class="color-word pine-green">Pine Green</div>
+  <div class="color-word pale-rose">Pale Rose</div>
+  <div class="color-word paprika">Paprika</div>
+  <div class="color-word pansy-purple">Pansy Purple</div>
+<div class="color-word quartz-gray">Quartz Gray</div>
+  <div class="color-word quasar-crimson">Quasar Crimson</div>
+  <div class="color-word queen-blue">Queen Blue</div>
+  <div class="color-word quince">Quince</div>
+  <div class="color-word quetzal-green">Quetzal Green</div>
+  <div class="color-word quill-gray">Quill Gray</div>
+  <div class="color-word quinacridone-magenta">Quinacridone Magenta</div>
+  <div class="color-word quack-yellow">Quack Yellow</div>
+  <div class="color-word quarterback-brown">Quarterback Brown</div>
+  <div class="color-word quail-green">Quail Green</div>
+  <div class="color-word ruby-red">Ruby Red</div>
+  <div class="color-word rose">Rose</div>
+  <div class="color-word raspberry">Raspberry</div>
+  <div class="color-word royal-blue">Royal Blue</div>
+  <div class="color-word rust">Rust</div>
+  <div class="color-word redwood">Redwood</div>
+  <div class="color-word robin-egg-blue">Robin Egg Blue</div>
+  <div class="color-word rainforest-green">Rainforest Green</div>
+  <div class="color-word raw-umber">Raw Umber</div>
+  <div class="color-word razzmatazz">Razzmatazz</div>
+  <div class="color-word sapphire">Sapphire</div>
+  <div class="color-word salmon">Salmon</div>
+  <div class="color-word sky-blue">Sky Blue</div>
+  <div class="color-word silver">Silver</div>
+  <div class="color-word scarlet">Scarlet</div>
+  <div class="color-word spring-green">Spring Green</div>
+  <div class="color-word slate-gray">Slate Gray</div>
+  <div class="color-word seafoam-green">Seafoam Green</div>
+  <div class="color-word sienna">Sienna</div>
+  <div class="color-word saffron">Saffron</div>
+  <div class="color-word turquoise">Turquoise</div>
+  <div class="color-word tan">Tan</div>
+  <div class="color-word teal">Teal</div>
+  <div class="color-word tangerine">Tangerine</div>
+  <div class="color-word tawny">Tawny</div>
+  <div class="color-word thistle">Thistle</div>
+  <div class="color-word taupe">Taupe</div>
+  <div class="color-word tomato-red">Tomato Red</div>
+  <div class="color-word topaz">Topaz</div>
+  <div class="color-word tropical-rainforest">Tropical Rainforest</div>
+<div class="color-word ultramarine">Ultramarine</div>
+  <div class="color-word umber">Umber</div>
+  <div class="color-word ube">Ube</div>
+  <div class="color-word unbleached-silk">Unbleached Silk</div>
+  <div class="color-word up-forest-green">Up Forest Green</div>
+  <div class="color-word upsdell-red">Upsdell Red</div>
+  <div class="color-word urobilin">Urobilin</div>
+  <div class="color-word ultra-pink">Ultra Pink</div>
+  <div class="color-word ua-blue">Ua Blue</div>
+  <div class="color-word ua-red">Ua Red</div>
+  <div class="color-word violet">Violet</div>
+  <div class="color-word vermilion">Vermilion</div>
+  <div class="color-word viridian">Viridian</div>
+  <div class="color-word vanilla">Vanilla</div>
+  <div class="color-word verdigris">Verdigris</div>
+  <div class="color-word venetian-red">Venetian Red</div>
+  <div class="color-word vivid-tangerine">Vivid Tangerine</div>
+  <div class="color-word vivid-violet">Vivid Violet</div>
+  <div class="color-word viridian-green">Viridian Green</div>
+  <div class="color-word viking-yellow">Viking Yellow</div>
+  <div class="color-word white">White</div>
+  <div class="color-word wheat">Wheat</div>
+  <div class="color-word watermelon">Watermelon</div>
+  <div class="color-word wisteria">Wisteria</div>
+  <div class="color-word windsor-tan">Windsor Tan</div>
+  <div class="color-word wild-blue-yonder">Wild Blue Yonder</div>
+  <div class="color-word willow-green">Willow Green</div>
+  <div class="color-word wenge">Wenge</div>
+  <div class="color-word wild-strawberry">Wild Strawberry</div>
+  <div class="color-word wild-watermelon">Wild Watermelon</div>
+<div class="color-word xanadu">Xanadu</div>
+  <div class="color-word xanthic">Xanthic</div>
+  <div class="color-word ximenez">Ximenez</div>
+  <div class="color-word xanthe">Xanthe</div>
+  <div class="color-word xanthenes">Xanthenes</div>
+  <div class="color-word xanthine">Xanthine</div>
+  <div class="color-word xenon-blue">Xenon Blue</div>
+  <div class="color-word xanthe-gold">Xanthe Gold</div>
+  <div class="color-word xanthous">Xanthous</div>
+  <div class="color-word xyston">Xyston</div>
+  <div class="color-word yellow">Yellow</div>
+  <div class="color-word yarrow">Yarrow</div>
+  <div class="color-word yarn">Yarn</div>
+  <div class="color-word yabba-dabba-doo">Yabba Dabba Doo</div>
+  <div class="color-word yucatan">Yucatan</div>
+  <div class="color-word yuletide">Yuletide</div>
+  <div class="color-word yellow-orange">Yellow Orange</div>
+  <div class="color-word yinmn-blue">YInMn Blue</div>
+  <div class="color-word ygrain-yellow">YGrain Yellow</div>
+  <div class="color-word zaffre">Zaffre</div>
+  <div class="color-word zomp">Zomp</div>
+  <div class="color-word zinnwaldite">Zinnwaldite</div>
+  <div class="color-word zircon">Zircon</div>
+  <div class="color-word zebra-white">Zebra White</div>
+  <div class="color-word zomp-green">Zomp Green</div>
+  <div class="color-word zombie-green">Zombie Green</div>
+  <div class="color-word zinc">Zinc</div>
+  <div class="color-word zaffre-blue">Zaffre Blue</div>
+
+
+  <script>
+    const colorWords = document.querySelectorAll('.color-word');
+
+    colorWords.forEach(word => {
+      word.addEventListener('mouseover', () => {
+        colorWords.forEach(w => w.classList.remove('active'));
+        word.classList.add('active');
+        setTimeout(() => {
+          word.classList.remove('active');
+        }, 3500);
+      });
+    });
+  </script>
+
+
+</div>
+
+{% endblock %}

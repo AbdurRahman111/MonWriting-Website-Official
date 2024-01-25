@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Name to QR Code Generator - MonWriting{% endblock %}
+
+{% block active_home %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  /* Base styles */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 40px;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    body {
+      margin: 20px;
+    }
+  }
+
+  h1 {
+    color: #4a90e2;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"] {
+    padding: 10px;
+    width: 100%; /* Full width */
+    max-width: 300px; /* Maximum width */
+    border: 2px solid #4a90e2;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus {
+    border-color: #357ab8;
+    outline: none;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #357ab8;
+  }
+
+  #qrcode {
+    margin-top: 20px;
+    border: 2px dashed #4a90e2;
+    padding: 20px;
+    text-align: center;
+  }
+</style>
+
+<h1>Name to QR Code Generator</h1>
+
+<div style="text-align: center;">
+  <label for="nameInput">Enter your name:</label>
+  <input type="text" id="nameInput" placeholder="Your Name">
+</div>
+<button onclick="generateQRCode()" style="display: block; margin: 20px auto;">Generate QR Code</button>
+
+<div id="qrcode"></div>
+
+<script>
+var qr;
+
+function generateQRCode() {
+    var name = document.getElementById('nameInput').value;
+    var qrCodeDiv = document.getElementById('qrcode');
+
+    // Clear previous QR code if any
+    qrCodeDiv.innerHTML = '';
+
+    // Create QR code
+    qr = new QRCode(qrCodeDiv, {
+        text: name,
+        width: 128,
+        height: 128
+    });
+}
+
+function shareOnWhatsApp() {
+    var shareUrl = encodeURIComponent(window.location.href);
+    var whatsappUrl = `https://wa.me/?text=Check out this QR code: ${shareUrl}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+function shareOnFacebook() {
+    var shareUrl = encodeURIComponent(window.location.href);
+    var facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+    window.open(facebookUrl, '_blank');
+}
+
+function shareOnTwitter() {
+    var shareUrl = encodeURIComponent(window.location.href);
+    var twitterUrl = `https://twitter.com/intent/tweet?url=${shareUrl}&text=Check%20out%20this%20QR%20code:&hashtags=QRCode`;
+    window.open(twitterUrl, '_blank');
+}
+</script>
+
+<button onclick="shareOnWhatsApp()">Share on WhatsApp</button>
+<button onclick="shareOnFacebook()">Share on Facebook</button>
+<button onclick="shareOnTwitter()">Share on Twitter</button>
+
+
+</div>
+
+{% endblock %}

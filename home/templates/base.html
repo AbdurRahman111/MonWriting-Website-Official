@@ -63,8 +63,11 @@
                                     </li>
                                 </ul>
                             </li>
-                             <li class="nav-item {% block active_contact %}{% endblock %}">
-                                <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+<!--                             <li class="nav-item {% block active_contact %}{% endblock %}">-->
+<!--                                <a href="{% url 'contact' %}" class="nav-link">Contact</a>-->
+<!--                            </li>-->
+                            <li class="nav-item {% block active_tools %}{% endblock %}">
+                                <a href="{% url 'tools_func' %}" class="nav-link"><b>Tools</b></a>
                             </li>
                              <li class="nav-item" style="">
                                 <a href="{% if user.is_authenticated %}{% url 'Blogging' %}{% else %}{% url 'login_function' %}{% endif %}" class="nav-link" style="color: #fff;

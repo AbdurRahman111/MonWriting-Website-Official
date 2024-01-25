@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'home',
     'account',
     'article',
-    
+    'tools',
+
     #3rd party app
     'ckeditor',
     'froala_editor',

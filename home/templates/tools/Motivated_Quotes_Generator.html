@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Motivated Quote Generator - MonWriting{% endblock %}
+
+{% block active_home %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+<style>
+
+
+    .falling-star {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background-color: red;
+        animation: fall 3s infinite;
+    }
+
+    .falling-star.purple {
+        background-color: purple;
+    }
+
+    .falling-star.yellow {
+        background-color: yellow;
+    }
+
+    #quote-container {
+        display: none;
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f8f8f8;
+    }
+
+    #quote-button {
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #FF0000; /* Red color */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.1s ease; /* Transition effect for color change */
+    }
+
+    #quote-button:hover {
+        background-color: #4CAF50; /* Green color on hover */
+        transition: background-color 0.1s ease; /* Transition effect for color change */
+    }
+</style>
+
+<!-- Falling stars animation -->
+<script>
+    function createFallingStar() {
+        const star = document.createElement('div');
+        star.className = 'falling-star';
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
+        document.body.appendChild(star);
+
+        const colors = ['red', 'purple', 'yellow'];
+        star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+        setTimeout(() => {
+            document.body.removeChild(star);
+        }, 3000);
+    }
+
+    function createFallingStars() {
+        setInterval(createFallingStar, 500);
+    }
+
+    createFallingStars();
+</script>
+
+<!-- Quote container and button -->
+<div id="quote-container">
+    <p id="quote-text"></p>
+    <button id="quote-button" onclick="getRandomQuote()">Get Random Quote</button>
+</div>
+
+<script>
+    const motivationalQuotes = [
+        "Your time is limited, don't waste it living someone else's life. - Steve Jobs",
+        "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+        "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
+"Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. - Christian D. Larson", "Opportunities don't happen. You create them. - Chris Grosser", "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt", "Success usually comes to those who are too busy to be looking for it. - Henry David Thoreau", "If you are not willing to risk the usual, you will have to settle for the ordinary. - Jim Rohn", "I find that the harder I work, the more luck I seem to have. - Thomas Jefferson", "The only way to achieve the impossible is to believe it is possible. - Charles Kingsleigh", "Don't be afraid to give up the good to go for the great. - John D. Rockefeller", "The only person you are destined to become is the person you decide to be. - Ralph Waldo Emerson", "Success is stumbling from failure to failure with no loss of enthusiasm. - Winston Churchill", "The secret of getting ahead is getting started. - Mark Twain", "What lies behind us and what lies before us are tiny matters compared to what lies within us. - Ralph Waldo Emerson", "If you want to achieve greatness stop asking for permission. - Anonymous", "A successful man is one who can lay a firm foundation with the bricks others have thrown at him. - David Brinkley", "I didn't get there by wishing for it or hoping for it, but by working for it. - Estée Lauder", "Success is not just about making money. It's about making a difference. - Unknown", "I have not failed. I've just found 10,000 ways that won't work. - Thomas Edison", "The difference between a successful person and others is not a lack of strength, not a lack of knowledge, but rather a lack in will. - Vince Lombardi", "Success is not in what you have, but who you are. - Bo Bennett", "The only place where success comes before work is in the dictionary. - Vidal Sassoon", "The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt", "Don't be pushed around by the fears in your mind. Be led by the dreams in your heart. - Roy T. Bennett", "Success is not just about making money. It's about making a difference. - Unknown", "The difference between a successful person and others is not a lack of strength, not a lack of knowledge, but rather a lack in will. - Vince Lombardi", "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill", "Success is how high you bounce when you hit the bottom. - George S. Patton", "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. - Steve Jobs", "Success is not in what you have, but who you are. - Bo Bennett", "The only thing standing between you and your goal is the story you keep telling yourself as to why you can't achieve it. - Jordan Belfort", "You don't have to be a genius or a visionary or even a college graduate to be successful. You just need a framework and a dream. - Michael Dell", "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful. - Albert Schweitzer", "The road to success and the road to failure are almost exactly the same. - Colin R. Davis", "The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt", "Don't be pushed around by the fears in your mind. Be led by the dreams in your heart. - Roy T. Bennett", "Success is not just about making money. It's about making a difference. - Unknown", "The difference between a successful person and others is not a lack of strength, not a lack of knowledge, but rather a lack in will. - Vince Lombardi", "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill", "Success is how high you bounce when you hit the bottom. - George S. Patton", "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. - Steve Jobs", "Success is not in what you have, but who you are. - Bo Bennett", "The only thing standing between you and your goal is the story you keep telling yourself as to why you can't achieve it. - Jordan Belfort", "You don't have to be a genius or a visionary or even a college graduate to be successful. You just need a framework and a dream. - Michael Dell", "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful. - Albert Schweitzer", "The road to success and the road to failure are almost exactly the same. - Colin R. Davis", "The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt", "Don't be pushed around by the fears in your mind. Be led by the dreams in your heart. - Roy T. Bennett", "Success is not just about making money. It's about making a difference. - Unknown", "The difference between a successful person and others is not a lack of strength, not a lack of knowledge, but rather a lack in will. - Vince Lombardi",
+        // ... (continue with the complete list of 100 quotes)
+    ];
+
+    function getRandomQuote() {
+        const quoteContainer = document.getElementById('quote-text');
+        const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+        quoteContainer.textContent = motivationalQuotes[randomIndex];
+
+        // Change background color every 1 second
+        let colorIndex = 0;
+        const colors = ['black', 'red', 'purple'];
+        setInterval(() => {
+            document.body.style.backgroundColor = colors[colorIndex];
+            colorIndex = (colorIndex + 1) % colors.length;
+        }, 1000);
+    }
+
+    // Show quote container after 3 seconds
+    setTimeout(() => {
+        document.getElementById('quote-container').style.display = 'block';
+    }, 3000);
+</script>
+
+
+
+</div>
+
+{% endblock %}
