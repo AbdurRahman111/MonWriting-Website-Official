@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Property Area Calculator - MonWriting{% endblock %}
+
+{% block active_tools %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+
+<style>
+
+
+body {
+
+
+font-family: Arial, sans-serif;
+
+
+margin: 20px;
+
+
+}
+
+
+
+
+
+
+.calculator {
+
+
+max-width: 400px;
+
+
+margin: auto;
+
+
+}
+
+
+
+
+
+
+label {
+
+
+display: block;
+
+
+margin-bottom: 5px;
+
+
+}
+
+
+
+
+
+
+input {
+
+
+width: 100%;
+
+
+padding: 8px;
+
+
+margin-bottom: 10px;
+
+
+box-sizing: border-box;
+
+
+}
+
+
+
+
+
+
+button {
+
+
+background-color: #000;
+
+
+color: white;
+
+
+padding: 10px;
+
+
+border: none;
+
+
+width: 100%;
+
+
+cursor: pointer;
+
+
+transition: background-color 0.3s ease-in-out;
+
+
+}
+
+
+
+
+
+
+button:hover {
+
+
+background-color: #45a049;
+
+
+}
+
+
+
+
+
+
+#result {
+
+
+margin-top: 10px;
+
+
+}
+
+
+</style>
+
+
+
+
+<div class="calculator">
+
+
+<h2>Property Area Calculator</h2>
+
+
+
+
+
+
+<label for="length">Length:</label>
+
+
+<input type="number" id="length" placeholder="Enter length">
+
+
+
+
+
+
+<label for="width">Width:</label>
+
+
+<input type="number" id="width" placeholder="Enter width">
+
+
+
+
+
+
+<button onclick="calculateArea()">Calculate Area</button>
+
+
+
+
+
+
+<div id="result"></div>
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+function calculateArea() {
+
+
+var length = document.getElementById('length').value;
+
+
+var width = document.getElementById('width').value;
+
+
+var area;
+
+
+
+
+
+
+if (length && width) {
+
+
+area = length * width;
+
+
+var marlas = area / 272.25; // 1 Marla = 272.25 square feet
+
+
+document.getElementById('result').innerHTML = 'Area: ' + area.toFixed(2) + ' square units (' + marlas.toFixed(2) + ' Marlas)';
+
+
+} else {
+
+
+document.getElementById('result').innerHTML = 'Please enter valid numeric values for length and width.';
+
+
+}
+
+
+}
+
+
+</script>
+
+
+
+</div>
+
+{% endblock %}

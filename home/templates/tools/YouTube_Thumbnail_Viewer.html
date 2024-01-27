@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}YouTube Thumbnail Downloader - MonWriting{% endblock %}
+
+{% block active_tools %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #videoUrlBox {
+            margin: 20px;
+            padding: 20px;
+            border: 5px solid #333;
+            text-align: center;
+            display: inline-block;
+        }
+
+        #videoUrl {
+            width: 80%;
+            padding: 8px;
+            margin: 8px;
+        }
+
+        #getThumbnailBtn, #downloadAllBtn {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #thumbnailOptions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .thumbnail-option {
+            margin: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .thumbnail-option img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .download-link {
+            display: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+            margin-top: 5px;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .thumbnail-option:hover .download-link {
+            display: block;
+        }
+
+        #colorChangeContainer {
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+    <h1>YouTube Thumbnail Viewer</h1>
+
+    <div id="videoUrlBox">
+        <p id="welcomeMessage" style="display: none; color: blue;">Welcome to your first download YouTube thumbnail!</p>
+        <p>Enter YouTube Video URL:</p>
+        <input type="text" id="videoUrl" placeholder="Paste YouTube video URL...">
+        <br>
+        <button id="getThumbnailBtn" onclick="getThumbnails()">Get Thumbnails</button>
+
+        <div id="thumbnailOptions"></div>
+
+        <button id="downloadAllBtn" onclick="downloadAllThumbnails()">Download All Thumbnails</button>
+    </div>
+
+    <div id="colorChangeContainer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (getCookie('welcomeShown') !== 'true') {
+                showWelcomeMessage();
+                setCookie('welcomeShown', 'true', 365);
+            }
+
+            setTimeout(function() {
+                alternateColors();
+                setInterval(alternateColors, 1000);
+            }, 100);
+        });
+
+        function showWelcomeMessage() {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            welcomeMessage.style.display = 'block';
+        }
+
+        function getThumbnails() {
+            const videoUrl = document.getElementById('videoUrl').value;
+            const videoId = getVideoId(videoUrl);
+
+            if (videoId) {
+                displayThumbnails(videoId);
+            } else {
+                alert('Invalid YouTube Video URL');
+            }
+        }
+
+        function getVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function displayThumbnails(videoId) {
+            const thumbnailOptions = document.getElementById('thumbnailOptions');
+            thumbnailOptions.innerHTML = '';
+
+            const thumbnailResolutions = [
+                { label: 'HD (1280x720)', resolution: 'maxresdefault' },
+                { label: 'Full HD (1920x1080)', resolution: 'sddefault' },
+                { label: '2K (2560x1440)', resolution: 'hqdefault' },
+                { label: '4K (3840x2160)', resolution: 'maxresdefault' }
+            ];
+
+            thumbnailResolutions.forEach((resolution, index) => {
+                const thumbnailOption = document.createElement('div');
+                thumbnailOption.classList.add('thumbnail-option');
+
+                const img = document.createElement('img');
+                img.src = `https://img.youtube.com/vi/${videoId}/${resolution.resolution}.jpg`;
+                img.alt = `Thumbnail Option ${index + 1}`;
+
+                const label = document.createElement('div');
+                label.innerText = resolution.label;
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = `https://img.youtube.com/vi/${videoId}/${resolution.resolution}.jpg`;
+                downloadLink.download = `thumbnail_${resolution.resolution}.jpg`;
+                downloadLink.innerText = 'Download';
+                downloadLink.classList.add('download-link');
+
+                thumbnailOption.appendChild(img);
+                thumbnailOption.appendChild(label);
+                thumbnailOption.appendChild(downloadLink);
+
+                thumbnailOptions.appendChild(thumbnailOption);
+            });
+        }
+
+        function downloadImage(url, filename) {
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                })
+                .catch(error => console.error(`Error fetching ${url}: ${error}`));
+        }
+
+        function downloadAllThumbnails() {
+            const videoUrl = document.getElementById('videoUrl').value;
+            const videoId = getVideoId(videoUrl);
+
+            if (videoId) {
+                const thumbnailResolutions = ['maxresdefault', 'sddefault', 'hqdefault', 'maxresdefault'];
+                const zip = new JSZip();
+
+                thumbnailResolutions.forEach(resolution => {
+                    const imageUrl = `https://img.youtube.com/vi/${videoId}/${resolution}.jpg`;
+                    const filename = `thumbnail_${resolution}.jpg`;
+
+                    fetch(imageUrl)
+                        .then(response => response.blob())
+                        .then(blob => zip.file(filename, blob))
+                        .catch(error => console.error(`Error fetching ${imageUrl}: ${error}`));
+                });
+
+                zip.generateAsync({ type: 'blob' })
+                    .then(blob => {
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.download = 'thumbnails.zip';
+                        link.click();
+                    })
+                    .catch(error => console.error(`Error creating zip file: ${error}`));
+            } else {
+                alert('Invalid YouTube Video URL');
+            }
+        }
+
+        function alternateColors() {
+            const colors = [
+                'AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond',
+                'Blue', 'BlueViolet', 'Brown', 'Burlywood', 'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue',
+                'Cornsilk', 'Crimson', 'Cyan', 'DarkBlue', 'DarkCyan', 'DarkGoldenrod', 'DarkGray', 'DarkGreen', 'DarkKhaki',
+                'DarkMagenta', 'DarkOliveGreen', 'DarkOrange', 'DarkOrchid', 'DarkRed', 'DarkSalmon', 'DarkSeaGreen',
+                'DarkSlateBlue', 'DarkSlateGray', 'DarkTurquoise', 'DarkViolet', 'DeepPink', 'DeepSkyBlue', 'DimGray',
+                'DodgerBlue', 'Firebrick', 'FloralWhite', 'ForestGreen', 'Fuchsia', 'Gainsboro', 'GhostWhite', 'Gold', 'Goldenrod',
+                'Gray', 'Green', 'GreenYellow', 'Honeydew', 'HotPink', 'IndianRed', 'Indigo', 'Ivory', 'Khaki', 'Lavender',
+                'LavenderBlush', 'LawnGreen', 'LemonChiffon', 'LightBlue', 'LightCoral', 'LightCyan', 'LightGoldenrodYellow',
+                'LightGreen', 'LightGrey', 'LightPink', 'LightSalmon', 'LightSeaGreen', 'LightSkyBlue', 'LightSlateGray',
+                'LightSteelBlue', 'LightYellow', 'Lime', 'LimeGreen', 'Linen', 'Magenta', 'Maroon', 'MediumAquamarine',
+                'MediumBlue', 'MediumOrchid', 'MediumPurple', 'MediumSeaGreen', 'MediumSlateBlue', 'MediumSpringGreen',
+                'MediumTurquoise', 'MediumVioletRed', 'MidnightBlue', 'MintCream', 'MistyRose', 'Moccasin', 'NavajoWhite',
+                'Navy', 'OldLace', 'OliveDrab', 'Orange', 'OrangeRed', 'Orchid', 'PaleGoldenrod', 'PaleGreen', 'PaleTurquoise',
+                'PaleVioletRed', 'PapayaWhip', 'PeachPuff', 'Peru', 'Pink', 'Plum', 'PowderBlue', 'Purple', 'Red',
+                'RosyBrown', 'RoyalBlue', 'SaddleBrown', 'Salmon', 'SandyBrown', 'SeaGreen', 'SeaShell', 'Sienna', 'Silver',
+                'SkyBlue', 'SlateBlue', 'SlateGray', 'Snow', 'SpringGreen', 'SteelBlue', 'Tan', 'Teal', 'Thistle', 'Tomato',
+                'Turquoise', 'Violet', 'Wheat', 'White', 'WhiteSmoke', 'Yellow', 'YellowGreen'
+            ];
+
+            colors.forEach((color, index) => {
+                setTimeout(() => {
+                    document.getElementById('videoUrlBox').style.backgroundColor = color;
+                }, index * 1000); // Change color every 1 second
+            });
+        }
+
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+            document.cookie = name + '=' + value + ';expires=' + expires.toUTCString();
+        }
+
+        function getCookie(name) {
+            const keyValue = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return keyValue ? keyValue[2] : null;
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+</div>
+
+{% endblock %}

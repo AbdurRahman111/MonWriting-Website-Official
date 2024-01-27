@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Percentage Calculator - MonWriting{% endblock %}
+
+{% block active_tools %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+
+    <style>
+        #calculator-container {
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            max-width: 350px;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input:focus {
+            border: 1px solid #4caf50;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result-marks,
+        #result-amount {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            input {
+                max-width: 100%;
+            }
+        }
+    </style>
+
+<div id="calculator-container">
+    <h2>Marks Percentage Calculator</h2>
+    <input type="number" id="totalMarks" placeholder="Enter total marks" />
+    <input type="number" id="obtainedMarks" placeholder="Enter obtained marks" />
+    <button onclick="calculateMarksPercentage()">Calculate Marks Percentage</button>
+    <div id="result-marks"></div>
+
+    <h2>Amount Percentage Calculator</h2>
+    <input type="number" id="amount" placeholder="Enter the amount" />
+    <input type="number" id="percentage" placeholder="Enter the percentage" />
+    <button onclick="calculateAmountPercentage()">Calculate Amount Percentage</button>
+    <div id="result-amount"></div>
+</div>
+
+<script>
+    function calculateMarksPercentage() {
+        var totalMarks = parseFloat(document.getElementById("totalMarks").value);
+        var obtainedMarks = parseFloat(document.getElementById("obtainedMarks").value);
+
+        if (isNaN(totalMarks) || isNaN(obtainedMarks)) {
+            alert("Please enter valid numeric values for marks");
+            return;
+        }
+
+        var percentage = (obtainedMarks / totalMarks) * 100;
+        document.getElementById("result-marks").innerHTML = `Marks Percentage: ${percentage.toFixed(2)}%`;
+    }
+
+    function calculateAmountPercentage() {
+        var amount = parseFloat(document.getElementById("amount").value);
+        var percentage = parseFloat(document.getElementById("percentage").value);
+
+        if (isNaN(amount) || isNaN(percentage)) {
+            alert("Please enter valid numeric values for amount");
+            return;
+        }
+
+        var result = (amount * percentage) / 100;
+        document.getElementById("result-amount").innerHTML = `Amount Percentage: ${result.toFixed(2)}`;
+    }
+</script>
+</div>
+
+{% endblock %}

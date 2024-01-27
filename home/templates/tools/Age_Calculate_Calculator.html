@@ -1,0 +1,437 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Age Calculator - MonWriting{% endblock %}
+
+{% block active_tools %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+<style>
+
+
+body {
+
+
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+margin: 0;
+
+
+padding: 0;
+
+
+background-color: #f0f0f0;
+
+
+color: #000; /* Set font color to black */
+
+
+}
+
+
+.calculator-container {
+
+
+width: 80%;
+
+
+margin: 20px auto;
+
+
+background-color: #fff;
+
+
+padding: 20px;
+
+
+border-radius: 10px;
+
+
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+
+text-align: center;
+
+
+}
+
+
+h1, h2, label, li {
+
+
+color: #000; /* Set font color to black */
+
+
+}
+
+
+label {
+
+
+display: block;
+
+
+margin: 10px 0 5px;
+
+
+text-align: left;
+
+
+}
+
+
+input {
+
+
+width: 100%;
+
+
+padding: 10px;
+
+
+margin-bottom: 15px;
+
+
+border: 1px solid #ccc;
+
+
+border-radius: 5px;
+
+
+box-sizing: border-box;
+
+
+font-size: 16px;
+
+
+color: #000; /* Set font color to black */
+
+
+}
+
+
+button {
+
+
+background-color: #4caf50;
+
+
+color: #fff;
+
+
+padding: 10px 20px;
+
+
+font-size: 16px;
+
+
+border: none;
+
+
+border-radius: 5px;
+
+
+cursor: pointer;
+
+
+transition: background-color 0.3s ease;
+
+
+}
+
+
+button:hover {
+
+
+background-color: #45a049;
+
+
+}
+
+
+#result {
+
+
+font-size: 18px;
+
+
+font-weight: bold;
+
+
+color: #333;
+
+
+margin-top: 10px;
+
+
+text-align: left;
+
+
+padding-left: 10px;
+
+
+}
+
+
+ul {
+
+
+list-style-type: none;
+
+
+padding: 0;
+
+
+margin: 0;
+
+
+text-align: left;
+
+
+padding-left: 20px;
+
+
+}
+
+
+li {
+
+
+margin-bottom: 5px;
+
+
+color: #666;
+
+
+}
+
+
+</style>
+
+
+
+<div class="calculator-container">
+
+
+<h1>Age Calculator</h1>
+
+
+
+
+
+
+<label for="birthdate">Enter your birthdate:</label>
+
+
+<input type="date" id="birthdate">
+
+
+
+
+
+
+<button onclick="calculateAge()">Calculate Age</button>
+
+
+
+
+
+
+<h2>Your age is:</h2>
+
+
+<div id="result"></div>
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+function calculateAge() {
+
+
+var birthdate = new Date(document.getElementById("birthdate").value);
+
+
+var currentDate = new Date();
+
+
+
+
+
+
+if (isNaN(birthdate)) {
+
+
+alert("Please enter a valid date");
+
+
+return;
+
+
+}
+
+
+
+
+
+
+var ageInMilliseconds = currentDate - birthdate;
+
+
+
+
+
+
+var years = Math.floor(ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000));
+
+
+var remainingMonths = Math.floor((ageInMilliseconds % (365.25 * 24 * 60 * 60 * 1000)) / (30.44 * 24 * 60 * 60 * 1000));
+
+
+var remainingDays = Math.floor(((ageInMilliseconds % (365.25 * 24 * 60 * 60 * 1000)) % (30.44 * 24 * 60 * 60 * 1000)) / (24 * 60 * 60 * 1000));
+
+
+
+
+
+
+var totalMonths = Math.floor(ageInMilliseconds / (30.44 * 24 * 60 * 60 * 1000));
+
+
+var totalWeeks = Math.floor(ageInMilliseconds / (7 * 24 * 60 * 60 * 1000));
+
+
+var totalDays = Math.floor(ageInMilliseconds / (24 * 60 * 60 * 1000));
+
+
+var totalHours = Math.floor(ageInMilliseconds / (60 * 60 * 1000));
+
+
+var totalMinutes = Math.floor(ageInMilliseconds / (60 * 1000));
+
+
+var totalSeconds = Math.floor(ageInMilliseconds / 1000);
+
+
+
+
+
+
+var resultContainer = document.getElementById("result");
+
+
+resultContainer.innerHTML = "";
+
+
+
+
+
+
+if (years > 0 || remainingMonths > 0 || remainingDays > 0) {
+
+
+resultContainer.innerHTML += "<li>" + years + " years " + remainingMonths + " months " + remainingDays + " days </li>";
+
+
+}
+
+
+
+
+
+
+if (totalMonths > 0) {
+
+
+resultContainer.innerHTML += "<li>or " + totalMonths + " months </li>";
+
+
+}
+
+
+
+
+
+
+if (totalWeeks > 0) {
+
+
+resultContainer.innerHTML += "<li>or " + totalWeeks + " weeks </li>";
+
+
+}
+
+
+
+
+
+
+if (totalDays > 0) {
+
+
+resultContainer.innerHTML += "<li>or " + totalDays + " days </li>";
+
+
+}
+
+
+
+
+
+
+if (totalHours > 0) {
+
+
+resultContainer.innerHTML += "<li>or " + totalHours + " hours </li>";
+
+
+}
+
+
+
+
+
+
+if (totalMinutes > 0) {
+
+
+resultContainer.innerHTML += "<li>or " + totalMinutes + " minutes </li>";
+
+
+}
+
+
+
+
+
+
+if (totalSeconds > 0) {
+
+
+resultContainer.innerHTML += "<li>or " + totalSeconds + " seconds </li>";
+
+
+}
+
+
+}
+
+
+</script>
+
+</div>
+
+{% endblock %}

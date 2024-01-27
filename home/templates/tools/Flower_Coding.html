@@ -1,0 +1,456 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Flower Coding - MonWriting{% endblock %}
+
+{% block active_tools %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+
+  <style>
+    .flower-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      padding: 20px;
+    }
+
+
+    .flower-box {
+      flex: 0 0 30%; /* Each box takes up 30% of the container */
+      box-sizing: border-box;
+      text-align: center;
+      margin: 10px;
+    }
+
+
+    .flower-name {
+      cursor: pointer;
+      position: relative;
+      padding: 10px;
+      background-color: #00ff00; /* Green color for the flower box */
+      margin-bottom: 2cm; /* 2cm margin between flower names */
+    }
+
+
+    .flower-info {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      background-color: #000000; /* Black color for the flower information box */
+      color: #ffffff; /* White text color */
+      padding: 10px;
+      z-index: 1;
+    }
+
+
+    .flower-name:hover .flower-info {
+      display: block;
+    }
+  </style>
+
+
+<div class="flower-container">
+  <div class="flower-box">
+    <div class="flower-name">Rose
+      <div class="flower-info">Symbol of love and beauty, roses come in various colors.
+</div>
+    </div>
+    <div class="flower-name">Lily
+      <div class="flower-info">Elegance personified, lilies boast vibrant hues and delicate petals.
+</div>
+    </div>
+<div class="flower-name">Daisy
+      <div class="flower-info"> Simple and cheerful, daisies radiate positivity with white petals and a yellow center.
+</div>
+    </div>
+<div class="flower-name">Tulip
+      <div class="flower-info">Tulip Graceful tulips showcase diverse colors and distinct shapes, representing perfect love.
+</div>
+    </div>
+<div class="flower-name">Sunflower
+      <div class="flower-info"> Majestic sunflowers symbolize adoration and happiness, featuring a bold, sunny appearance.
+</div>
+    </div>
+<div class="flower-name">Orchid
+      <div class="flower-info"> Exotic and alluring, orchids exhibit intricate designs and a wide color spectrum.
+</div>
+    </div>
+<div class="flower-name">Pansy
+      <div class="flower-info"> With heart-shaped petals, pansies embody free spirit and charm in various colors.
+</div>
+    </div>
+<div class="flower-name">Poppy
+      <div class="flower-info"> Bold and vibrant, poppies carry diverse meanings and add a splash of color.
+</div>
+    </div>
+<div class="flower-name">Peony
+      <div class="flower-info"> Luxurious peonies signify romance and prosperity, boasting lush, layered petals.
+</div>
+    </div>
+<div class="flower-name">Marigold
+      <div class="flower-info">Vibrant marigolds symbolize warmth and are known for their pest-repelling properties.
+</div>
+    </div>
+<div class="flower-name">Daffodil
+      <div class="flower-info"> Emblematic of spring, daffodils bring joy with their sunny yellow blossoms.
+</div>
+    </div>
+<div class="flower-name">Hyacinth
+      <div class="flower-info">Hyacinth Fragrant hyacinths offer a burst of color and a sweet scent.
+</div>
+    </div>
+<div class="flower-name">Iris
+      <div class="flower-info"> Graceful irises feature striking, sword-like leaves and captivating, vivid blooms.</div>
+    </div>
+<div class="flower-name">Zinnia
+      <div class="flower-info"> Cheerful zinnias flaunt a variety of colors, brightening gardens with their vibrant presence.</div>
+    </div>
+<div class="flower-name">Snapdragon
+      <div class="flower-info"> Unique snapdragons showcase colorful, dragon-shaped blossoms on tall spikes.
+</div>
+    </div>
+<div class="flower-name">Chrysanthemum
+      <div class="flower-info"> Symbolizing longevity, chrysanthemums come in diverse shapes and colors.
+</div>
+    </div>
+<div class="flower-name">Geranium
+      <div class="flower-info"> Hardy geraniums charm with clusters of colorful, five-petaled flowers.
+</div>
+    </div>
+<div class="flower-name">Aster
+      <div class="flower-info"> Asters, in various hues, symbolize patience and elegance.
+</div>
+    </div>
+<div class="flower-name">Carnation
+      <div class="flower-info"> Versatile carnations convey love and admiration, available in numerous colors.</div>
+    </div>
+<div class="flower-name">Lavender
+      <div class="flower-info">Lavender Fragrant lavender is known for its calming aroma and purple spikes.</div>
+    </div>
+<div class="flower-name">Bluebell
+      <div class="flower-info"> Delicate bluebells blanket woodland floors, heralding spring with their charming appearance.
+</div>
+    </div>
+<div class="flower-name">Foxglove
+      <div class="flower-info">Towering spires of foxgloves offer tubular blossoms in shades of pink and purple.
+</div>
+    </div>
+<div class="flower-name">Buttercup
+      <div class="flower-info"> Simple buttercups bloom in bright yellow, evoking childhood memories.</div>
+    </div>
+<div class="flower-name">Forget-Me-Not
+      <div class="flower-info"> Tiny, blue forget-me-nots symbolize everlasting love and loyalty.
+</div>
+    </div>
+<div class="flower-name">Dahlia
+      <div class="flower-info"> Dazzling dahlias boast intricate, multi-layered blooms in various colors.
+</div>
+    </div>
+<div class="flower-name">Honeysuckle
+      <div class="flower-info"> Fragrant honeysuckle vines attract hummingbirds with their tubular blossoms.</div>
+    </div>
+<div class="flower-name">Magnolia
+      <div class="flower-info"> Magnolias, with large, fragrant flowers, symbolize purity and dignity.</div>
+    </div>
+<div class="flower-name">Azalea
+      <div class="flower-info"> Azaleas burst into vibrant clusters, signaling the arrival of spring in various shades.
+</div>
+    </div>
+<div class="flower-name">Begonia
+      <div class="flower-info"> Begonias showcase elaborate flowers and vibrant foliage, thriving in various environments.
+</div>
+    </div>
+<div class="flower-name">Camellia
+      <div class="flower-info"> Camellias, with glossy green leaves, offer exquisite, symmetrical blooms in diverse colors.
+</div>
+    </div>
+<div class="flower-name">Canna
+      <div class="flower-info"> Cannas exhibit bold, tropical blooms atop tall stems, adding drama to gardens.
+</div>
+    </div>
+<div class="flower-name">Cosmos
+      <div class="flower-info"> Graceful cosmos bring a wildflower charm with daisy-like blossoms in various colors.
+</div>
+    </div>
+<div class="flower-name">Gladiolus
+      <div class="flower-info">Towering spikes of gladioli boast numerous blossoms in a variety of hues.
+</div>
+    </div>
+<div class="flower-name">Hollyhock
+      <div class="flower-info"> Majestic hollyhocks display tall spikes of vibrant blossoms in cottage gardens.
+</div>
+    </div>
+<div class="flower-name">Jasmine
+      <div class="flower-info"> Fragrant jasmine vines produce clusters of white, star-shaped flowers.
+</div>
+    </div>
+<div class="flower-name">Larkspur
+      <div class="flower-info"> Larkspurs, with tall spires, add vertical interest to gardens with colorful, spurred blossoms.
+</div>
+    </div>
+<div class="flower-name">Nasturtium
+      <div class="flower-info"> Edible nasturtiums feature round leaves and vibrant, trumpet-shaped flowers.
+</div>
+    </div>
+<div class="flower-name">Petunia
+      <div class="flower-info"> Cascading petunias offer a profusion of trumpet-shaped blossoms in various hues.
+</div>
+    </div>
+<div class="flower-name">Ranunculus
+      <div class="flower-info"> Ranunculus blooms showcase layers of delicate, paper-thin petals in diverse colors.
+</div>
+    </div>
+<div class="flower-name">Verbena
+      <div class="flower-info"> Spreading verbena offers clusters of small, fragrant flowers in various shades.</div>
+    </div>
+<div class="flower-name">Viola
+      <div class="flower-info"> Cheerful violas, akin to pansies, bring color to gardens with heart-shaped blooms.
+</div>
+    </div>
+<div class="flower-name">Wisteria
+      <div class="flower-info"> Cascading wisteria vines produce fragrant, pendulous clusters of blossoms.
+</div>
+    </div>
+<div class="flower-name">Yarrow
+      <div class="flower-info"> Yarrow, with feathery foliage, features flattened flower heads in shades of white and pink.
+</div>
+    </div>
+<div class="flower-name">Anemone
+      <div class="flower-info"> Delicate anemones display poppy-like blooms in various colors.
+</div>
+    </div>
+<div class="flower-name">Bleeding Heart
+      <div class="flower-info">Unique bleeding hearts feature heart-shaped flowers on arching stems.
+</div>
+    </div>
+<div class="flower-name">Columbine
+      <div class="flower-info">Graceful columbines boast distinctive spurred blossoms in various hues.
+</div>
+    </div>
+<div class="flower-name">Delphinium
+      <div class="flower-info"> Towering spikes of delphiniums showcase vibrant, spurred blossoms.</div>
+    </div>
+<div class="flower-name">Freesia
+      <div class="flower-info"> Fragrant freesias offer tubular, funnel-shaped blooms in various colors.
+</div>
+    </div>
+<div class="flower-name">Gazania
+      <div class="flower-info"> Colorful gazanias feature daisy-like flowers with striking, bold markings.</div>
+    </div>
+<div class="flower-name">Heliotrope
+      <div class="flower-info"> Fragrant heliotropes offer clusters of small, purple, or white flowers in rounded clusters.
+</div>
+    </div>
+<div class="flower-name">Impatiens
+      <div class="flower-info"> Shade-loving impatiens produce profuse, vibrant blossoms in various hues.
+</div>
+    </div>
+<div class="flower-name">Jonquil
+      <div class="flower-info"> Jonquils, a type of daffodil, present clusters of fragrant, trumpet-shaped flowers.
+</div>
+    </div>
+<div class="flower-name">Kangaroo Paw
+      <div class="flower-info"> Unique kangaroo paw flowers have tubular structures and distinctive paw-like shapes.
+</div>
+    </div>
+<div class="flower-name">Lantana
+      <div class="flower-info"> Colorful lantanas form clusters of tiny, tubular flowers, attracting butterflies with their vibrant hues.
+</div>
+    </div>
+<div class="flower-name">Mimosa
+      <div class="flower-info"> Delicate mimosa blossoms, also known as sensitive plants, respond to touch by closing their leaves.
+</div>
+    </div>
+<div class="flower-name">Nigella
+      <div class="flower-info"> Nigellas, or love-in-a-mist, feature finely divided leaves and intriguing, star-shaped flowers.
+</div>
+    </div>
+<div class="flower-name">Osteospermum
+      <div class="flower-info"> Daisy-like osteospermums, or African daisies, showcase vivid colors and unique petal patterns.
+</div>
+    </div>
+<div class="flower-name">Primrose
+      <div class="flower-info"> Early-blooming primroses offer clusters of fragrant flowers in shades of yellow, pink, and white.
+</div>
+    </div>
+<div class="flower-name">Quince Blossom
+      <div class="flower-info"> Quince blossoms grace the quince tree with delicate, pinkish-white flowers.
+</div>
+    </div>
+<div class="flower-name">Ranunculus
+      <div class="flower-info"> Ranunculus blooms showcase layers of delicate, paper-thin petals in diverse colors.
+</div>
+    </div>
+<div class="flower-name">Snowdrop
+      <div class="flower-info"> Snowdrops herald the arrival of spring with small, white, bell-shaped flowers.
+</div>
+    </div>
+<div class="flower-name">Tansy
+      <div class="flower-info"> Tansies, with button-like yellow flowers, add a touch of brightness to gardens.</div>
+    </div>
+<div class="flower-name">Uva Ursi
+      <div class="flower-info"> Uva ursi, or bearberry, produces small, bell-shaped flowers and red berries.
+</div>
+    </div>
+<div class="flower-name">Vinca
+      <div class="flower-info"> Vinca, or periwinkle, features glossy, evergreen leaves and star-shaped blue flowers.
+</div>
+    </div>
+<div class="flower-name">Wax Flower
+      <div class="flower-info"> Fragrant wax flowers, or chamelaucium, have waxy, star-shaped blooms in shades of pink and white.
+</div>
+    </div>
+<div class="flower-name">Xerophyte
+      <div class="flower-info"> Xerophytes, adapted to arid conditions, include succulents like cacti and agave.</div>
+    </div>
+<div class="flower-name">Yucca Flower
+      <div class="flower-info"> Yucca flowers, borne on tall spikes, are cream-colored and bell-shaped.
+</div>
+    </div>
+<div class="flower-name">Zenobia
+      <div class="flower-info"> Zenobia, a flowering shrub, produces clusters of small, bell-shaped flowers.
+</div>
+    </div>
+<div class="flower-name">Alstroemeria
+      <div class="flower-info"> Alstroemerias, or Peruvian lilies, display vibrant, lily-like blossoms in various colors.</div>
+    </div>
+<div class="flower-name">Bellflower
+      <div class="flower-info"> Bellflowers, or campanulas, boast bell-shaped blooms in shades of blue, pink, and white.
+</div>
+    </div>
+<div class="flower-name">Calla Lily
+      <div class="flower-info"> Calla lilies, with elegant, trumpet-shaped flowers, symbolize beauty and purity.</div>
+    </div>
+<div class="flower-name">Delight Rose
+      <div class="flower-info"> Delight roses feature delicate petals in shades of pink, exuding charm and romance.
+</div>
+    </div>
+<div class="flower-name">Eucalyptus Flower
+      <div class="flower-info"> Eucalyptus flowers are small, fluffy clusters atop the eucalyptus tree, complementing its aromatic leaves.
+</div>
+    </div>
+<div class="flower-name">Flax Lily
+      <div class="flower-info"> Flax lilies, or dianella, produce small, star-shaped flowers and decorative berries.
+</div>
+    </div>
+<div class="flower-name">Ginger Lily
+      <div class="flower-info"> Ginger lilies, or hedychiums, present fragrant, showy blossoms in various colors.
+</div>
+    </div>
+<div class="flower-name">Heliconia
+      <div class="flower-info"> Heliconias, or lobster claws, feature vibrant, tropical blooms with distinctive shapes.</div>
+    </div>
+<div class="flower-name">Ixia
+      <div class="flower-info"> Ixias, or African corn lilies, showcase spikes of star-shaped flowers in bold colors.
+</div>
+    </div>
+<div class="flower-name">Jacaranda
+      <div class="flower-info"> Jacaranda trees bloom with clusters of lavender-blue, trumpet-shaped flowers.</div>
+    </div>
+<div class="flower-name">Kniphofia
+      <div class="flower-info">Kniphofias, or red hot pokers, display tall spikes of tubular flowers in fiery hues.
+</div>
+    </div>
+<div class="flower-name">Lotus
+      <div class="flower-info"> Lotus flowers, sacred in many cultures, have large, elegant blossoms and symbolic significance.</div>
+    </div>
+<div class="flower-name">Monkshood
+      <div class="flower-info"> Monkshoods, or aconites, feature spires of hooded flowers in shades of blue and purple.
+</div>
+    </div>
+<div class="flower-name">Nigella
+      <div class="flower-info"> Nigellas, or love-in-a-mist, feature finely divided leaves and intriguing, star-shaped flowers.</div>
+    </div>
+<div class="flower-name">Oxeye Daisy
+      <div class="flower-info"> Oxeye daisies, with white petals and yellow centers, thrive in meadows and gardens.</div>
+    </div>
+<div class="flower-name">Persian Buttercup
+      <div class="flower-info"> Persian buttercups, or ranunculus, boast layers of bright, ruffled petals.
+</div>
+    </div>
+<div class="flower-name">Queen Anne's Lace
+      <div class="flower-info"> Delicate Queen Anne's lace, or wild carrot, forms lacy clusters of tiny flowers.
+</div>
+    </div>
+<div class="flower-name">Ranunculus
+      <div class="flower-info"> Ranunculus blooms showcase layers of delicate, paper-thin petals in diverse colors.
+</div>
+    </div>
+<div class="flower-name">Spider Lily
+      <div class="flower-info">Spider lilies, or hymenocallis, feature long, spidery petals in clusters.</div>
+    </div>
+<div class="flower-name">Tiarella
+      <div class="flower-info">Tiarellas, or foam flowers, have spikes of tiny, star-shaped flowers and distinctive foliage.
+</div>
+    </div>
+<div class="flower-name">Upupa Flower
+      <div class="flower-info">The upupa flower, named after the hoopoe bird, produces unique, whimsical blooms.
+</div>
+    </div>
+<div class="flower-name">Verbascum
+      <div class="flower-info"> Verbascums, or mulleins, showcase tall spikes of colorful, saucer-shaped flowers.</div>
+    </div>
+<div class="flower-name">Windflower
+      <div class="flower-info"> Windflowers, or anemones, feature daisy-like blossoms in various colors.
+</div>
+    </div>
+<div class="flower-name">Xyridaceae
+      <div class="flower-info">Xyridaceae encompasses wetland plants with unique, showy flowers in various shapes.</div>
+    </div>
+<div class="flower-name">Yellow Flag Iris
+      <div class="flower-info">Yellow flag irises display vibrant yellow flowers along waterways and ponds.
+</div>
+    </div>
+<div class="flower-name">Zephyranthes
+      <div class="flower-info"> Zephyranthes, or rain lilies, produce small, trumpet-shaped flowers after rainfall.
+</div>
+    </div>
+<div class="flower-name">Agapanthus
+      <div class="flower-info"> Agapanthus, or lily of the Nile, showcase globe-like clusters of trumpet-shaped blooms.
+</div>
+    </div>
+<div class="flower-name">Black-Eyed Susan
+      <div class="flower-info"> Black-eyed Susans, with yellow petals and dark centers, add a touch of the wild to gardens.
+</div>
+    </div>
+<div class="flower-name">Celandine
+      <div class="flower-info"> Celandines, or lesser celandines, bear bright yellow, star-shaped flowers.
+</div>
+    </div>
+<div class="flower-name">Dogwood Blossom
+      <div class="flower-info">Dogwood blossoms, in pink or white, grace dogwood trees with elegance.
+</div>
+    </div>
+<div class="flower-name">Evening Primrose
+      <div class="flower-info"> Evening primroses unfurl delicate, fragrant flowers in the evening, attracting pollinators.
+</div>
+    </div>
+<div class="flower-name">Fire Lily
+      <div class="flower-info"> Fire lilies, or gloriosa, feature striking, flame-like petals and climbing vines.
+</div>
+    </div>
+
+
+
+
+
+
+    <!-- Repeat the structure for other flower names -->
+
+
+  </div>
+</div>
+
+</div>
+
+{% endblock %}

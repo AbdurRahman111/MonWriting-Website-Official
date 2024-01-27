@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Responsive BMI Calculator - MonWriting{% endblock %}
+
+{% block active_tools %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+    <style>
+
+        h1 {
+            color: #333;
+        }
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .underweight {
+            background-color: #3498db;
+            color: #fff;
+        }
+        .normal-weight {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        .overweight {
+            background-color: #f39c12;
+            color: #fff;
+        }
+        .obese {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        .alarming-message {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            form {
+                max-width: 100%;
+            }
+        }
+    </style>
+    <h1>Responsive BMI Calculator</h1>
+
+    <form id="bmiForm">
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" required step="any">
+
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" required step="any">
+
+        <label for="gender">Gender:</label>
+        <select id="gender" required>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+        </select>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" required>
+
+        <button type="button" onclick="calculateBMI()">Calculate BMI</button>
+    </form>
+
+    <div id="result"></div>
+    <div id="alarmingMessage" class="alarming-message"></div>
+
+    <script>
+        function calculateBMI() {
+            var weight = parseFloat(document.getElementById('weight').value);
+            var height = parseFloat(document.getElementById('height').value) / 100; // Convert height to meters
+            var gender = document.getElementById('gender').value;
+            var age = parseInt(document.getElementById('age').value);
+
+            var bmi = weight / Math.pow(height, 2);
+            var bmiCategory = interpretBMI(bmi);
+
+            var resultMessage = `Your BMI is: ${bmi.toFixed(2)}<br>`;
+            resultMessage += `You are categorized as: ${bmiCategory}`;
+
+            if ((gender === 'M' && age < 18) || (gender === 'F' && age < 18)) {
+                resultMessage += "<br>Note: BMI categories for individuals under 18 may differ.";
+            } else if (age >= 65) {
+                resultMessage += "<br>Note: BMI categories for older adults may differ.";
+            }
+
+            document.getElementById('result').innerHTML = resultMessage;
+
+            // Apply styles based on BMI category
+            document.getElementById('result').className = bmiCategory.toLowerCase();
+
+            // Show alarming message for obese individuals
+            if (bmiCategory === 'Obese') {
+                document.getElementById('alarmingMessage').innerHTML = "⚠️ Attention! Obesity is associated with serious health risks. Please consult with a healthcare professional for guidance and consider adopting a healthier lifestyle.";
+            } else {
+                document.getElementById('alarmingMessage').innerHTML = "";
+            }
+        }
+
+        function interpretBMI(bmi) {
+            if (bmi < 18.5) {
+                return 'Underweight';
+            } else if (bmi < 24.9) {
+                return 'Normal weight';
+            } else if (bmi < 29.9) {
+                return 'Overweight';
+            } else {
+                return 'Obese';
+            }
+        }
+    </script>
+</div>
+
+{% endblock %}

@@ -10,7 +10,7 @@
 {% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
 
 {% block body %}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Tools content  -->
         <section class="main-content">
             <div class="container-xl">
@@ -19,8 +19,9 @@
                         <div class="">
                             <div class="widget rounded">
                                 <div class="widget-about text-center">
-                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">
-                                    <a href="{% url 'Create_your_Own_Name_QR_code_for_Free' %}"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">QR Code Generator</h6></a>
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-qrcode" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Create_your_Own_Name_QR_code_for_Free' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">QR Code Generator</h6></a>
 
                                 </div>
                             </div>
@@ -31,8 +32,9 @@
                         <div class="">
                             <div class="widget rounded">
                                 <div class="widget-about text-center">
-                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">
-                                    <a href="{% url 'Time_Coding' %}"><h6 class="mb-4 text-center" style="text-align: justify;">World Time</h6></a>
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-clock-o" style="font-size: 56px; margin-bottom: 2px;color:#fe1800;"></i>
+                                    <a href="{% url 'Time_Coding' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">World Time</h6></a>
 
                                 </div>
                             </div>
@@ -43,8 +45,9 @@
                         <div class="">
                             <div class="widget rounded">
                                 <div class="widget-about text-center">
-                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">
-                                    <a href="{% url 'Distance_Converter' %}"><h6 class="mb-4 text-center" style="text-align: justify;">Distance Converter</h6></a>
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-road" style="font-size: 56px; margin-bottom: 2px;color:#fe1800;"></i>
+                                    <a href="{% url 'Distance_Converter' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Distance Converter</h6></a>
 
                                 </div>
                             </div>
@@ -55,8 +58,9 @@
                         <div class="">
                             <div class="widget rounded">
                                 <div class="widget-about text-center">
-                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">
-                                    <a href="{% url 'Love_Calculator' %}"><h6 class="mb-4 text-center" style="text-align: justify;">Love Calculator</h6></a>
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-heart" style="font-size: 56px; margin-bottom: 2px;color:#fe1800;"></i>
+                                    <a href="{% url 'Love_Calculator' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Love Calculator</h6></a>
 
                                 </div>
                             </div>
@@ -67,21 +71,184 @@
                         <div class="">
                             <div class="widget rounded">
                                 <div class="widget-about text-center">
-                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">
-                                    <a href="{% url 'Motivated_Quotes_Generator' %}"><h6 class="mb-4 text-center" style="text-align: justify;">Motivated Quotes Generator</h6></a>
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-quote-left" style="font-size: 56px; margin-bottom: 2px;color:#fe1800;"></i>
+                                    <a href="{% url 'Motivated_Quotes_Generator' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Motivated Quotes Generator</h6></a>
 
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-align-center" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Dynamic_Alphabet_Color' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Dynamic Alphabet Color</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-md-3">
                         <div class="">
                             <div class="widget rounded">
                                 <div class="widget-about text-center">
-                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">
-                                    <a href="{% url 'Dynamic_Alphabet_Color' %}"><h6 class="mb-4 text-center" style="text-align: justify;">Dynamic Alphabet Color</h6></a>
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-youtube-play" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'YouTube_Thumbnail_Downloader' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">YouTube Thumbnail Downloader</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-smile-o" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Word_and_Character_Counter_Tool' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Word and Character Counter Tool</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-id-card-o" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'About_Us_Page_Generator_for_Website' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">About Us Page Generator for Website</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-key" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Password_generator_zone' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Password Generator zone</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-bars" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Active_Voice_to_Passive_Voice_Converter' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Active Voice to Passive Voice Converter</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-medkit" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'BMI_Calculator' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">BMI Calculator</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-eye" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Flower_Coding' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Flower Coding</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-hospital-o" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Pregnancy_Calculator' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Pregnancy Calculator</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-money" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Currency_Converter_Tool' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Currency Converter Tool</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-image" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'PNG_to_JPG_Image' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">PNG to JPG Image</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-child" style="font-size: 56px; margin-bottom: 2px;color:#fe1800;"></i>
+                                    <a href="{% url 'Age_Calculate_Calculator' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Age Calculate Calculator</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-area-chart" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Area_Calculate_Calculator' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Area Calculate Calculator</h6></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+<!--                                    <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 40%;margin-bottom: 2px;">-->
+                                    <i class="fa fa-percent" style="font-size: 56px; margin-bottom: 2px; color:#fe1800;"></i>
+                                    <a href="{% url 'Percentage_Calculate_Calculator' %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">Percentage Calculate Calculator</h6></a>
 
                                 </div>
                             </div>

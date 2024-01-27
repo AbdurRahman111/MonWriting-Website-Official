@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Pregnancy Calculator - MonWriting{% endblock %}
+
+{% block active_tools %}active{% endblock %}
+{% block active_screen_home %}active{% endblock %}
+
+{% block page_meta_description %}MonWriting is a programming blog offering a wide range of programming-related content, tutorials, and articles.{% endblock %}
+{% block page_meta_keywords %}programming, coding, software development, programming languages, tutorials, development tips, coding resources, technology, web development, mobile development, Python, JavaScript, Java, C++, HTML, CSS, Git, algorithms, data structures, software engineering, computer science, debugging, frameworks, API, artificial intelligence, machine learning, data science, frontend, backend, databases, cloud computing, cybersecurity, best practices{% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+    <style>
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        #calculatorForm {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #calculatorForm:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            background-color: #ff6666;
+            padding: 10px;
+            border-radius: 4px;
+            color: #fff;
+        }
+    </style>
+
+    <h1>Pregnancy Calculator</h1>
+
+    <form id="calculatorForm">
+        <label for="lmp">Last Menstrual Period:</label>
+        <input type="date" id="lmp" required>
+
+        <button type="button" onclick="calculateDueDate()">Calculate Due Date</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function calculateDueDate() {
+            var lmpInput = document.getElementById('lmp').value;
+
+            if (lmpInput) {
+                var lmpDate = new Date(lmpInput);
+                var dueDate = new Date(lmpDate.getTime() + 280 * 24 * 60 * 60 * 1000);
+
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = "<p>The estimated due date is: <span style='font-weight: bold;'>" + dueDate.toISOString().split('T')[0] + "</span></p>";
+            } else {
+                alert("Please enter the last menstrual period date.");
+            }
+        }
+    </script>
+</div>
+
+{% endblock %}
