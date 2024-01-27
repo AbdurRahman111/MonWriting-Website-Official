@@ -14,7 +14,7 @@ class BlogModel(models.Model):
     slug = models.SlugField(max_length=1000, null=True, blank=True)
     image = models.ImageField(upload_to='blog_pics')
     created_at = models.DateTimeField(auto_now_add=True)
-    upload_to = models.DateTimeField(auto_now=True)
+    updated_to = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -32,6 +32,9 @@ class contact_table(models.Model):
     message = models.TextField()
     Time = models.DateTimeField(default=datetime.now(), blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
+
     def __str__(self):
         return self.name
 
@@ -41,6 +44,9 @@ class Newsletter_table(models.Model):
         verbose_name_plural = 'Newsletter Table'
     email = models.CharField(max_length=255)
     Time = models.DateTimeField(default=datetime.now(), blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.email

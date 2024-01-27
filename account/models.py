@@ -19,6 +19,9 @@ class Profile(models.Model):
     Instagram_profile = models.URLField(null=True,blank=True, default='')
     twitter_profile = models.URLField(null=True,blank=True, default='')
 
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
+
     def __str__(self):
         return f'{self.user.username}'
 

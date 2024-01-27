@@ -15,6 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+SITE_ID=1
 
 # Application definition
 
@@ -41,6 +42,9 @@ INSTALLED_APPS = [
     #3rd party app
     'ckeditor',
     'froala_editor',
+
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [

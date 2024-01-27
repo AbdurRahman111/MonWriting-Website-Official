@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from account.models import Profile
 # Create your models here.
 import readtime
+from django.urls import reverse
 
 
 
@@ -15,6 +16,8 @@ class article_chapter(models.Model):
     slug = models.SlugField(default="Auto-Generate", editable=False)
     name = models.CharField(max_length=255)
     Author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
     def save(self, *args, **kwargs):
         # make random order ID
         my_slug = slugify(self.name)
@@ -40,6 +43,9 @@ class article_chapter(models.Model):
     def all_subchapter_under_chapter(self):
         return article_subchapter.objects.filter(Chapter = self)
 
+    def get_absolute_url(self):
+        return reverse('article_details', args=[str(self.slug)])
+
 
 class article_subchapter(models.Model):
     class Meta:
@@ -48,6 +54,9 @@ class article_subchapter(models.Model):
     name = models.CharField(max_length=255)
     Chapter = models.ForeignKey(article_chapter, on_delete=models.CASCADE)
     Author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
+
     def save(self, *args, **kwargs):
         # make random order ID
         my_slug = slugify(self.name)
@@ -67,6 +76,9 @@ class article_subchapter(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('subchapter', args=[str(self.slug)])
+
 
 
 
@@ -76,6 +88,8 @@ class article_category(models.Model):
 
     slug = models.SlugField(default="Auto-Generate", editable=False)
     name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
     def save(self, *args, **kwargs):
         # make random order ID
         my_slug = slugify(self.name)
@@ -98,6 +112,9 @@ class article_category(models.Model):
     def total_article(self):
         return Article_table.objects.filter(Category=self).count()
 
+    def get_absolute_url(self):
+        return reverse('category_articles', args=[str(self.slug)])
+
 
 class Article_table(models.Model):
     class Meta:
@@ -116,6 +133,8 @@ class Article_table(models.Model):
     total_views = models.IntegerField(default=0, null=True, blank=True)
     last_hour_views = models.IntegerField(default=0, null=True, blank=True)
     Time = models.DateTimeField(default=datetime.now(), blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.slug
@@ -149,6 +168,8 @@ class Article_table(models.Model):
             pass
         super(Article_table, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('article_details', args=[str(self.slug)])
 
 class track_views(models.Model):
     class Meta:
@@ -181,6 +202,9 @@ class track_views(models.Model):
     location_city = models.CharField(max_length=200, null=True, blank=True)
     location_zip = models.CharField(max_length=200, null=True, blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
+
 
 
 class search_log(models.Model):
@@ -190,3 +214,6 @@ class search_log(models.Model):
     user_uid = models.CharField(max_length=255, null=True, blank=True)
     search_word = models.CharField(max_length=255, null=True, blank=True)
     Time = models.DateTimeField(default=datetime.now(), blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_to = models.DateTimeField(auto_now=True, blank=True, null=True)
