@@ -11,7 +11,10 @@ project/.env
 *.pot
 *.pyc
 __pycache__/
+
 db.sqlite3
+*.sqlite3
+
 media
 logs/*
 
