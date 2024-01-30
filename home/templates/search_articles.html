@@ -44,7 +44,7 @@
                                                 <li class="list-inline-item">
                                                     <a href="{% url 'category_articles' article.Category.slug %}">{{ article.Category.name }}</a>
                                                 </li>
-                                                <li class="list-inline-item">{{ article.Time.date }}</li>
+                                                <li class="list-inline-item">{{ article.created_at.date }}</li>
                                             </ul>
                                             <h5 class="post-tile">
                                                 <a href="{% url 'article_details' article.slug %}">

@@ -26,7 +26,7 @@
                                     <li class="list-inline-item">
                                         <a href="{% url 'writer' article.get_profile.user.username %}">{% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}</a>
                                     </li>
-                                    <li class="list-inline-item">{{ article.Time }}</li>
+                                    <li class="list-inline-item">{{ article.created_at }}</li>
                                 </ul>
                             </div>
                             <a href="{% url 'article_details' article.slug %}">
@@ -81,7 +81,7 @@
                                                 <a href="{% url 'article_details' article.slug %}" style="font-size: 13px;">{{ article.Title }}</a>
                                             </h6>
                                             <ul class="meta list-inline mt-1 mb-0">
-                                                <li class="list-inline-item">{{ article.Time }}</li>
+                                                <li class="list-inline-item">{{ article.created_at }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                                 <a href="{% url 'article_details' article.slug %}">{{ article.Title }}</a>
                                             </h6>
                                             <ul class="meta list-inline mt-1 mb-0">
-                                                <li class="list-inline-item">{{ article.Time }}</li>
+                                                <li class="list-inline-item">{{ article.created_at }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -160,7 +160,7 @@
                                                     {% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item">{{ article.Time }}</li>
+                                            <li class="list-inline-item">{{ article.created_at }}</li>
                                         </ul>
                                         <h5 class="post-title mb-3 mt-3">
                                             <a href="{% url 'article_details' article.slug %}">{{ article.Title }}</a>
@@ -188,7 +188,7 @@
                                                 </a>
                                             </h6>
                                             <ul class="meta list-inline mt-1 mb-0">
-                                                <li class="list-inline-item">{{ article.Time }}</li>
+                                                <li class="list-inline-item">{{ article.created_at }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -375,7 +375,7 @@
                                         <li class="list-inline-item">
                                             <a href="{% url 'writer' article.get_profile.user.username %}">{% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}</a>
                                         </li>
-                                        <li class="list-inline-item">{{ article.Time }}</li>
+                                        <li class="list-inline-item">{{ article.created_at }}</li>
                                     </ul>
                                 </div>
                                 <a href="{% url 'article_details' article.slug %}">
@@ -425,7 +425,7 @@
                                                 <li class="list-inline-item">
                                                     <a href="{% url 'category_articles' article.Category.slug %}">{{ article.Category.name }}</a>
                                                 </li>
-                                                <li class="list-inline-item">{{ article.Time.date }}</li>
+                                                <li class="list-inline-item">{{ article.created_at.date }}</li>
                                             </ul>
                                             <h5 class="post-tile">
                                                 <a href="{% url 'article_details' article.slug %}">
