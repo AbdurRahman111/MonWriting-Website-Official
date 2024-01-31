@@ -73,7 +73,7 @@
                                 <a href="{% if user.is_authenticated %}{% url 'Blogging' %}{% else %}{% url 'login_function' %}{% endif %}" class="nav-link" style="color: #fff;
                                 background: #000000;
                                 border-radius: 25px;
-                                background-color: #000000;">Write Blog</a>
+                                background-color: #000000; margin-left: 10px">Write Blog</a>
                             </li>
                             <li class="nav-item dropdown {% block active_account %}{% endblock %}">
                                 {% if user.is_authenticated %}
