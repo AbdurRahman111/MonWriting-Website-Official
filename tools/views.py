@@ -27,6 +27,9 @@ def Create_your_Own_Name_QR_code_for_Free(request):
 def YouTube_Thumbnail_Downloader(request):
     return render(request, 'tools/YouTube_Thumbnail_Viewer.html')
 
+def YouTube_Video_Downloader(request):
+    return render(request, 'tools/YouTube_Video_Downloader.html')
+
 def Word_and_Character_Counter_Tool(request):
     return render(request, 'tools/Word_and_Character_Counter_Tool.html')
 
