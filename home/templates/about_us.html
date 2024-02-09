@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ get_article.Title }}{% endblock %}
+
+{% block page_meta_description %}{{ get_article.tags }}{% endblock %}
+{% block page_meta_keywords %}{{ get_article.tags }}{% endblock %}
+
+{% block body %}
+
+<style>
+    body{
+    background:rgb(255, 255, 255);
+}
+
+.card{
+    border-left: none;
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.card:before{
+    
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#E1BEE7;
+    transform:scaleY(1);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+
+.card:after{
+    
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#8E24AA;
+    transform:scaleY(0);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+
+.card:hover::after{
+    transform:scaleY(1);
+}
+
+
+.fonts{
+    font-size:11px;
+}
+
+.social-list{
+    display:flex;
+    list-style:none;
+    justify-content:center;
+    padding:0;
+}
+
+.social-list li{
+    padding:10px;
+    color:#8E24AA;
+    font-size:19px;
+}
+
+
+.buttons button:nth-child(1){
+       border:1px solid #8E24AA !important;
+       color:#8E24AA;
+       height:40px;
+}
+
+.buttons button:nth-child(1):hover{
+       border:1px solid #8E24AA !important;
+       color:#fff;
+       height:40px;
+       background-color:#8E24AA;
+}
+
+.buttons button:nth-child(2){
+       border:1px solid #8E24AA !important;
+       background-color:#8E24AA;
+       color:#fff;
+        height:40px;
+}
+</style>
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+
+<div class="col-md-8" style="margin-left:auto; margin-right:auto">
+<div class="container ">
+
+    <h1>About Us</h1><hr>
+
+    <div class="widget rounded">
+        <div class="widget-about text-center">
+            <img src="{% static '' %}images/Original Logo.png" alt="" class="logo" style="width: 30%;margin-bottom: 20px;">
+        </div>
+    </div>
+
+    <p><strong>About MonWriting</strong></p>
+
+<p>Welcome to MonWriting, where the worlds of programming and business education converge through the experiences of Md Abdur Rahman Chowdhury. This platform serves as a virtual space for enthusiasts, learners, and experts alike to explore the realms of coding, entrepreneurship, and everything in between.</p>
+
+<p><strong>Who We Are</strong></p>
+
+<p>MonWriting is the brainchild of Md Abdur Rahman Chowdhury, a passionate individual with a flair for programming and a keen interest in business education. With a wealth of experience in these domains, Rahman envisioned a platform that would not only showcase his insights but also encourage a community of like-minded individuals to share their knowledge and experiences.</p>
+
+<p><strong>What We Offer</strong></p>
+
+<p>At MonWriting, we believe in the power of sharing knowledge. Our platform is a melting pot of programming wisdom and business education, where readers can dive into articles, tutorials, and personal anecdotes that span the spectrum of these dynamic fields. Whether you&#39;re a seasoned professional or a novice eager to learn, MonWriting caters to all levels of expertise.</p>
+
+<p><strong>Your Space to Contribute</strong></p>
+
+<p>One of the unique features of MonWriting is the ability for anyone to become a part of our community. We invite you to create an account on our platform and start contributing your own blogs. Share your insights, lessons learned, and success stories to inspire and educate others on their journey in programming and business.</p>
+
+<p><strong>Connect with Md Abdur Rahman Chowdhury</strong></p>
+
+<p>If you have questions, feedback, or just want to connect, Md Abdur Rahman Chowdhury is eager to hear from you. Feel free to reach out via email at monwritings@gmail.com. Your input and engagement are crucial in shaping the vibrant community we aim to foster at MonWriting.</p>
+
+<p>Join us on this exciting journey of learning, collaboration, and growth. Let&#39;s write the future of programming and business education together, one blog at a time.</p>
+
+<p>Happy Writing!</p>
+
+
+</div>
+</div>
+{% endblock %}
+
+

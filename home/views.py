@@ -130,6 +130,11 @@ def privacy_policy(request):
     return render(request, 'privacy_policy_page.html')
 
 
+
+def about_us(request):
+    return render(request, 'about_us.html')
+
+
 def searchbar(request):
     keyword = request.GET.get('keyword')
     all_categories = article_category.objects.all()

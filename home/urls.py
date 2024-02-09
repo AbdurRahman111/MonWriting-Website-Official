@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('', views.index, name="index"),
     path('privacy-policy/', views.privacy_policy, name="privacy_policy"),
+    path('about-us/', views.about_us, name="about_us"),
     path('searchbar', views.searchbar, name="searchbar"),
     path('function_all_categories', views.function_all_categories, name="function_all_categories"),
     path('category-articles/<str:slug>', views.category_articles, name="category_articles"),
