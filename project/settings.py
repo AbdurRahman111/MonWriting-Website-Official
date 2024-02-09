@@ -1,5 +1,13 @@
 from pathlib import Path
 import os
+
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -88,6 +96,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#             'ENGINE': 'django.db.backends.postgresql', #Database Engine
+#             'NAME': env('POSTGRES_DB'), #Database Name
+#             'USER': env("POSTGRES_USER"), #User Name
+#             'PASSWORD': env("POSTGRES_PASSWORD"), #Password
+#             'HOST': env("POSTGRES_HOST"), #Host Name (localhost)
+#             'PORT': env("POSTGRES_PORT"), #Access Port (Leave Blank)
+#         }
+# }
+
 
 
 # Password validation
