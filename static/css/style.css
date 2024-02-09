@@ -1401,9 +1401,9 @@ footer .footer-inner .copyright {
 }
 
 #return-to-top {
-    color: #8f9bad;
+    color: black;
     font-size: 13px;
-    border: 1px solid #ebebeb;
+    border: 1px solid black;
     text-decoration: none;
     border-radius: 25px;
     padding: 6px 20px;

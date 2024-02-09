@@ -408,7 +408,7 @@
                                             <span class="post-format-sm">
                                                 <i class="icon-picture"></i>
                                             </span>
-                                            <a href="{% url 'writer' article.get_profile.user.username %}">
+                                            <a href="{% url 'article_details' article.slug %}">
                                                 <div class="inner">
                                                     <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
                                                 </div>

@@ -33,6 +33,25 @@
      crossorigin="anonymous"></script>
 
     <meta name="google-adsense-account" content="ca-pub-2975170382844006">
+
+
+    <style>
+        .out_round_redius {
+            color: black;
+            font-size: 13px;
+            border: 1px solid black;
+            text-decoration: none;
+            border-radius: 25px;
+            padding: 6px 20px;
+            z-index: 4;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .out_round_redius:hover {
+            color: #fe1800;
+            border-color: #fe1800;
+        }
+    </style>
 </head>
 
 <body>
@@ -145,13 +164,27 @@
                 <div class="footer-inner">
                     <div class="row d-flex align-items-center gy-4">
                         <div class="col-md-5">
-                            <span class="copyright">&copy; 2023 MonWriting</span>
+                            <div>
+                                <a href="{% url 'privacy_policy' %}" id="" class="out_round_redius">
+                                    Privacy & Policy
+                                </a>
+                            </div><br>
+                            <div>
+                                <a href="{% url 'contact' %}" id="" class="out_round_redius" >
+                                    Contact
+                                </a>
+                            </div>
                         </div>
                         <div class="col-md-2" style="">
+                            <div>
                             <a href="#" id="return-to-top" class="">
                                 <i class="icon-arrow-up"></i>
                                 Back to Top
                             </a>
+                            </div><br>
+                            <div>
+                            <span class="copyright">&copy; 2023 MonWriting</span>
+                            </div>
                         </div>
                         <div class="col-md-5">
                             <div class="float-md-end" id="google_translate_element"></div>
