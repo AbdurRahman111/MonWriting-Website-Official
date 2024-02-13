@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Tic-Tac-Toe game - MonWriting{% endblock %}
+
+{% block active_tools %}active{% endblock %}
+{% block active_mobile_tools %}active{% endblock %}
+
+{% block page_meta_description %}Tic-Tac-Toe game.{% endblock %}
+
+{% block page_meta_keywords %}Tic-Tac-Toe game, online game, free game Tic-Tac-Toe game, online time pass game, {% endblock %}
+
+{% block body %}
+<div class="col-md-8" style="margin-left:auto; margin-right:auto;">
+
+<style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      color: #333;
+    }
+    .game-container {
+      text-align: center;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 10px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      border: 2px solid #333;
+      font-size: 2em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+    .cell:hover {
+      background-color: #ddd;
+    }
+    .status {
+      font-size: 1.2em;
+      color: #333;
+    }
+    #restartBtn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    #restartBtn:hover {
+      background-color: #45a049;
+    }
+    .cell-x {
+      background-color: #ffeb3b; /* Yellow background for X */
+      color: #333; /* Text color for X */
+    }
+    .cell-o {
+      background-color: #2196F3; /* Blue background for O */
+      color: #fff; /* Text color for O */
+    }
+  </style>
+
+<div class="game-container">
+  <h1>Tic-Tac-Toe</h1>
+
+  <div class="board" id="board">
+    <div class="cell" onclick="handleClick(0)"></div>
+    <div class="cell" onclick="handleClick(1)"></div>
+    <div class="cell" onclick="handleClick(2)"></div>
+    <div class="cell" onclick="handleClick(3)"></div>
+    <div class="cell" onclick="handleClick(4)"></div>
+    <div class="cell" onclick="handleClick(5)"></div>
+    <div class="cell" onclick="handleClick(6)"></div>
+    <div class="cell" onclick="handleClick(7)"></div>
+    <div class="cell" onclick="handleClick(8)"></div>
+  </div>
+
+  <div class="status" id="status">Player X's turn</div>
+
+  <button id="restartBtn" style="display:none" onclick="restartGame()">Restart Game</button>
+</div>
+
+<script>
+  let currentPlayer = 'X';
+  let board = ['', '', '', '', '', '', '', '', ''];
+  let gameActive = true;
+
+  function handleClick(index) {
+    if (gameActive && board[index] === '') {
+      board[index] = currentPlayer;
+      const cellElement = document.getElementById('board').children[index];
+      cellElement.innerText = currentPlayer;
+      cellElement.classList.add(currentPlayer === 'X' ? 'cell-x' : 'cell-o');
+
+      if (checkWin()) {
+        document.getElementById('status').innerText = `Player ${currentPlayer} wins!`;
+        gameActive = false;
+        document.getElementById('restartBtn').style.display = 'block';
+      } else if (board.every(cell => cell !== '')) {
+        document.getElementById('status').innerText = 'It\'s a draw!';
+        gameActive = false;
+        document.getElementById('restartBtn').style.display = 'block';
+      } else {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        document.getElementById('status').innerText = `Player ${currentPlayer}'s turn`;
+      }
+    }
+  }
+
+  function checkWin() {
+    const winningCombos = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Columns
+      [0, 4, 8], [2, 4, 6]               // Diagonals
+    ];
+
+    return winningCombos.some(combo => {
+      const [a, b, c] = combo;
+      return board[a] && board[a] === board[b] && board[a] === board[c];
+    });
+  }
+
+  function restartGame() {
+    currentPlayer = 'X';
+    board = ['', '', '', '', '', '', '', '', ''];
+    gameActive = true;
+
+    // Clear the board
+    for (let i = 0; i < 9; i++) {
+      const cellElement = document.getElementById('board').children[i];
+      cellElement.innerText = '';
+      cellElement.classList.remove('cell-x', 'cell-o');
+    }
+
+    // Reset game status and hide restart button
+    document.getElementById('status').innerText = `Player ${currentPlayer}'s turn`;
+    document.getElementById('restartBtn').style.display = 'none';
+  }
+</script>
+
+</div>
+
+{% endblock %}

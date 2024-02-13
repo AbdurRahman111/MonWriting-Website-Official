@@ -30,6 +30,9 @@ def YouTube_Thumbnail_Downloader(request):
 def YouTube_Video_Downloader(request):
     return render(request, 'tools/YouTube_Video_Downloader.html')
 
+def Tic_Tac_Toe_game(request):
+    return render(request, 'tools/Tic_Tac_Toe_game.html')
+
 def Word_and_Character_Counter_Tool(request):
     return render(request, 'tools/Word_and_Character_Counter_Tool.html')
 

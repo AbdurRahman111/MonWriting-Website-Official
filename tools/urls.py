@@ -12,6 +12,7 @@ urlpatterns = [
     path('Time-Coding/', views.Time_Coding, name="Time_Coding"),
     path('Create-your-Own-Name-QR-code-for-Free/', views.Create_your_Own_Name_QR_code_for_Free, name="Create_your_Own_Name_QR_code_for_Free"),
 
+    path('Tic_Tac_Toe_game/', views.Tic_Tac_Toe_game, name="Tic_Tac_Toe_game"),
     path('YouTube-Video-Downloader/', views.YouTube_Video_Downloader, name="YouTube_Video_Downloader"),
     path('YouTube-Thumbnail-Downloader/', views.YouTube_Thumbnail_Downloader, name="YouTube_Thumbnail_Downloader"),
     path('Word-and-Character-Counter-Tool/', views.Word_and_Character_Counter_Tool, name="Word_and_Character_Counter_Tool"),
