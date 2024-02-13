@@ -11,7 +11,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
     def items(self):
         # List the names of the views you want to include
-        return ['index', 'privacy_policy', 'contact', 'article_page', 'tools_func', 'Dynamic_Alphabet_Color', 'Motivated_Quotes_Generator', 'Love_Calculator', 'Distance_Converter', 'Time_Coding', 'Create_your_Own_Name_QR_code_for_Free', 'YouTube_Thumbnail_Downloader', 'Word_and_Character_Counter_Tool', 'About_Us_Page_Generator_for_Website', 'Password_generator_zone', 'Active_Voice_to_Passive_Voice_Converter', 'BMI_Calculator', 'Flower_Coding', 'Pregnancy_Calculator', 'Currency_Converter_Tool', 'PNG_to_JPG_Image', 'Age_Calculate_Calculator', 'Area_Calculate_Calculator', 'Percentage_Calculate_Calculator', 'YouTube_Video_Downloader', 'about_us']  # Add more view names as needed
+        return ['index', 'privacy_policy', 'contact', 'article_page', 'tools_func', 'Dynamic_Alphabet_Color', 'Motivated_Quotes_Generator', 'Love_Calculator', 'Distance_Converter', 'Time_Coding', 'Create_your_Own_Name_QR_code_for_Free', 'YouTube_Thumbnail_Downloader', 'Word_and_Character_Counter_Tool', 'About_Us_Page_Generator_for_Website', 'Password_generator_zone', 'Active_Voice_to_Passive_Voice_Converter', 'BMI_Calculator', 'Flower_Coding', 'Pregnancy_Calculator', 'Currency_Converter_Tool', 'PNG_to_JPG_Image', 'Age_Calculate_Calculator', 'Area_Calculate_Calculator', 'Percentage_Calculate_Calculator', 'YouTube_Video_Downloader', 'Tic_Tac_Toe_game', 'about_us']  # Add more view names as needed
 
     def location(self, item):
         # Use the reverse function to get the URL for each view
