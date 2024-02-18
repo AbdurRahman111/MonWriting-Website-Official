@@ -12,3 +12,6 @@ def product_landing_page(request, slug):
     get_landing_page_by_slug = ClickBank_Products_Landing_pages_table.objects.get(slug=slug)
     context={'get_landing_page_by_slug':get_landing_page_by_slug}
     return render(request, 'clickbank/clickbank_products_landing.html', context)
+
+def Sugar_Defender_product(request):
+    return render(request, 'clickbank/Sugar_Defender_product.html')
