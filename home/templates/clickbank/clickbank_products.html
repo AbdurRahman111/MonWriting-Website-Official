@@ -21,7 +21,7 @@
                             <div class="widget rounded">
                                 <div class="widget-about text-center">
                                     <img src="{{ product.image.url }}" alt="{{ product.Title }}" class="logo" style="width: 40%;margin-bottom: 2px;">
-                                    <a href="{{ product.Title }}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">{{ product.Title }}</h6></a>
+                                    <a href="{% url 'product_landing_page' product.slug %}" target="_blank"><h6 class="mb-4 text-center" style="text-align: justify; color: #fff; background: #000000; border-radius: 25px; background-color: #000000;">{{ product.Title }}</h6></a>
                                 </div>
                             </div>
                         </div>

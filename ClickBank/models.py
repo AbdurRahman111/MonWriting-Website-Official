@@ -29,7 +29,7 @@ class ClickBank_Products_Landing_pages_table(models.Model):
     def save(self, *args, **kwargs):
 
         # result = readtime.of_text(self.Description)
-        result = readtime.of_html(self.Description)
+        result = readtime.of_html(self.Landing_Page)
         self.Read_Time = result.text
 
 
