@@ -3,7 +3,7 @@ from django.contrib import sitemaps
 from django.urls import reverse
 from article.models import article_chapter, article_subchapter, article_category, Article_table
 from tools.models import tools_page_list
-
+from ClickBank.models import ClickBank_Products_Landing_pages_table
 
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = 'monthly'
@@ -73,6 +73,19 @@ class ToolsSitemap(sitemaps.Sitemap):
     def lastmod(self, obj):
         # Adjust this based on your model field
         return obj.updated_to
+
+
+class ClickBank_Products_Landing_pages_table_Sitemap(sitemaps.Sitemap):
+    changefreq = 'weekly'
+    priority = 0.6
+
+    def items(self):
+        return ClickBank_Products_Landing_pages_table.objects.all()
+
+    def lastmod(self, obj):
+        return obj.updated_to  # Adjust this based on your model field
+
+
 
 # Add more sitemap classes if needed
 

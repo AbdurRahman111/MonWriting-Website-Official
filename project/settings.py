@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'account',
     'article',
     'tools',
+    'ClickBank', # clickbank functionality
 
     #3rd party app
     'ckeditor',
