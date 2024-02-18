@@ -16,5 +16,8 @@ def product_landing_page(request, slug):
 def Sugar_Defender(request):
     return render(request, 'clickbank/Sugar_Defender.html')
 
+def Sugar_Defender_2(request):
+    return render(request, 'clickbank/Sugar_Defender_2.html')
+
 def Cortexi_Hearing_Support(request):
     return render(request, 'clickbank/Cortexi_Hearing_Support.html')
