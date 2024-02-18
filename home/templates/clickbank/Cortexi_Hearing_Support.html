@@ -1,0 +1,989 @@
+
+<!DOCTYPE html>
+<html lang="en"><head><script src="https://browser.sentry-cdn.com/7.101.1/bundle.tracing.replay.min.js" crossorigin="anonymous"></script><script type="text/javascript" src="https://prod.cbstatic.net/dist/injectable.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<title>Cortexi</title>
+
+<script data-cfasync="false" type="text/javascript" src="https://trycortexi.com//cdn-4.convertexperiments.com/js/10042665-10043848.js"></script> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700,700i&amp;display=swap">
+<link rel="stylesheet" href="https://trycortexi.com/assets/css/styles.min.css?v=1">
+<link rel="stylesheet" href="https://trycortexi.com/assets/css/single-column-layout.css?v=2">
+<link href="https://trycortexi.com/assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<script src="https://js.sentry-cdn.com/37be042c460045af910df4e5f2090579.min.js" crossorigin="anonymous"></script>
+<script>Sentry.onLoad(function() { Sentry.init({ sampleRate: 0.5, }); });</script>
+
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-86CF1JXJJ9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-86CF1JXJJ9', {});
+
+    window.ga = window.ga || {};
+
+    // config EPC log API
+    ga.log = '/epc.php';
+        
+    ga.setCookie = function (name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    ga.getCookie = function (name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) 
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    ga.logVisit = function (){
+        // JSON data to send
+        const $data = {
+            uniqid: ga.uniqid,
+            action:"visit"
+        };
+        //navigator.sendBeacon(ga.log, JSON.stringify($data));  
+    }
+
+    ga.logPurchase = function (uniqid, sku, price, url, query, type){
+        // JSON data to send
+        const $data = {
+            uniqid: uniqid,
+            action: "purchase",
+            url: url,
+            type: type,
+            sku: sku,
+            price: price
+        };
+        //navigator.sendBeacon(ga.log, JSON.stringify($data));  
+    }
+    
+    ga.ViewItem = function ($itemSKU,$itemValue){
+        gtag("event", "view_item", {
+            currency: "USD",
+            value: $itemValue,
+            items: [
+                {
+                    item_id: $itemSKU,
+                    item_name: "Cortexi (" + $itemSKU + ")",
+                }]
+        });
+        console.log("GA4 Track View Item", $itemSKU, $itemValue);
+    }
+
+    ga.BeginCheckout = function ($itemSKU,$itemValue){
+        gtag("event", "begin_checkout", {
+            currency: "USD",
+            value: $itemValue,
+            items: [
+                {
+                    item_id: $itemSKU,
+                    item_name: "Cortexi (" + $itemSKU + ")",
+                    quantity: 1,
+                    price: $itemValue                    
+                }]
+        });
+        console.log("GA4 Track Begin Checkout", $itemSKU, $itemValue);
+    }
+
+    ga.Purchase = function ($order,$itemSKU,$itemValue,$url = false){
+
+        $url = $url || window.location.pathname + encodeURIComponent(window.location.search);
+
+        gtag("event", "purchase", {
+            currency: "USD",
+            transaction_id: $order,
+            value: $itemValue,
+            page_location: $url,
+            items: [
+                {
+                    item_id: $itemSKU,
+                    item_name: "Cortexi (" + $itemSKU + ")",
+                    quantity: 1,
+                    price: $itemValue
+                }]
+        });    
+
+        if(typeof customTracker === 'function'){
+            customTracker($order, $itemSKU, $itemValue);
+        }             
+
+        console.log("GA4 Track Purchase", $order, $itemSKU, $itemValue);        
+    }
+
+    ga.waitFor = function (variableName, callback) {
+        if (typeof ga[variableName] !== 'undefined' && ga[variableName] !== null) {
+            callback();
+        } else {
+            setTimeout(function() {
+            ga.waitFor(variableName, callback);
+            }, 100);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+                    ga.uniqid = Math.floor(Math.random() * 100000) + Date.now().toString();
+            // log visits for Earning per Click computing
+            ga.url = window.location.pathname;
+            ga.query = encodeURIComponent(window.location.search);
+            // ga.logVisit;
+            ga.setCookie('ga_uniqid', ga.uniqid, 3);
+            
+                            ga.ViewItem("CTX01", 69);    
+                            ga.ViewItem("CTX06", 294);    
+                            ga.ViewItem("CTX03", 177);    
+                            
+            ga.buttons = document.getElementsByClassName('addToCart');
+            for(var i = 0; i < ga.buttons.length; i++) {
+                ga.buttons[i].addEventListener('click', (e)  => {
+                    ga.BeginCheckout(e.target.dataset.sku, e.target.dataset.price);
+                    ga.setCookie(ga.uniqid + '_sku', e.target.dataset.sku, 3);
+                    ga.setCookie(ga.uniqid + '_price', e.target.dataset.price, 3);
+                    ga.setCookie(ga.uniqid + '_url', window.location.pathname, 3);
+                    ga.setCookie(ga.uniqid + '_query', encodeURIComponent(window.location.search), 3);
+                    ga.setCookie(ga.uniqid + '_type', "bank", 3);
+                    if(typeof window[e.target.dataset.callback] === 'function'){
+                        window[e.target.dataset.callback](e);
+                    }                        
+                }, false);
+            } 
+        
+            });
+</script><script src="https://trycortexi.com//cbtb.clickbank.net/?vendor=cortexi" type="text/javascript"></script>
+<style type="text/css">@charset "UTF-8";.animated{animation-duration:1s;animation-fill-mode:both}.animated.infinite{animation-iteration-count:infinite}.animated.hinge{animation-duration:2s}.animated.flipOutX,.animated.flipOutY,.animated.bounceIn,.animated.bounceOut{animation-duration:.75s}@keyframes pulse{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}100%{transform:scale3d(1,1,1)}}.pulse{animation-name:pulse}.cbtb html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}.cbtb body{margin:0}.cbtb article,.cbtb aside,.cbtb details,.cbtb figcaption,.cbtb figure,.cbtb footer,.cbtb header,.cbtb hgroup,.cbtb main,.cbtb menu,.cbtb nav,.cbtb section,.cbtb summary{display:block}.cbtb audio,.cbtb canvas,.cbtb progress,.cbtb video{display:inline-block;vertical-align:baseline}.cbtb audio:not([controls]){display:none;height:0}.cbtb [hidden],.cbtb template{display:none}.cbtb a{background-color:transparent}.cbtb a:active,.cbtb a:hover{outline:0}.cbtb abbr[title]{border-bottom:1px dotted}.cbtb b,.cbtb strong{font-weight:700}.cbtb dfn{font-style:italic}.cbtb h1{font-size:2em;margin:.67em 0}.cbtb mark{background:#ff0;color:#000}.cbtb small{font-size:80%}.cbtb sub,.cbtb sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}.cbtb sup{top:-.5em}.cbtb sub{bottom:-.25em}.cbtb img{border:0}.cbtb svg:not(:root){overflow:hidden}.cbtb figure{margin:1em 40px}.cbtb hr{box-sizing:content-box;height:0}.cbtb pre{overflow:auto}.cbtb code,.cbtb kbd,.cbtb pre,.cbtb samp{font-family:monospace,monospace;font-size:1em}.cbtb button,.cbtb input,.cbtb optgroup,.cbtb select,.cbtb textarea{color:inherit;font:inherit;margin:0}.cbtb button{overflow:visible}.cbtb button,.cbtb select{text-transform:none}.cbtb button,.cbtb html input[type=button],.cbtb input[type=reset],.cbtb input[type=submit]{-webkit-appearance:button;cursor:pointer}.cbtb button[disabled],.cbtb html input[disabled]{cursor:default}.cbtb button::-moz-focus-inner,.cbtb input::-moz-focus-inner{border:0;padding:0}.cbtb input{line-height:normal}.cbtb input[type=checkbox],.cbtb input[type=radio]{box-sizing:border-box;padding:0}.cbtb input[type=number]::-webkit-inner-spin-button,.cbtb input[type=number]::-webkit-outer-spin-button{height:auto}.cbtb input[type=search]{-webkit-appearance:textfield;box-sizing:content-box}.cbtb input[type=search]::-webkit-search-cancel-button,.cbtb input[type=search]::-webkit-search-decoration{-webkit-appearance:none}.cbtb fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}.cbtb legend{border:0;padding:0}.cbtb textarea{overflow:auto}.cbtb optgroup{font-weight:700}.cbtb table{border-collapse:collapse;border-spacing:0}.cbtb td,.cbtb th{padding:0}.cbtb *{box-sizing:border-box}.cbtb *:before,.cbtb *:after{box-sizing:border-box}.cbtb html{font-size:10px;-webkit-tap-highlight-color:transparent}.cbtb body{font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.42857143;color:#333;background-color:#fff}.cbtb input,.cbtb button,.cbtb select,.cbtb textarea{font-family:inherit;font-size:inherit;line-height:inherit}.cbtb a{color:#337ab7;text-decoration:none}.cbtb a:hover,.cbtb a:focus{color:#23527c;text-decoration:underline}.cbtb a:focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}.cbtb figure{margin:0}.cbtb img{vertical-align:middle}.cbtb .cbtb-img-responsive{display:block;max-width:100%;height:auto}.cbtb .cbtb-img-rounded{border-radius:6px}.cbtb .cbtb-img-thumbnail{padding:4px;line-height:1.42857143;background-color:#fff;border:1px solid #ddd;border-radius:4px;transition:all .2s ease-in-out;display:inline-block;max-width:100%;height:auto}.cbtb .cbtb-img-circle{border-radius:50%}.cbtb hr{margin-top:20px;margin-bottom:20px;border:0;border-top:1px solid #eee}.cbtb .cbtb-sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);border:0}.cbtb .cbtb-sr-only-focusable:active,.cbtb .cbtb-sr-only-focusable:focus{position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto}.cbtb [role=button]{cursor:pointer}.cbtb .cbtb-container{margin-right:auto;margin-left:auto;padding-left:15px;padding-right:15px}@media(min-width:768px){.cbtb .cbtb-container{width:750px}}@media(min-width:992px){.cbtb .cbtb-container{width:970px}}@media(min-width:1200px){.cbtb .cbtb-container{width:1170px}}.cbtb .cbtb-container-fluid{margin-right:auto;margin-left:auto;padding-left:15px;padding-right:15px}.cbtb .cbtb-row{margin-left:-15px;margin-right:-15px}.cbtb .cbtb-col-xs-1,.cbtb .cbtb-col-sm-1,.cbtb .cbtb-col-md-1,.cbtb .cbtb-col-lg-1,.cbtb .cbtb-col-xs-2,.cbtb .cbtb-col-sm-2,.cbtb .cbtb-col-md-2,.cbtb .cbtb-col-lg-2,.cbtb .cbtb-col-xs-3,.cbtb .cbtb-col-sm-3,.cbtb .cbtb-col-md-3,.cbtb .cbtb-col-lg-3,.cbtb .cbtb-col-xs-4,.cbtb .cbtb-col-sm-4,.cbtb .cbtb-col-md-4,.cbtb .cbtb-col-lg-4,.cbtb .cbtb-col-xs-5,.cbtb .cbtb-col-sm-5,.cbtb .cbtb-col-md-5,.cbtb .cbtb-col-lg-5,.cbtb .cbtb-col-xs-6,.cbtb .cbtb-col-sm-6,.cbtb .cbtb-col-md-6,.cbtb .cbtb-col-lg-6,.cbtb .cbtb-col-xs-7,.cbtb .cbtb-col-sm-7,.cbtb .cbtb-col-md-7,.cbtb .cbtb-col-lg-7,.cbtb .cbtb-col-xs-8,.cbtb .cbtb-col-sm-8,.cbtb .cbtb-col-md-8,.cbtb .cbtb-col-lg-8,.cbtb .cbtb-col-xs-9,.cbtb .cbtb-col-sm-9,.cbtb .cbtb-col-md-9,.cbtb .cbtb-col-lg-9,.cbtb .cbtb-col-xs-10,.cbtb .cbtb-col-sm-10,.cbtb .cbtb-col-md-10,.cbtb .cbtb-col-lg-10,.cbtb .cbtb-col-xs-11,.cbtb .cbtb-col-sm-11,.cbtb .cbtb-col-md-11,.cbtb .cbtb-col-lg-11,.cbtb .cbtb-col-xs-12,.cbtb .cbtb-col-sm-12,.cbtb .cbtb-col-md-12,.cbtb .cbtb-col-lg-12{position:relative;min-height:1px;padding-left:15px;padding-right:15px}.cbtb .cbtb-col-xs-1,.cbtb .cbtb-col-xs-2,.cbtb .cbtb-col-xs-3,.cbtb .cbtb-col-xs-4,.cbtb .cbtb-col-xs-5,.cbtb .cbtb-col-xs-6,.cbtb .cbtb-col-xs-7,.cbtb .cbtb-col-xs-8,.cbtb .cbtb-col-xs-9,.cbtb .cbtb-col-xs-10,.cbtb .cbtb-col-xs-11,.cbtb .cbtb-col-xs-12{float:left}.cbtb .cbtb-col-xs-12{width:100%}.cbtb .cbtb-col-xs-11{width:91.66666667%}.cbtb .cbtb-col-xs-10{width:83.33333333%}.cbtb .cbtb-col-xs-9{width:75%}.cbtb .cbtb-col-xs-8{width:66.66666667%}.cbtb .cbtb-col-xs-7{width:58.33333333%}.cbtb .cbtb-col-xs-6{width:50%}.cbtb .cbtb-col-xs-5{width:41.66666667%}.cbtb .cbtb-col-xs-4{width:33.33333333%}.cbtb .cbtb-col-xs-3{width:25%}.cbtb .cbtb-col-xs-2{width:16.66666667%}.cbtb .cbtb-col-xs-1{width:8.33333333%}.cbtb .cbtb-col-xs-pull-12{right:100%}.cbtb .cbtb-col-xs-pull-11{right:91.66666667%}.cbtb .cbtb-col-xs-pull-10{right:83.33333333%}.cbtb .cbtb-col-xs-pull-9{right:75%}.cbtb .cbtb-col-xs-pull-8{right:66.66666667%}.cbtb .cbtb-col-xs-pull-7{right:58.33333333%}.cbtb .cbtb-col-xs-pull-6{right:50%}.cbtb .cbtb-col-xs-pull-5{right:41.66666667%}.cbtb .cbtb-col-xs-pull-4{right:33.33333333%}.cbtb .cbtb-col-xs-pull-3{right:25%}.cbtb .cbtb-col-xs-pull-2{right:16.66666667%}.cbtb .cbtb-col-xs-pull-1{right:8.33333333%}.cbtb .cbtb-col-xs-pull-0{right:auto}.cbtb .cbtb-col-xs-push-12{left:100%}.cbtb .cbtb-col-xs-push-11{left:91.66666667%}.cbtb .cbtb-col-xs-push-10{left:83.33333333%}.cbtb .cbtb-col-xs-push-9{left:75%}.cbtb .cbtb-col-xs-push-8{left:66.66666667%}.cbtb .cbtb-col-xs-push-7{left:58.33333333%}.cbtb .cbtb-col-xs-push-6{left:50%}.cbtb .cbtb-col-xs-push-5{left:41.66666667%}.cbtb .cbtb-col-xs-push-4{left:33.33333333%}.cbtb .cbtb-col-xs-push-3{left:25%}.cbtb .cbtb-col-xs-push-2{left:16.66666667%}.cbtb .cbtb-col-xs-push-1{left:8.33333333%}.cbtb .cbtb-col-xs-push-0{left:auto}.cbtb .cbtb-col-xs-offset-12{margin-left:100%}.cbtb .cbtb-col-xs-offset-11{margin-left:91.66666667%}.cbtb .cbtb-col-xs-offset-10{margin-left:83.33333333%}.cbtb .cbtb-col-xs-offset-9{margin-left:75%}.cbtb .cbtb-col-xs-offset-8{margin-left:66.66666667%}.cbtb .cbtb-col-xs-offset-7{margin-left:58.33333333%}.cbtb .cbtb-col-xs-offset-6{margin-left:50%}.cbtb .cbtb-col-xs-offset-5{margin-left:41.66666667%}.cbtb .cbtb-col-xs-offset-4{margin-left:33.33333333%}.cbtb .cbtb-col-xs-offset-3{margin-left:25%}.cbtb .cbtb-col-xs-offset-2{margin-left:16.66666667%}.cbtb .cbtb-col-xs-offset-1{margin-left:8.33333333%}.cbtb .cbtb-col-xs-offset-0{margin-left:0}@media(min-width:768px){.cbtb .cbtb-col-sm-1,.cbtb .cbtb-col-sm-2,.cbtb .cbtb-col-sm-3,.cbtb .cbtb-col-sm-4,.cbtb .cbtb-col-sm-5,.cbtb .cbtb-col-sm-6,.cbtb .cbtb-col-sm-7,.cbtb .cbtb-col-sm-8,.cbtb .cbtb-col-sm-9,.cbtb .cbtb-col-sm-10,.cbtb .cbtb-col-sm-11,.cbtb .cbtb-col-sm-12{float:left}.cbtb .cbtb-col-sm-12{width:100%}.cbtb .cbtb-col-sm-11{width:91.66666667%}.cbtb .cbtb-col-sm-10{width:83.33333333%}.cbtb .cbtb-col-sm-9{width:75%}.cbtb .cbtb-col-sm-8{width:66.66666667%}.cbtb .cbtb-col-sm-7{width:58.33333333%}.cbtb .cbtb-col-sm-6{width:50%}.cbtb .cbtb-col-sm-5{width:41.66666667%}.cbtb .cbtb-col-sm-4{width:33.33333333%}.cbtb .cbtb-col-sm-3{width:25%}.cbtb .cbtb-col-sm-2{width:16.66666667%}.cbtb .cbtb-col-sm-1{width:8.33333333%}.cbtb .cbtb-col-sm-pull-12{right:100%}.cbtb .cbtb-col-sm-pull-11{right:91.66666667%}.cbtb .cbtb-col-sm-pull-10{right:83.33333333%}.cbtb .cbtb-col-sm-pull-9{right:75%}.cbtb .cbtb-col-sm-pull-8{right:66.66666667%}.cbtb .cbtb-col-sm-pull-7{right:58.33333333%}.cbtb .cbtb-col-sm-pull-6{right:50%}.cbtb .cbtb-col-sm-pull-5{right:41.66666667%}.cbtb .cbtb-col-sm-pull-4{right:33.33333333%}.cbtb .cbtb-col-sm-pull-3{right:25%}.cbtb .cbtb-col-sm-pull-2{right:16.66666667%}.cbtb .cbtb-col-sm-pull-1{right:8.33333333%}.cbtb .cbtb-col-sm-pull-0{right:auto}.cbtb .cbtb-col-sm-push-12{left:100%}.cbtb .cbtb-col-sm-push-11{left:91.66666667%}.cbtb .cbtb-col-sm-push-10{left:83.33333333%}.cbtb .cbtb-col-sm-push-9{left:75%}.cbtb .cbtb-col-sm-push-8{left:66.66666667%}.cbtb .cbtb-col-sm-push-7{left:58.33333333%}.cbtb .cbtb-col-sm-push-6{left:50%}.cbtb .cbtb-col-sm-push-5{left:41.66666667%}.cbtb .cbtb-col-sm-push-4{left:33.33333333%}.cbtb .cbtb-col-sm-push-3{left:25%}.cbtb .cbtb-col-sm-push-2{left:16.66666667%}.cbtb .cbtb-col-sm-push-1{left:8.33333333%}.cbtb .cbtb-col-sm-push-0{left:auto}.cbtb .cbtb-col-sm-offset-12{margin-left:100%}.cbtb .cbtb-col-sm-offset-11{margin-left:91.66666667%}.cbtb .cbtb-col-sm-offset-10{margin-left:83.33333333%}.cbtb .cbtb-col-sm-offset-9{margin-left:75%}.cbtb .cbtb-col-sm-offset-8{margin-left:66.66666667%}.cbtb .cbtb-col-sm-offset-7{margin-left:58.33333333%}.cbtb .cbtb-col-sm-offset-6{margin-left:50%}.cbtb .cbtb-col-sm-offset-5{margin-left:41.66666667%}.cbtb .cbtb-col-sm-offset-4{margin-left:33.33333333%}.cbtb .cbtb-col-sm-offset-3{margin-left:25%}.cbtb .cbtb-col-sm-offset-2{margin-left:16.66666667%}.cbtb .cbtb-col-sm-offset-1{margin-left:8.33333333%}.cbtb .cbtb-col-sm-offset-0{margin-left:0}}@media(min-width:992px){.cbtb .cbtb-col-md-1,.cbtb .cbtb-col-md-2,.cbtb .cbtb-col-md-3,.cbtb .cbtb-col-md-4,.cbtb .cbtb-col-md-5,.cbtb .cbtb-col-md-6,.cbtb .cbtb-col-md-7,.cbtb .cbtb-col-md-8,.cbtb .cbtb-col-md-9,.cbtb .cbtb-col-md-10,.cbtb .cbtb-col-md-11,.cbtb .cbtb-col-md-12{float:left}.cbtb .cbtb-col-md-12{width:100%}.cbtb .cbtb-col-md-11{width:91.66666667%}.cbtb .cbtb-col-md-10{width:83.33333333%}.cbtb .cbtb-col-md-9{width:75%}.cbtb .cbtb-col-md-8{width:66.66666667%}.cbtb .cbtb-col-md-7{width:58.33333333%}.cbtb .cbtb-col-md-6{width:50%}.cbtb .cbtb-col-md-5{width:41.66666667%}.cbtb .cbtb-col-md-4{width:33.33333333%}.cbtb .cbtb-col-md-3{width:25%}.cbtb .cbtb-col-md-2{width:16.66666667%}.cbtb .cbtb-col-md-1{width:8.33333333%}.cbtb .cbtb-col-md-pull-12{right:100%}.cbtb .cbtb-col-md-pull-11{right:91.66666667%}.cbtb .cbtb-col-md-pull-10{right:83.33333333%}.cbtb .cbtb-col-md-pull-9{right:75%}.cbtb .cbtb-col-md-pull-8{right:66.66666667%}.cbtb .cbtb-col-md-pull-7{right:58.33333333%}.cbtb .cbtb-col-md-pull-6{right:50%}.cbtb .cbtb-col-md-pull-5{right:41.66666667%}.cbtb .cbtb-col-md-pull-4{right:33.33333333%}.cbtb .cbtb-col-md-pull-3{right:25%}.cbtb .cbtb-col-md-pull-2{right:16.66666667%}.cbtb .cbtb-col-md-pull-1{right:8.33333333%}.cbtb .cbtb-col-md-pull-0{right:auto}.cbtb .cbtb-col-md-push-12{left:100%}.cbtb .cbtb-col-md-push-11{left:91.66666667%}.cbtb .cbtb-col-md-push-10{left:83.33333333%}.cbtb .cbtb-col-md-push-9{left:75%}.cbtb .cbtb-col-md-push-8{left:66.66666667%}.cbtb .cbtb-col-md-push-7{left:58.33333333%}.cbtb .cbtb-col-md-push-6{left:50%}.cbtb .cbtb-col-md-push-5{left:41.66666667%}.cbtb .cbtb-col-md-push-4{left:33.33333333%}.cbtb .cbtb-col-md-push-3{left:25%}.cbtb .cbtb-col-md-push-2{left:16.66666667%}.cbtb .cbtb-col-md-push-1{left:8.33333333%}.cbtb .cbtb-col-md-push-0{left:auto}.cbtb .cbtb-col-md-offset-12{margin-left:100%}.cbtb .cbtb-col-md-offset-11{margin-left:91.66666667%}.cbtb .cbtb-col-md-offset-10{margin-left:83.33333333%}.cbtb .cbtb-col-md-offset-9{margin-left:75%}.cbtb .cbtb-col-md-offset-8{margin-left:66.66666667%}.cbtb .cbtb-col-md-offset-7{margin-left:58.33333333%}.cbtb .cbtb-col-md-offset-6{margin-left:50%}.cbtb .cbtb-col-md-offset-5{margin-left:41.66666667%}.cbtb .cbtb-col-md-offset-4{margin-left:33.33333333%}.cbtb .cbtb-col-md-offset-3{margin-left:25%}.cbtb .cbtb-col-md-offset-2{margin-left:16.66666667%}.cbtb .cbtb-col-md-offset-1{margin-left:8.33333333%}.cbtb .cbtb-col-md-offset-0{margin-left:0}}@media(min-width:1200px){.cbtb .cbtb-col-lg-1,.cbtb .cbtb-col-lg-2,.cbtb .cbtb-col-lg-3,.cbtb .cbtb-col-lg-4,.cbtb .cbtb-col-lg-5,.cbtb .cbtb-col-lg-6,.cbtb .cbtb-col-lg-7,.cbtb .cbtb-col-lg-8,.cbtb .cbtb-col-lg-9,.cbtb .cbtb-col-lg-10,.cbtb .cbtb-col-lg-11,.cbtb .cbtb-col-lg-12{float:left}.cbtb .cbtb-col-lg-12{width:100%}.cbtb .cbtb-col-lg-11{width:91.66666667%}.cbtb .cbtb-col-lg-10{width:83.33333333%}.cbtb .cbtb-col-lg-9{width:75%}.cbtb .cbtb-col-lg-8{width:66.66666667%}.cbtb .cbtb-col-lg-7{width:58.33333333%}.cbtb .cbtb-col-lg-6{width:50%}.cbtb .cbtb-col-lg-5{width:41.66666667%}.cbtb .cbtb-col-lg-4{width:33.33333333%}.cbtb .cbtb-col-lg-3{width:25%}.cbtb .cbtb-col-lg-2{width:16.66666667%}.cbtb .cbtb-col-lg-1{width:8.33333333%}.cbtb .cbtb-col-lg-pull-12{right:100%}.cbtb .cbtb-col-lg-pull-11{right:91.66666667%}.cbtb .cbtb-col-lg-pull-10{right:83.33333333%}.cbtb .cbtb-col-lg-pull-9{right:75%}.cbtb .cbtb-col-lg-pull-8{right:66.66666667%}.cbtb .cbtb-col-lg-pull-7{right:58.33333333%}.cbtb .cbtb-col-lg-pull-6{right:50%}.cbtb .cbtb-col-lg-pull-5{right:41.66666667%}.cbtb .cbtb-col-lg-pull-4{right:33.33333333%}.cbtb .cbtb-col-lg-pull-3{right:25%}.cbtb .cbtb-col-lg-pull-2{right:16.66666667%}.cbtb .cbtb-col-lg-pull-1{right:8.33333333%}.cbtb .cbtb-col-lg-pull-0{right:auto}.cbtb .cbtb-col-lg-push-12{left:100%}.cbtb .cbtb-col-lg-push-11{left:91.66666667%}.cbtb .cbtb-col-lg-push-10{left:83.33333333%}.cbtb .cbtb-col-lg-push-9{left:75%}.cbtb .cbtb-col-lg-push-8{left:66.66666667%}.cbtb .cbtb-col-lg-push-7{left:58.33333333%}.cbtb .cbtb-col-lg-push-6{left:50%}.cbtb .cbtb-col-lg-push-5{left:41.66666667%}.cbtb .cbtb-col-lg-push-4{left:33.33333333%}.cbtb .cbtb-col-lg-push-3{left:25%}.cbtb .cbtb-col-lg-push-2{left:16.66666667%}.cbtb .cbtb-col-lg-push-1{left:8.33333333%}.cbtb .cbtb-col-lg-push-0{left:auto}.cbtb .cbtb-col-lg-offset-12{margin-left:100%}.cbtb .cbtb-col-lg-offset-11{margin-left:91.66666667%}.cbtb .cbtb-col-lg-offset-10{margin-left:83.33333333%}.cbtb .cbtb-col-lg-offset-9{margin-left:75%}.cbtb .cbtb-col-lg-offset-8{margin-left:66.66666667%}.cbtb .cbtb-col-lg-offset-7{margin-left:58.33333333%}.cbtb .cbtb-col-lg-offset-6{margin-left:50%}.cbtb .cbtb-col-lg-offset-5{margin-left:41.66666667%}.cbtb .cbtb-col-lg-offset-4{margin-left:33.33333333%}.cbtb .cbtb-col-lg-offset-3{margin-left:25%}.cbtb .cbtb-col-lg-offset-2{margin-left:16.66666667%}.cbtb .cbtb-col-lg-offset-1{margin-left:8.33333333%}.cbtb .cbtb-col-lg-offset-0{margin-left:0}}.cbtb .cbtb-fade{opacity:0;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";transition:opacity .15s linear}.cbtb .cbtb-fade.cbtb-in{opacity:1;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"}.cbtb .cbtb-collapse{display:none}.cbtb .cbtb-collapse.cbtb-in{display:block}.cbtb tr.cbtb-collapse.cbtb-in{display:table-row}.cbtb tbody.cbtb-collapse.cbtb-in{display:table-row-group}.cbtb .cbtb-collapsing{position:relative;height:0;overflow:hidden;transition-property:height,visibility;transition-duration:.35s;transition-timing-function:ease}.cbtb .cbtb-close{float:right;font-size:21px;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:.2;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";filter:alpha(opacity=20)}.cbtb .cbtb-close:hover,.cbtb .cbtb-close:focus{color:#000;text-decoration:none;cursor:pointer;opacity:.5;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50)}.cbtb button.cbtb-close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-appearance:none}.cbtb .cbtb-modal-open{overflow:hidden}.cbtb .cbtb-modal{display:none;overflow:hidden;position:fixed;top:0;right:0;bottom:0;left:0;z-index:1050;-webkit-overflow-scrolling:touch;outline:0}.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog{transform:translate(0,-25%);transition:transform .3s ease-out}.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog{transform:translate(0,0)}.cbtb .cbtb-modal-open .cbtb-modal{overflow-x:hidden;overflow-y:auto}.cbtb .cbtb-modal-dialog{position:relative;width:auto;margin:10px}.cbtb .cbtb-modal-content{position:relative;background-color:#fff;border:1px solid #999;border:1px solid rgba(0,0,0,.2);border-radius:6px;box-shadow:0 3px 9px rgba(0,0,0,.5);background-clip:padding-box;outline:0}.cbtb .cbtb-modal-backdrop{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1040;background-color:#000}.cbtb .cbtb-modal-backdrop.cbtb-fade{opacity:0;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter:alpha(opacity=0)}.cbtb .cbtb-modal-backdrop.cbtb-in{opacity:.5;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50)}.cbtb .cbtb-modal-header{padding:15px;border-bottom:1px solid #e5e5e5;min-height:16.42857143px}.cbtb .cbtb-modal-header .cbtb-close{margin-top:-2px}.cbtb .cbtb-modal-title{margin:0;line-height:1.42857143}.cbtb .cbtb-modal-body{position:relative;padding:15px}.cbtb .cbtb-modal-footer{padding:15px;text-align:right;border-top:1px solid #e5e5e5}.cbtb .cbtb-modal-footer .cbtb-btn+.cbtb-btn{margin-left:5px;margin-bottom:0}.cbtb .cbtb-modal-footer .cbtb-btn-group .cbtb-btn+.cbtb-btn{margin-left:-1px}.cbtb .cbtb-modal-footer .cbtb-btn-block+.cbtb-btn-block{margin-left:0}.cbtb .cbtb-modal-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}@media(min-width:768px){.cbtb .cbtb-modal-dialog{width:600px;margin:30px auto}.cbtb .cbtb-modal-content{box-shadow:0 5px 15px rgba(0,0,0,.5)}.cbtb .cbtb-modal-sm{width:300px}}@media(min-width:992px){.cbtb .cbtb-modal-lg{width:900px}}.cbtb .cbtb-clearfix:before,.cbtb .cbtb-clearfix:after,.cbtb .cbtb-container:before,.cbtb .cbtb-container:after,.cbtb .cbtb-container-fluid:before,.cbtb .cbtb-container-fluid:after,.cbtb .cbtb-row:before,.cbtb .cbtb-row:after,.cbtb .cbtb-modal-footer:before,.cbtb .cbtb-modal-footer:after{content:" ";display:table}.cbtb .cbtb-clearfix:after,.cbtb .cbtb-container:after,.cbtb .cbtb-container-fluid:after,.cbtb .cbtb-row:after,.cbtb .cbtb-modal-footer:after{clear:both}.cbtb .cbtb-center-block{display:block;margin-left:auto;margin-right:auto}.cbtb .cbtb-pull-right{float:right!important}.cbtb .cbtb-pull-left{float:left!important}.cbtb .cbtb-hide{display:none!important}.cbtb .cbtb-show{display:block!important}.cbtb .cbtb-invisible{visibility:hidden}.cbtb .cbtb-text-hide{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0}.cbtb .cbtb-hidden{display:none!important}.cbtb .cbtb-affix{position:fixed}@-ms-viewport{width:device-width}.cbtb .cbtb-visible-xs,.cbtb .cbtb-visible-sm,.cbtb .cbtb-visible-md,.cbtb .cbtb-visible-lg{display:none!important}.cbtb .cbtb-visible-xs-block,.cbtb .cbtb-visible-xs-inline,.cbtb .cbtb-visible-xs-inline-block,.cbtb .cbtb-visible-sm-block,.cbtb .cbtb-visible-sm-inline,.cbtb .cbtb-visible-sm-inline-block,.cbtb .cbtb-visible-md-block,.cbtb .cbtb-visible-md-inline,.cbtb .cbtb-visible-md-inline-block,.cbtb .cbtb-visible-lg-block,.cbtb .cbtb-visible-lg-inline,.cbtb .cbtb-visible-lg-inline-block{display:none!important}@media(max-width:767px){.cbtb .cbtb-visible-xs{display:block!important}.cbtb table.cbtb-visible-xs{display:table!important}.cbtb tr.cbtb-visible-xs{display:table-row!important}.cbtb th.cbtb-visible-xs,.cbtb td.cbtb-visible-xs{display:table-cell!important}}@media(max-width:767px){.cbtb .cbtb-visible-xs-block{display:block!important}}@media(max-width:767px){.cbtb .cbtb-visible-xs-inline{display:inline!important}}@media(max-width:767px){.cbtb .cbtb-visible-xs-inline-block{display:inline-block!important}}@media(min-width:768px) and (max-width:991px){.cbtb .cbtb-visible-sm{display:block!important}.cbtb table.cbtb-visible-sm{display:table!important}.cbtb tr.cbtb-visible-sm{display:table-row!important}.cbtb th.cbtb-visible-sm,.cbtb td.cbtb-visible-sm{display:table-cell!important}}@media(min-width:768px) and (max-width:991px){.cbtb .cbtb-visible-sm-block{display:block!important}}@media(min-width:768px) and (max-width:991px){.cbtb .cbtb-visible-sm-inline{display:inline!important}}@media(min-width:768px) and (max-width:991px){.cbtb .cbtb-visible-sm-inline-block{display:inline-block!important}}@media(min-width:992px) and (max-width:1199px){.cbtb .cbtb-visible-md{display:block!important}.cbtb table.cbtb-visible-md{display:table!important}.cbtb tr.cbtb-visible-md{display:table-row!important}.cbtb th.cbtb-visible-md,.cbtb td.cbtb-visible-md{display:table-cell!important}}@media(min-width:992px) and (max-width:1199px){.cbtb .cbtb-visible-md-block{display:block!important}}@media(min-width:992px) and (max-width:1199px){.cbtb .cbtb-visible-md-inline{display:inline!important}}@media(min-width:992px) and (max-width:1199px){.cbtb .cbtb-visible-md-inline-block{display:inline-block!important}}@media(min-width:1200px){.cbtb .cbtb-visible-lg{display:block!important}.cbtb table.cbtb-visible-lg{display:table!important}.cbtb tr.cbtb-visible-lg{display:table-row!important}.cbtb th.cbtb-visible-lg,.cbtb td.cbtb-visible-lg{display:table-cell!important}}@media(min-width:1200px){.cbtb .cbtb-visible-lg-block{display:block!important}}@media(min-width:1200px){.cbtb .cbtb-visible-lg-inline{display:inline!important}}@media(min-width:1200px){.cbtb .cbtb-visible-lg-inline-block{display:inline-block!important}}@media(max-width:767px){.cbtb .cbtb-hidden-xs{display:none!important}}@media(min-width:768px) and (max-width:991px){.cbtb .cbtb-hidden-sm{display:none!important}}@media(min-width:992px) and (max-width:1199px){.cbtb .cbtb-hidden-md{display:none!important}}@media(min-width:1200px){.cbtb .cbtb-hidden-lg{display:none!important}}.cbtb .cbtb-visible-print{display:none!important}@media print{.cbtb .cbtb-visible-print{display:block!important}.cbtb table.cbtb-visible-print{display:table!important}.cbtb tr.cbtb-visible-print{display:table-row!important}.cbtb th.cbtb-visible-print,.cbtb td.cbtb-visible-print{display:table-cell!important}}.cbtb .cbtb-visible-print-block{display:none!important}@media print{.cbtb .cbtb-visible-print-block{display:block!important}}.cbtb .cbtb-visible-print-inline{display:none!important}@media print{.cbtb .cbtb-visible-print-inline{display:inline!important}}.cbtb .cbtb-visible-print-inline-block{display:none!important}@media print{.cbtb .cbtb-visible-print-inline-block{display:inline-block!important}}@media print{.cbtb .cbtb-hidden-print{display:none!important}}.cbtb br{display:block}.cbtb :before,.cbtb :after{display:none}.cbtb .header-mode .show-header{display:block!important}.cbtb .header-mode .show-tab{display:none!important}.cbtb .tab-mode .show-tab{display:block!important}.cbtb .tab-mode .show-header{display:none!important}.cbtb .trust-badge .show-header{display:block!important}.cbtb .trust-badge .show-tab{display:none!important}.cbtb .cbtb-modal-dialog .show-tab{display:block!important}.cbtb .cbtb-modal-dialog .show-header{display:none!important}@media(min-width:480px){.cbtb .trust-badge.tab .show-tab{display:block!important}.cbtb .trust-badge.tab .show-header{display:none!important}}@media(min-width:768px){.cbtb .cbtb-modal-dialog.header .show-header{display:block!important}.cbtb .cbtb-modal-dialog.header .show-tab{display:none!important}}.cbtb .trust-badge{background-color:white;width:100%;position:relative;padding:0;min-height:26px}.cbtb .trust-badge a{outline:none}.cbtb .trust-badge a img{margin-top:4px;max-height:18px}.cbtb .trust-badge a img.accented{margin-top:3px}.cbtb .trust-badge.header{border:none!important}.cbtb .trust-badge.header img:hover{animation:pulse 500ms}@media(max-width:480px){.cbtb .trust-badge{border:none!important;display:none!important}.cbtb .trust-badge img:hover{animation:pulse 500ms}}@media(min-width:480px){.cbtb .trust-badge.tab{position:absolute;z-index:2147483646;padding:5px 10px;border-radius:0 0 5px 5px;width:190px;height:50px;top:0;left:10px}.cbtb .trust-badge.tab:hover{animation:pulse 500ms}.cbtb .trust-badge.tab a img{max-height:100%;max-width:100%}.cbtb .trust-badge.tab.top-left,.cbtb .trust-badge.tab.top-right{border-top:none}.cbtb .trust-badge.tab.top-right,.cbtb .trust-badge.tab.bottom-right{left:auto;right:10px}.cbtb .trust-badge.tab.bottom-left,.cbtb .trust-badge.tab.bottom-right{position:fixed;top:auto;bottom:0;border-radius:5px 5px 0 0;border-top:auto;border-bottom:none}}@media(max-width:480px){.cbtb .cbtb-modal,.cbtb .cbtb-modal-backdrop,.cbtb .cbtb-modal.cbtb-fade.cbtb-in{display:none!important}}.cbtb #cbTabBBBReviewLink,.cbtb #cbHeaderBBBReviewLink{visibility:hidden}.cbtb .cbtb-modal,.cbtb .cbtb-modal.cbtb-fade.cbtb-in{position:fixed;z-index:2147483647;top:0;right:0;bottom:0;left:0;width:100%;margin:0;padding:0;background:none;border:none;box-shadow:none}.cbtb .cbtb-modal .cbtb-modal-dialog,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog{padding:0;top:0;width:400px;max-width:100%;margin:0 auto;border:none}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content{border-radius:0 0 6px 6px}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-close.ie8,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-close.ie8{filter:none}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-row,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-row{padding:0}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header{padding:5px 15px}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header a,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header a{outline:none}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header a img,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header a img{margin:10px 0;max-width:67%}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header a img.accented,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header a img.accented{margin:7px 0 10px}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header .bbb,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header .bbb{max-width:27%}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header .bbb img,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header .bbb img{margin:0;max-width:100%}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header .cbtb-close,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-header .cbtb-close{position:absolute;top:15px;right:15px}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body p,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body p{line-height:1.5em;margin-bottom:5px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;font-size:12px!important;font-weight:400!important}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body p.trust-statement,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body p.trust-statement{font-size:14px!important}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body p.trust-statement strong,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body p.trust-statement strong{word-wrap:break-word}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body .bbb,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body .bbb{max-width:20%;position:absolute;top:10px;right:10px}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body .bbb img,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body .bbb img{max-width:100%}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body .cbtb-close,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .cbtb-modal-body .cbtb-close{position:absolute;bottom:15px;right:15px}.cbtb .cbtb-modal .cbtb-modal-dialog .cbtb-modal-content .show-header,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog .cbtb-modal-content .show-header{display:none}.cbtb .cbtb-modal-open{overflow:auto!important}.cbtb .cbtb-modal-backdrop{opacity:0!important;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"}@media(min-width:480px){.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab.bottom-left,.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab.bottom-right{transform:translate(0,25%)}.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab.bottom-left,.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab.bottom-right{transform:translate(0,0)}.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab,.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.tab{position:absolute;margin:0;left:10px}.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab.top-right,.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab.top-right,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.tab.top-right,.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab.bottom-right,.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab.bottom-right,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.tab.bottom-right{left:auto;right:10px}.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab.bottom-left,.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab.bottom-left,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.tab.bottom-left,.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab.bottom-right,.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab.bottom-right,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.tab.bottom-right{top:auto;bottom:-6px}.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab.bottom-left .cbtb-modal-content,.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab.bottom-left .cbtb-modal-content,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.tab.bottom-left .cbtb-modal-content,.cbtb .cbtb-modal.cbtb-fade .cbtb-modal-dialog.tab.bottom-right .cbtb-modal-content,.cbtb .cbtb-modal.cbtb-in .cbtb-modal-dialog.tab.bottom-right .cbtb-modal-content,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.tab.bottom-right .cbtb-modal-content{border-radius:6px 6px 0 0;border-bottom:none}}@media(min-width:768px){.cbtb .cbtb-modal .cbtb-modal-dialog.header,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.header{width:550px}.cbtb .cbtb-modal .cbtb-modal-dialog.header .cbtb-modal-content .cbtb-modal-header a img,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.header .cbtb-modal-content .cbtb-modal-header a img{max-width:400px}.cbtb .cbtb-modal .cbtb-modal-dialog.header .cbtb-modal-content .show-tab,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.header .cbtb-modal-content .show-tab{display:none}.cbtb .cbtb-modal .cbtb-modal-dialog.header .cbtb-modal-content .show-header,.cbtb .cbtb-modal.cbtb-fade.cbtb-in .cbtb-modal-dialog.header .cbtb-modal-content .show-header{display:block}}.cbtb .trust-badge,.cbtb .cbtb-modal-content{border:1px solid #ccc;color:#2f485c!important}.cbtb .trust-badge .cbtb-modal-header,.cbtb .cbtb-modal-content .cbtb-modal-header{border-bottom:1px solid #ccc}.cbtb .trust-badge .cbtb-close,.cbtb .cbtb-modal-content .cbtb-close{opacity:.6;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";color:#2f485c!important}.cbtb .trust-badge.light-grey,.cbtb .cbtb-modal-content.light-grey{background-color:#f2f2f2!important;border:1px solid #ccc;color:#2f485c!important}.cbtb .trust-badge.light-grey .cbtb-modal-header,.cbtb .cbtb-modal-content.light-grey .cbtb-modal-header{border-bottom:1px solid #ccc}.cbtb .trust-badge.light-grey .cbtb-close,.cbtb .cbtb-modal-content.light-grey .cbtb-close{color:#2f485c!important}.cbtb .trust-badge.dark-grey,.cbtb .cbtb-modal-content.dark-grey{background-color:#333!important;border:1px solid #8a959e;color:#ccc!important}.cbtb .trust-badge.dark-grey .cbtb-modal-header,.cbtb .cbtb-modal-content.dark-grey .cbtb-modal-header{border-bottom:1px solid #8a959e}.cbtb .trust-badge.dark-grey .cbtb-close,.cbtb .cbtb-modal-content.dark-grey .cbtb-close{color:#ccc!important}.cbtb .trust-badge.black,.cbtb .cbtb-modal-content.black{background-color:#000!important;border:1px solid #2f485c;color:#fff!important}.cbtb .trust-badge.black .cbtb-modal-header,.cbtb .cbtb-modal-content.black .cbtb-modal-header{border-bottom:1px solid #2f485c}.cbtb .trust-badge.black .cbtb-close,.cbtb .cbtb-modal-content.black .cbtb-close{color:#fff!important}.cbtb .trust-badge.light-blue,.cbtb .cbtb-modal-content.light-blue{background-color:#c4dceb!important;border:1px solid #8a959e;color:#2f485c!important}.cbtb .trust-badge.light-blue .cbtb-modal-header,.cbtb .cbtb-modal-content.light-blue .cbtb-modal-header{border-bottom:1px solid #8a959e}.cbtb .trust-badge.light-blue .cbtb-close,.cbtb .cbtb-modal-content.light-blue .cbtb-close{color:#2f485c!important}.cbtb .trust-badge.dark-blue,.cbtb .cbtb-modal-content.dark-blue{background-color:#2f485c!important;border:1px solid #8a959e;color:#ccc!important}.cbtb .trust-badge.dark-blue .cbtb-modal-header,.cbtb .cbtb-modal-content.dark-blue .cbtb-modal-header{border-bottom:1px solid #8a959e}.cbtb .trust-badge.dark-blue .cbtb-close,.cbtb .cbtb-modal-content.dark-blue .cbtb-close{color:#ccc!important}.cbtb .trust-badge.light-yellow,.cbtb .cbtb-modal-content.light-yellow{background-color:#faebab!important;border:1px solid #8a959e;color:#2f485c!important}.cbtb .trust-badge.light-yellow .cbtb-modal-header,.cbtb .cbtb-modal-content.light-yellow .cbtb-modal-header{border-bottom:1px solid #8a959e}.cbtb .trust-badge.light-yellow .cbtb-close,.cbtb .cbtb-modal-content.light-yellow .cbtb-close{color:#2f485c!important}.cbtb .trust-badge.light-green,.cbtb .cbtb-modal-content.light-green{background-color:#c8edc8!important;border:1px solid #ccc;color:#2f485c!important}.cbtb .trust-badge.light-green .cbtb-modal-header,.cbtb .cbtb-modal-content.light-green .cbtb-modal-header{border-bottom:1px solid #ccc}.cbtb .trust-badge.light-green .cbtb-close,.cbtb .cbtb-modal-content.light-green .cbtb-close{color:#2f485c!important}.cbtb-modal-open{overflow:hidden;overflow:auto!important}.cbtb-modal-backdrop,.cbtb-modal-backdrop.cbtb-fade.cbtb-in{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1040;background-color:#000;opacity:0!important;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"}</style>
+
+
+
+
+    <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '713476100971301');
+fbq('track', 'ViewContent');
+</script>
+
+<script>
+    function hit_initialte_event(){
+    !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '713476100971301');
+        fbq('track', 'InitiateCheckout');
+    }
+</script>
+
+<noscript>
+    <img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=713476100971301&ev=ViewContent&noscript=1"
+/>
+</noscript>
+
+<noscript>
+    <img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=713476100971301&ev=InitiateCheckout&noscript=1"
+/>
+</noscript>
+
+
+<!-- End Meta Pixel Code -->
+</head>
+<body class="large-player"><div class="cbtb"><!--[if (!IE) | (gt IE 7)]--><div id="cbBadge" class="trust-badge  header light-green cbtb-clearfix"><a id="cbInfoModalLink" href="#" data-toggle="cbtb-modal" data-target="#cbInfoModal" rel="noopener"><img class=" show-header cbtb-center-block" src="https://prod.cbstatic.net/dist/assets/logo-header-dark-blue-en.png"> <img class=" show-tab cbtb-center-block" src="https://prod.cbstatic.net/dist/assets/logo-tab-dark-blue-en.png"></a></div><!--[endif]--><div id="cbInfoModal" class="cbtb-modal cbtb-fade"><div class=" header cbtb-modal-dialog" role="document"><div class="light-green cbtb-modal-content"><div class="cbtb-modal-header"><!--[if (!IE) | (gt IE 8)]--><button type="button" class="show-header cbtb-close" data-dismiss="cbtb-modal" aria-label="Close">×</button><!--[endif]--><!--[if IE 8]>
+ <button type="button" class="ie8 show-header cbtb-close" data-dismiss="cbtb-modal" aria-label="Close">
+ &times;
+ </button>
+ <![endif]--><a id="cbTabBBBReviewLink" class="show-tab bbb cbtb-pull-right" target="_blank" title="ClickBank BBB Business Review" rel="noopener" href="http://www.bbb.org/snakeriver/business-reviews/internet-shopping/clickbank-in-boise-id-5004291/#bbbonlineclick"><img alt="ClickBank BBB Business Review" src="https://seal-boise.bbb.org/seals/blue-seal-153-100-clickbank-5004291.png"></a> <a href="#" data-dismiss="cbtb-modal" aria-label="Close" rel="noopener"><img class=" show-header" src="https://prod.cbstatic.net/dist/assets/logo-header-dark-blue-en.png"> <img class=" show-tab" src="https://prod.cbstatic.net/dist/assets/logo-tab-dark-blue-en.png"></a></div><div class="cbtb-modal-body"><div class="cbtb-row"><div class="cbtb-col-sm-9"><p class="trust-statement"><span class="translate">ClickBank is the trusted retailer for</span> <strong>trycortexi.com</strong>.</p></div><div class="cbtb-col-sm-3"></div></div><div class="cbtb-row"><div class="cbtb-col-sm-9"><p class="translate">If you aren't completely satisfied with your purchase, let us know. We'll make it right. Your satisfaction is guaranteed!</p></div><div class="cbtb-col-sm-3"></div><a id="cbHeaderBBBReviewLink" class="show-header bbb" target="_blank" title="ClickBank BBB Business Review" rel="noopener" href="http://www.bbb.org/snakeriver/business-reviews/internet-shopping/clickbank-in-boise-id-5004291/#bbbonlineclick"><img alt="ClickBank BBB Business Review" src="https://seal-boise.bbb.org/seals/blue-seal-153-100-clickbank-5004291.png"></a><!--[if (!IE) | (gt IE 8)]--><button type="button" class="show-tab cbtb-close" data-dismiss="cbtb-modal" aria-label="Close">×</button><!--[endif]--><!--[if IE 8]>
+ <button type="button" class="ie8 show-tab cbtb-close" data-dismiss="cbtb-modal" aria-label="Close">
+ &times;
+ </button>
+ <![endif]--></div></div></div></div></div></div>
+<section class="bg-primary p-2 pt-4">
+<div class="container">
+<h1 class="text-center vsl-heading">Claim Your Discounted Cortexi Below While Stock Lasts</h1>
+</div>
+</section>
+<div class="mb-5 offer">
+<div class="container container-big">
+<div class="p-4 bg-primary triangle"></div>
+<div class="row pt-5">
+<div class="col-md-4 text-center mb-3 zoom  order-md-first order-sm-last order-sm-last order-last">
+<div class="bottleArea ">
+<div class="row">
+<div class="col-sm-6 col-md-12 bottleTop">
+<div class="bottleTitle">
+<h1 class="mb-0">Try One</h1>
+<h4 class="mt-0">30 Day Supply</h4>
+</div>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/PRODx1-500px.png">
+</div>
+<div class="col-sm-6 col-md-12 addToCartArea">
+<div class="bottlePrice">
+<h2 class="display-4">$69</h2>
+<span class="perBottle">Per<br>Bottle<br></span>
+<div class="youSave">
+<p>YOU SAVE $110!</p>
+</div>
+<a class="addToCart" data-sku="CTX01" data-price="69" data-link-type="vsl-cta" data-link-index="1" href="https://cortexi.pay.clickbank.net/?cbfid=54085&amp;cbskin=43282&amp;cbitems=1&amp;cbexit=3274&amp;cbtimer=1786" target="_blank" onclick="hit_initialte_event()">Add to Cart</a>
+<p class="money-back"><em>• 60 Day Money-Back Guarantee •</em></p>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/cards.png?h=7c547dcd262bc9ade62bb2fcad545fe3">
+<h3>
+<s class="oldPrice mx-1">$179</s>
+<span class="newPrice mx-1">$69<br></span>
+<span class="shipping">+SHIPPING&nbsp;</span>
+</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4 text-center mb-3 zoom order-md-1 order-sm-first order-first">
+<div class="bottleArea  featured">
+<div class="row">
+<div class="col-sm-6 col-md-12 bottleTop">
+<div class="bottleTitle">
+<h1 class="mb-0">Best Value</h1>
+<h4 class="mt-0">180 Day Supply</h4>
+</div>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/PRODx6-500px.png">
+</div>
+<div class="col-sm-6 col-md-12 addToCartArea">
+<div class="bottlePrice">
+<h2 class="display-4">$49</h2>
+<span class="perBottle">Per<br>Bottle<br></span>
+<div class="youSave">
+<p>YOU SAVE $780!</p>
+</div>
+<a class="addToCart" data-sku="CTX06" data-price="294" data-link-type="vsl-cta" data-link-index="6" href="https://cortexi.pay.clickbank.net/?cbfid=53991&amp;cbskin=43284&amp;cbitems=3&amp;cbexit=3274&amp;cbtimer=1786" target="_blank" onclick="hit_initialte_event()">Add to Cart</a>
+<p class="money-back"><em>• 60 Day Money-Back Guarantee •</em></p>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/cards.png?h=7c547dcd262bc9ade62bb2fcad545fe3">
+<h3>
+<s class="oldPrice mx-1">$1074</s>
+<span class="newPrice mx-1">$294<br></span>
+<span class="shipping">US SHIPPING&nbsp;</span>
+<span class="freeShiping">FREE</span>
+</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4 text-center mb-3 zoom order-md-last">
+<div class="bottleArea ">
+<div class="row">
+<div class="col-sm-6 col-md-12 bottleTop">
+<div class="bottleTitle">
+<h1 class="mb-0">Most Popular</h1>
+<h4 class="mt-0">90 Day Supply</h4>
+</div>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/PRODx3-500px.png">
+</div>
+<div class="col-sm-6 col-md-12 addToCartArea">
+<div class="bottlePrice">
+<h2 class="display-4">$59</h2>
+<span class="perBottle">Per<br>Bottle<br></span>
+<div class="youSave">
+<p>YOU SAVE $360!</p>
+</div>
+<a class="addToCart" data-sku="CTX03" data-price="177" data-link-type="vsl-cta" data-link-index="3" href="https://cortexi.pay.clickbank.net/?cbfid=53991&amp;cbskin=43283&amp;cbitems=2&amp;cbexit=3274&amp;cbtimer=1786" target="_blank" onclick="hit_initialte_event()">Add to Cart</a>
+<p class="money-back"><em>• 60 Day Money-Back Guarantee •</em></p>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/cards.png?h=7c547dcd262bc9ade62bb2fcad545fe3">
+<h3>
+<s class="oldPrice mx-1">$537</s>
+<span class="newPrice mx-1">$177<br></span>
+<span class="shipping">US SHIPPING&nbsp;</span>
+<span class="freeShiping">FREE</span>
+</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-9 col-sm-5 col-md-4 col-4 mx-auto d-block">
+<div class="d-block mx-auto">
+<h4 class="text-center">Our customers say</h4>
+</div>
+<div class="d-block mx-auto"><img class="img-fluid" src="https://trycortexi.com/assets/img/rating.png"></div>
+<div class="d-block mx-auto">
+<p class="text-center">based on 16,200+ reviews!</p>
+</div>
+</div>
+</div>
+</div>
+</div> <section class="bg-secondary">
+<div class="container p-4 py-xl-5 py-xs-1">
+<div class="row">
+<div class="col-lg-7">
+<h4 class="hero-heading text-primary"><strong>CORTEXI</strong></h4>
+<h1 class="main-heading">360° Hearing Support</h1>
+<p class="display-6"><em>Give Your Ears A Rest</em></p>
+<p>When I first started working on the formula that was to become Cortexi, I never would have imagined in a million years that I would one day help thousands of people from around the world fulfill their dreams of improving their hearing health.<br><br>It’s people like you that make all those years of research and testing worthwhile, and I hope you manage to get the most out of Cortexi while I can still afford to produce it at these prices.<br></p>
+<div class="row">
+<div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-4"><img class="img-fluid" src="https://trycortexi.com/assets/img/signature.png"></div>
+<div class="col-6 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+<p><strong>Jonathan Miller</strong><br>Creator of Cortexi</p>
+</div>
+</div>
+</div>
+<div class="col-lg-5 d-lg-block d-md-none d-sm-none d-none"><img class="img-fluid" src="https://trycortexi.com/assets/img/PRODx1.png"></div>
+</div>
+</div>
+</section>
+<section class="bg-light no-url">
+<div class="container">
+<h1 class="w-75 mx-auto main-heading text-center my-4">Order <span class="text-primary">6 Bottles</span>&nbsp;Or <span class="text-primary">3 Bottles</span>&nbsp;And Get <span class="is-underlined">2 FREE Bonuses</span>!</h1>
+<div class="row gy-4 gy-md-0">
+<div class="col-12 col-sm-6 col-md-6">
+<div class="m-1 bonuses">
+<div><img class="img-fluid" src="https://trycortexi.com/assets/img/hear-like-a-pro2.jpg"></div>
+<div class="bonus-title">
+<h2 class="text-white"><strong>FREE BONUS #1</strong></h2>
+</div>
+<div class="bonus-text m-3">
+<p class="small-11p text-center text-muted">*This image represents a digital download and not a physical book.</p>
+<h4 class="fw-bold text-center">Hear <br>Like A Pro</h4>
+</div>
+</div>
+</div>
+<div class="col-sm-6 col-md-6">
+<div class="m-1 bonuses">
+<div><img class="img-fluid" src="https://trycortexi.com/assets/img/bonus2.jpg"></div>
+<div class="bonus-title">
+<h2 class="text-white"><strong>FREE BONUS #2</strong></h2>
+</div>
+<div class="bonus-text m-3">
+<p class="small-11p text-center text-muted">*This image represents a digital download and not a physical book.</p>
+<h4 class="fw-bold text-center">Powerful Ways To Sharpen Your Memory</h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="faq">
+<div class="container p-4 py-xl-5 bg-white">
+<div>
+<h3 class="testi-heading text-center">Real Cortexi Users Real&nbsp;<span class="is-underlined">Life‑Changing Results</span></h3>
+<div class="row p-5 sp-image">
+<div class="col-6 col-md-3 col-lg-3"><img class="polaroid img-fluid" src="https://trycortexi.com/assets/img/u1.jpg"></div>
+<div class="col-6 col-md-3 col-lg-3"><img class="polaroid img-fluid" src="https://trycortexi.com/assets/img/u2.jpg"></div>
+<div class="col-6 col-md-3 col-lg-3"><img class="polaroid img-fluid" src="https://trycortexi.com/assets/img/u3.jpg"></div>
+<div class="col-6 col-md-3 col-lg-3"><img class="polaroid rotate5 img-fluid" src="https://trycortexi.com/assets/img/u4.jpg"></div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-3 col-md-2 col-lg-2"><img class="img-fluid d-block mx-auto testimonial-thumb" src="https://trycortexi.com/assets/img/t1.jpg"></div>
+<div class="col">
+<h5><strong>I’ve never felt sharper</strong></h5>
+<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg>
+<p class="d-inline text-success fw-bold">&nbsp;Verified Purchase</p>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-quote fs-4">
+<path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 9 7.558V11a1 1 0 0 0 1 1h2Zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 3 7.558V11a1 1 0 0 0 1 1h2Z"></path>
+</svg><span>Cortexi did wonders to support my hearing. I work as an audio engineer, so protecting my ears against noise is a must. Go for the 6-bottle pack - it’s the best investment you’ll ever make.<br><strong>Sam W. </strong>- Huston, TX&nbsp;</span></p>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-3 col-md-2 col-lg-2"><img class="img-fluid testimonial-thumb d-block mx-auto" src="https://trycortexi.com/assets/img/t2.jpg"></div>
+<div class="col">
+<h5><strong>People kept asking me about it</strong></h5>
+<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg>
+<p class="d-inline text-success fw-bold">&nbsp;Verified Purchase</p>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-quote fs-4">
+<path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 9 7.558V11a1 1 0 0 0 1 1h2Zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 3 7.558V11a1 1 0 0 0 1 1h2Z"></path>
+</svg><span>It’s only been three weeks since I started taking Cortexi, but I love how easy it is to take and how well it works to support my mental sharpness. I put a couple of drops in my morning coffee and just go on my way. I’ve even shared my supply with a few friends and they’re already coming back for more!<br><strong>Gary V.</strong> - Albany, NY</span></p>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-3 col-md-2 col-lg-2"><img class="img-fluid testimonial-thumb d-block mx-auto" src="https://trycortexi.com/assets/img/t3.jpg"></div>
+<div class="col">
+<h5><strong>The gift that keeps on giving</strong></h5>
+<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg>
+<p class="d-inline text-success fw-bold">&nbsp;Verified Purchase</p>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-quote fs-4">
+<path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 9 7.558V11a1 1 0 0 0 1 1h2Zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 3 7.558V11a1 1 0 0 0 1 1h2Z"></path>
+</svg><span>&nbsp; I treasure my peace and quiet more than anything. So I’m well aware just how important the health of my ears is. Knowing that by taking Cortexi I’m feeding my hearing these essential nutrients helps me sleep better at night. Definitely give this one a try.<br><strong>Jack B. </strong>- Seattle, WA</span></p>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-3 col-md-2 col-lg-2"><img class="img-fluid testimonial-thumb d-block mx-auto" src="https://trycortexi.com/assets/img/t4.jpg"></div>
+<div class="col">
+<h5><strong>It’s like a fog has been lifted…</strong></h5>
+<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-star-fill fs-5 text-warning mb-2">
+<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+</svg>
+<p class="d-inline text-success fw-bold">&nbsp;Verified Purchase</p>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-quote fs-4">
+<path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 9 7.558V11a1 1 0 0 0 1 1h2Zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 3 7.558V11a1 1 0 0 0 1 1h2Z"></path>
+</svg><span>I actually took Cortexi on the recommendation of a friend, after I’d already tried everything else. Let me tell you - nothing on the market compares to this. I’m three months in, my mind is sharp and the mental fog has lifted!<br><strong>Jim D. </strong>- Madison, WI&nbsp;</span></p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-secondary">
+<div class="container py-5">
+<div class="row bg-white rounded-4">
+<div class="col-md-4 col-lg-4"><img class="img-fluid mx-auto d-block" src="https://trycortexi.com/assets/img/guarantee.jpg"></div>
+<div class="col-md-8 col-lg-8">
+<h2 class="fw-bolder">60-DAY MONEY BACK GUARANTEE 100% SATISFACTION GUARANTEED<br></h2>
+<p>Cortexi comes with a 100% money back guarantee - 60 full days from your original purchase. If you're not totally and completely satisfied with our product or your results within the first 60 days simply let us know by calling our toll-free number or dropping us an email and we'll gladly give you a <strong>full refund within 48 hours</strong> of the product being returned. <br><br>
+That's right - simply return the product, even your empty bottles, anytime within 60 days of your purchase and you'll receive a full, no-questions-asked refund (minus shipping and handling fees).</p>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="container">
+<p class="text-center py-xl-5 py-xs-3">&nbsp;<span class="fs-3 fw-bolder">Inside Every Cortexi Drop You’ll Find:<br></span><span class="is-underlined">Over 20 Carefully-Selected Ingredients</span>&nbsp;That Support Healthy Hearing, Including:</p>
+<div class="row d-xl-flex justify-content-xl-center text-center">
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+<div><img class="img-fluid ingredients-thumb" src="https://trycortexi.com/assets/img/grapes.png"></div>
+<div class="text-center ingredients-name">
+<h5><strong>Grape Seed</strong></h5>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;Antioxidants protect the ear</p>
+</div>
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+<div><img class="img-fluid ingredients-thumb" src="https://trycortexi.com/assets/img/greenTea.png"></div>
+<div class="text-center ingredients-name">
+<h5><strong>Green Tea</strong></h5>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;Improves blood flow to the ears</p>
+</div>
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+<div><img class="img-fluid ingredients-thumb" src="https://trycortexi.com/assets/img/gymnema.png"></div>
+<div class="text-center ingredients-name">
+<h5><strong>Gymnema Sylvestre</strong></h5>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;Supports hearing</p>
+</div>
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+<div><img class="img-fluid ingredients-thumb" src="https://trycortexi.com/assets/img/capsicum.png"></div>
+<div class="text-center ingredients-name">
+<h5><strong>Capsicum Annuum</strong></h5>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;Supports healthy inflammation</p>
+</div>
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+<div><img class="img-fluid ingredients-thumb" src="https://trycortexi.com/assets/img/i-ginseng-root.jpg"></div>
+<div class="text-center ingredients-name">
+<h5><strong>Panax Ginseng</strong></h5>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;Neuroprotective properties</p>
+</div>
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+<div><img class="img-fluid ingredients-thumb" src="https://trycortexi.com/assets/img/i-astagalus.jpg"></div>
+<div class="text-center ingredients-name">
+<h5><strong>Astragalus</strong></h5>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp; Supports clear sounds </p>
+</div>
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+<div><img class="img-fluid ingredients-thumb" src="https://trycortexi.com/assets/img/i-chromium.jpg"></div>
+<div class="text-center ingredients-name">
+<h5><strong>Chromium Picolinate</strong></h5>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg><span style="color: rgb(51, 51, 51);">&nbsp;</span>Supports auditory health</p>
+</div>
+<div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+<div><img class="img-fluid ingredients-thumb" src="https://trycortexi.com/assets/img/i-maca-root.jpg"></div>
+<div class="text-center ingredients-name">
+<h5><strong>Maca Root</strong></h5>
+</div>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg><span style="color: rgb(51, 51, 51);">&nbsp;</span>Boosts Your Energy</p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-light mx-auto py-5">
+<div class="container">
+<h2 class="text-primary text-center fw-bold mb-4">Frequently Asked Questions</h2>
+<div class="accordion accordion-flush" role="tablist" id="accordion-2">
+<div class="accordion-item">
+<h2 class="accordion-header" role="tab"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-1" aria-expanded="true" aria-controls="accordion-2 .item-1">Is Cortexi right for Me?</button></h2>
+<div class="accordion-collapse collapse show item-1" role="tabpanel" data-bs-parent="#accordion-2">
+<div class="accordion-body">
+<p class="mb-0">Cortexi has provided amazing hearing support for men and women in their 30s, 40, 50s and even 70s. Because it was engineered based on teachings of modern science, Cortexi formula is very gentle yet very powerful at the same time using pure plant ingredients and natural minerals. And you can rest assured knowing it's manufactured in the United States in a state-of-the-art FDA registered and GMP certified facility.</p>
+</div>
+</div>
+</div>
+<div class="accordion-item">
+<h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-2" aria-expanded="false" aria-controls="accordion-2 .item-2">What kind of results can I expect from Cortexi?</button></h2>
+<div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-2">
+<div class="accordion-body">
+<p class="mb-0">Cortexi is a powerful and effective hearing support and all-day energy helper. Thousands of people enjoy taking Cortexi every day with great results and we have not received a single complaint yet. Once your body adapts to the ingredients you will notice less noise and better ear health.</p>
+</div>
+</div>
+</div>
+<div class="accordion-item">
+<h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-3" aria-expanded="false" aria-controls="accordion-2 .item-3">How long will it take to see results?</button></h2>
+<div class="accordion-collapse collapse item-3" role="tabpanel" data-bs-parent="#accordion-2">
+<div class="accordion-body">
+<p class="mb-0">We're all different and that's why the time it takes to see results varies. Most people start feeling a difference after the first week. In our tests, the best results come when you take Cortexi consistently for 3 months (or longer) to support and optimize your entire system. Therefore, we strongly recommend you take advantage of our 3 or 6 bottle discount package.</p>
+</div>
+</div>
+</div>
+<div class="accordion-item">
+<h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-4" aria-expanded="false" aria-controls="accordion-2 .item-4">What is the best way to take Cortexi?</button></h2>
+<div class="accordion-collapse collapse item-4" role="tabpanel" data-bs-parent="#accordion-2">
+<div class="accordion-body">
+<p class="mb-0">Take one dropper in the morning before breakfast and take another dropper before lunch. You can place it under your tongue, dissolve it in a glass of water, or natural juice. You will love the results and how you'll feel. A full dropper contains approximately 15 drops of liquid.</p>
+</div>
+</div>
+</div>
+<div class="accordion-item">
+<h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-5" aria-expanded="false" aria-controls="accordion-2 .item-5">What if Cortexi doesn’t work for me?</button></h2>
+<div class="accordion-collapse collapse item-5" role="tabpanel" data-bs-parent="#accordion-2">
+<div class="accordion-body">
+<p class="mb-0">I demand you are enthusiastic with your purchase, not just satisfied. And you won't know until you try it! So you can use Cortexi for 60 days, with my "No Questions Asked 100% Money Back Guarantee". The only way to be totally convinced is to try this amazing formula and experience the results for yourself.</p>
+</div>
+</div>
+</div>
+<div class="accordion-item">
+<h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-6" aria-expanded="false" aria-controls="accordion-2 .item-6">Where can I buy Cortexi and how quickly can I get it?</button></h2>
+<div class="accordion-collapse collapse item-6" role="tabpanel" data-bs-parent="#accordion-2">
+<div class="accordion-body">
+<p class="mb-0">To make sure you are buying the original product and to ensure the purity of ingredients please buy from the official website only. We'll ship your order directly to your home or office using a premium carrier such as FedEx or UPS. We strive to ship every order within 24 working hours and to make things easy you will receive an email with your tracking number so that you can follow your package. On average, the package will arrive at your doorstep somewhere between 5 to 10 days for domestic orders.</p>
+</div>
+</div>
+</div>
+<div class="accordion-item">
+<h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-7" aria-expanded="false" aria-controls="accordion-2 .item-7">Is my purchase secure? How many times will you charge my card?</button></h2>
+<div class="accordion-collapse collapse item-7" role="tabpanel" data-bs-parent="#accordion-2">
+<div class="accordion-body">
+<p class="mb-0">To purchase Cortexi you are only asked for a one time payment right on this page. There are no other future payments needed to benefit from this product. This website is highly secure. We use industry-leading technology (such as SSLs) to keep your information safe and private.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="benefits">
+<div class="container mt-5">
+<div class="row">
+<div class="col-sm-4 col-md-4 text-center"><img class="img-fluid rounded-circle" src="https://trycortexi.com/assets/img/benefits1.jpg">
+<p class="fs-3 fw-bolder"><strong><span style="color: rgb(0, 0, 0);">SUPPORTS HEALTHY HEARING</span></strong></p>
+</div>
+<div class="col-sm-4 col-md-4 text-center"><img class="img-fluid rounded-circle" src="https://trycortexi.com/assets/img/benefits2.jpg">
+<p class="fs-3 fw-bolder">STRENGTHENS MEMORY</p>
+</div>
+<div class="col-sm-4 col-md-4 text-center"><img class="img-fluid rounded-circle" src="https://trycortexi.com/assets/img/benefits3.jpg">
+<p class="fs-3 fw-bolder">SHARPENS MENTAL ACUITY</p>
+</div>
+</div>
+<p>Cortexi's <strong>incredible formula</strong> brings together high quality raw ingredients sourced from different parts of the world that work in synergy for maximum performance. It is the only natural supplement that supports <strong>healthy hearing </strong>with <strong>proven results</strong>. Cortexi’s many benefits include:</p>
+<div class="row d-xl-flex align-items-xl-center row-cols-1 row-cols-sm-2 row-cols-md-3">
+<div class="col">
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle fs-2 text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;<strong>Natural Formula</strong></p>
+</div>
+<div class="col">
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle fs-2 text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;<strong>Plant Ingredients</strong></p>
+</div>
+<div class="col">
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle fs-2 text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;<strong>Non-GMO</strong></p>
+</div>
+<div class="col">
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle fs-2 text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;<strong>Easy To Take</strong></p>
+</div>
+<div class="col">
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle fs-2 text-primary float-start">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;<strong>Can be added to your coffee or any other drink</strong></p>
+</div>
+<div class="col">
+<p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle fs-2 text-primary">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg>&nbsp;<strong>Non-Habit Forming</strong></p>
+</div>
+</div>
+<div><button class="btn btn-primary btn-lg d-block mx-auto cta-button" type="button">ORDER NOW</button></div>
+</div>
+</section>
+<section class=".bg-light">
+<div class="container py-4 py-xl-5">
+<div class="row gy-4 gy-md-0 d-xl-flex justify-content-xl-center">
+<div class="col d-md-flex align-items-md-center">
+<div class="width-450">
+<h2 class="text-uppercase fw-bold">EXPERIENCE 360° HEARING FOR YOURSELF</h2>
+<p class="my-3">100% Natural Formula Expressly Designed to Support Healthy Hearing and Mental Sharpness Well Into Your Golden Years.</p>
+<p class="my-3">Experience for yourself the joys of:</p>
+<div class="fw-bold d-flex align-items-center"><span class="bs-icon-md d-flex justify-content-center align-items-center bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-danger">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg></span><span>Hearing your loved ones clearly, and the sound of your favorite song *</span></div>
+<div class="fw-bold d-flex align-items-center"><span class="bs-icon-md d-flex justify-content-center align-items-center bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-danger">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg></span><span>Reduced noise and interference *</span></div>
+<div class="fw-bold d-flex align-items-center"><span class="bs-icon-md d-flex justify-content-center align-items-center bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-check2-circle text-danger">
+<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+</svg></span><span>Increased mental sharpness and stronger ability to form memories *</span></div>
+</div>
+</div>
+</div>
+<p style="">* Results may vary. Always seek the guidance of your doctor or other qualified health professional with any questions you may have regarding your health or a medical condition before taking any supplementation.</p>
+</div>
+</section>
+<section class="mt-5 bg-light">
+<div class="container py-4 py-xl-5">
+<div class="row gy-4 gy-md-0">
+<div class="col-md-6 col-lg-6 order-sm-last order-md-last"><img class="rounded img-fluid d-block mx-auto" src="https://trycortexi.com/assets/img/PRODx1-badge.png"></div>
+<div class="col-md-6 col-lg-6 d-md-flex align-items-md-center order-sm-first order-first order-md-last">
+<div class="hero-text-box">
+<div>
+<h1 class="main-heading hero-heading" style="color: rgb(0,0,0);">Give your ears<br>a rest!</h1>
+</div>
+<h3 class="hero-text">Get the free e-books&nbsp;<br><strong><span style="color: rgba(var(--bs-white-rgb),var(--bs-text-opacity)) ; background-color: rgba(255, 255, 255, 0);">Meditation PDF&nbsp;Guide</span></strong>&nbsp;and&nbsp;<br><strong><span style="color: rgba(var(--bs-white-rgb),var(--bs-text-opacity)) ; background-color: rgba(255, 255, 255, 0);">Sharpen Memory PDF Guide</span></strong>&nbsp;<br>for any multi-month purchase</h3><button class="btn btn-primary btn-lg cta-button" type="button">ORDER NOW</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="free-shipping">
+<div class="container">
+<div class="row">
+<div class="col-md-12 col-lg-3"><img class="img-fluid mx-auto d-block shipping-icon" src="https://trycortexi.com/assets/img/shipping.svg"></div>
+<div class="col-md-12 col-lg-9 align-self-center">
+<div class="text-center">
+<h3 class="fw-bolder">Every <span class="is-underlined">6 Bottles</span>&nbsp;Order Gets <span class="is-underlined">FREE Shipping</span>&nbsp;Too!</h3>
+<h5>*96% Of Customers Order 6 Bottles (Our Recommended Option)</h5>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-primary p-2 pt-4">
+<div class="container">
+<h3 class="text-center fw-bolder text-white">Take advantage of this limited offer<br>to stock up on Cortexi while<br>supplies last!</h3>
+</div>
+</section>
+<div class="mb-5 offer">
+<div class="container container-big">
+<div class="p-4 bg-primary triangle"></div>
+<div class="row pt-5">
+<div class="col-md-4 text-center mb-3 zoom  order-md-first order-sm-last order-sm-last order-last">
+<div class="bottleArea ">
+<div class="row">
+<div class="col-sm-6 col-md-12 bottleTop">
+<div class="bottleTitle">
+<h1 class="mb-0">Try One</h1>
+<h4 class="mt-0">30 Day Supply</h4>
+</div>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/PRODx1-500px.png">
+</div>
+<div class="col-sm-6 col-md-12 addToCartArea">
+<div class="bottlePrice">
+<h2 class="display-4">$69</h2>
+<span class="perBottle">Per<br>Bottle<br></span>
+<div class="youSave">
+<p>YOU SAVE $110!</p>
+</div>
+<a class="addToCart" data-sku="CTX01" data-price="69" data-link-type="vsl-cta" data-link-index="1" href="https://cortexi.pay.clickbank.net/?cbfid=54085&amp;cbskin=43282&amp;cbitems=1&amp;cbexit=3274&amp;cbtimer=1786" target="_blank" onclick="hit_initialte_event()">Add to Cart</a>
+<p class="money-back"><em>• 60 Day Money-Back Guarantee •</em></p>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/cards.png?h=7c547dcd262bc9ade62bb2fcad545fe3">
+<h3>
+<s class="oldPrice mx-1">$179</s>
+<span class="newPrice mx-1">$69<br></span>
+<span class="shipping">+SHIPPING&nbsp;</span>
+</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4 text-center mb-3 zoom order-md-1 order-sm-first order-first">
+<div class="bottleArea  featured">
+<div class="row">
+<div class="col-sm-6 col-md-12 bottleTop">
+<div class="bottleTitle">
+<h1 class="mb-0">Best Value</h1>
+<h4 class="mt-0">180 Day Supply</h4>
+</div>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/PRODx6-500px.png">
+</div>
+<div class="col-sm-6 col-md-12 addToCartArea">
+<div class="bottlePrice">
+<h2 class="display-4">$49</h2>
+<span class="perBottle">Per<br>Bottle<br></span>
+<div class="youSave">
+<p>YOU SAVE $780!</p>
+</div>
+<a class="addToCart" data-sku="CTX06" data-price="294" data-link-type="vsl-cta" data-link-index="6" href="https://cortexi.pay.clickbank.net/?cbfid=53991&amp;cbskin=43284&amp;cbitems=3&amp;cbexit=3274&amp;cbtimer=1786" target="_blank" onclick="hit_initialte_event()">Add to Cart</a>
+<p class="money-back"><em>• 60 Day Money-Back Guarantee •</em></p>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/cards.png?h=7c547dcd262bc9ade62bb2fcad545fe3">
+<h3>
+<s class="oldPrice mx-1">$1074</s>
+<span class="newPrice mx-1">$294<br></span>
+<span class="shipping">US SHIPPING&nbsp;</span>
+<span class="freeShiping">FREE</span>
+</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4 text-center mb-3 zoom order-md-last">
+<div class="bottleArea ">
+<div class="row">
+<div class="col-sm-6 col-md-12 bottleTop">
+<div class="bottleTitle">
+<h1 class="mb-0">Most Popular</h1>
+<h4 class="mt-0">90 Day Supply</h4>
+</div>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/PRODx3-500px.png">
+</div>
+<div class="col-sm-6 col-md-12 addToCartArea">
+<div class="bottlePrice">
+<h2 class="display-4">$59</h2>
+<span class="perBottle">Per<br>Bottle<br></span>
+<div class="youSave">
+<p>YOU SAVE $360!</p>
+</div>
+<a class="addToCart" data-sku="CTX03" data-price="177" data-link-type="vsl-cta" data-link-index="3" href="https://cortexi.pay.clickbank.net/?cbfid=53991&amp;cbskin=43283&amp;cbitems=2&amp;cbexit=3274&amp;cbtimer=1786" target="_blank" onclick="hit_initialte_event()">Add to Cart</a>
+<p class="money-back"><em>• 60 Day Money-Back Guarantee •</em></p>
+<img class="img-fluid" src="https://trycortexi.com/assets/img/cards.png?h=7c547dcd262bc9ade62bb2fcad545fe3">
+<h3>
+<s class="oldPrice mx-1">$537</s>
+<span class="newPrice mx-1">$177<br></span>
+<span class="shipping">US SHIPPING&nbsp;</span>
+<span class="freeShiping">FREE</span>
+</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-9 col-sm-5 col-md-4 col-4 mx-auto d-block">
+<div class="d-block mx-auto">
+<h4 class="text-center">Our customers say</h4>
+</div>
+<div class="d-block mx-auto"><img class="img-fluid" src="https://trycortexi.com/assets/img/rating.png"></div>
+<div class="d-block mx-auto">
+<p class="text-center">based on 16,200+ reviews!</p>
+</div>
+</div>
+</div>
+</div>
+</div> <section class="guarantee bg-light">
+<div class="container py-5">
+<div class="row bg-white rounded-4">
+<div class="col-md-4 col-lg-4"><img class="img-fluid mx-auto d-block" src="https://trycortexi.com/assets/img/guarantee.jpg"></div>
+<div class="col-md-8 col-lg-8">
+<h2 class="fw-bolder">60-DAY MONEY BACK GUARANTEE 100% SATISFACTION GUARANTEED<br></h2>
+<p>Cortexi comes with a 100% money back guarantee - 60 full days from your original purchase. If you're not totally and completely satisfied with our product or your results within the first 60 days simply let us know by calling our toll-free number or dropping us an email and we'll gladly give you a full refund within 48 hours of the product being returned. <br><br>
+That's right - simply return the product, even your empty bottles, anytime within 60 days of your purchase and you'll receive a full, no-questions-asked refund (minus shipping and handling fees).</p>
+</div>
+</div>
+</div>
+</section>
+<script>
+        function orderButtons(buttons, offer) {
+            var obj = this;
+            window.ctaButtons = this;
+            obj.scrollToOffer = function (event) {
+                event.preventDefault();
+                var target = document.querySelector(offer);
+                target.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+            };
+            obj.init = function () {
+                elements = document.querySelectorAll(buttons);
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].addEventListener('click', obj.scrollToOffer, false);
+                }
+            }
+            obj.init();
+        }
+        cta = new orderButtons(".cta-button", ".offer");    
+    </script> <section class="mt-4">
+<div class="container">
+<h3 class="text-center"><strong>Scientific References</strong></h3>
+<div class="row reference">
+<div class="col-md-6 col-lg-6 col-xl-6">
+<div class="row d-xxl-flex align-items-xxl-center">
+<div class="col"><img class="img-fluid img-fluid mx-auto" src="https://trycortexi.com/assets/img/university-of-leicester-logo-vector.png"></div>
+<div class="col"><img class="img-fluid img-fluid mx-auto" src="https://trycortexi.com/assets/img/manch.png"></div>
+</div>
+</div>
+<div class="col-md-6 col-lg-6 col-xl-6">
+<div class="row d-xxl-flex align-items-xxl-center">
+<div class="col"><img class="img-fluid img-fluid mx-auto" src="https://trycortexi.com/assets/img/pngfind.png"></div>
+<div class="col"><img class="img-fluid img-fluid mx-auto" src="https://trycortexi.com/assets/img/coch.png"></div>
+</div>
+</div>
+<div class="col-md-6 col-lg-6">
+<ol class="reference_list">
+<li>Rebooting the brain helps stop the ring of tinnitus in rats - National Institute on Deafness and Other Communication Disorders (NIDCD)</li>
+<li>The link between hearing loss and Alzheimer’s disease&nbsp;</li>
+<li>White, P. M., Doetzlhofer, A., Lee, Y. S., Groves, A. K., and Segil, N. (2006). Mammalian cochlear supporting cells can divide and trans-differentiate into hair cells. Nature 441, 984–987.&nbsp;</li>
+<li>Tinnitus Epidemiology: Prevalence, Severity, Exposures And Treatment Patterns In The United States</li>
+<li>What Herbs are Good for Hearing Loss?</li>
+<li>Neuroprotective potential of phytochemicals&nbsp;- G. Phani Kumar and Farhath Khanum - Jul-Dec 2012&nbsp;</li>
+<li>A Course in Miracles by Helen Schucman</li>
+<li>Identification of medicinal plants of Urmia for treatment of gastrointestinal disorders</li>
+<li>The Benefits of California Poppy (Eschscholzia californica)</li>
+<li>Tinnitus is the result of the brain trying, but failing, to repair itself&nbsp;- Georgetown University Medical Center - Jan 2011</li>
+<li>Free radical production and ischemic brain damage: influence of postischemic oxygen tension - Agardh CD and others</li>
+<li>B Vitamins and the Brain: Mechanisms, Dose and Efficacy-A Review - David O. Kennedy - Feb 2016</li>
+</ol>
+</div>
+<div class="col-md-6 col-lg-6">
+<ol class="reference_list" start="13">
+<li>Mapping cortical hubs in tinnitus.&nbsp;- Winfried Schlee and others - Nov 2009</li>
+<li>Intracranial Mapping of a Cortical Tinnitus System using Residual Inhibition - WilliamSedley and others - Apr 2015</li>
+<li>Neurotoxicity of General Anesthetics: Cause for Concern?&nbsp;- Misha Perouansky and Hugh C. Hemmings - Dec 2010</li>
+<li>Potential Links between Impaired One-Carbon Metabolism Due to Polymorphisms, Inadequate B-Vitamin Status, and the Development of Alzheimer's Disease.&nbsp;- Troesch B and others - Dec 2016</li>
+<li>Neurotoxicity of General Anesthetics: Cause for Concern?” - Misha Perouansky and Hugh C. Hemmings - Dec 2010&nbsp;</li>
+<li>Singh V.K., Newman V.L., Berg A.N., MacVittie T.J. Animal models for acute radiation syndrome drug discovery. Expert Opin. Drug Discov. 2015;10:497–517. doi: 10.1517/17460441.2015.1023290</li>
+<li>Abayomi O.K. Pathogenesis of irradiation-induced cognitive dysfunction. Acta Oncol. 1996;35:659–663. doi: 10.3109/02841869609083995</li>
+<li>Davydov M., Krikorian A.D. Eleutherococcus senticosus (Rupr. &amp; Maxim.) Maxim. (Araliaceae) as an adaptogen: A closer look. J. Ethnopharmacol. 2000;72:345–393</li>
+<li>Xie Y., Zhang B., Zhang Y. Protective effects of Acanthopanax polysaccharides on cerebral ischemia-reperfusion injury and its mechanisms. Int. J. Biol. Macromol. 2015;72:946–950. doi: 10.1016/j.ijbiomac.2014.09.055<br><br></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<footer class="text-center bg-dark">
+<div class="container text-white py-4 py-lg-5">
+<ul class="list-inline small">
+<li class="list-inline-item"><a class="link-light" href="https://trycortexi.com/info/contact.html" target="_blank">Contact</a></li>
+<li class="list-inline-item"><a class="link-light" href="https://trycortexi.com/info/references.html" target="_blank">References</a></li>
+<li class="list-inline-item"><a class="link-light" href="https://trycortexi.com/info/terms.html" target="_blank">Terms</a></li>
+<li class="list-inline-item"><a class="link-light" href="https://trycortexi.com/info/privacy.html" target="_blank">Privacy</a></li>
+<li class="list-inline-item"><a class="link-light" href="https://trycortexi.com/info/return-policy.html" target="_blank">Return Policy</a></li>
+<li class="list-inline-item"><a class="link-light" href="https://trycortexi.com/info/shipping.html" target="_blank">Shipping</a></li>
+<li class="list-inline-item"><a class="link-light" href="https://trycortexi.com/info/disclamer.html" target="_blank">Disclaimer</a></li>
+<li class="list-inline-item"><a class="link-light" href="https://trycortexi.com/unsubscribe.php" target="_blank">Report Spam</a></li>
+</ul>
+<div class="row bg-disclaimer">
+<div class="col-md-10 offset-md-1">
+<p class="fw-light small text-muted text-start">
+Statements on this website have not been evaluated by the Food and Drug Administration. Products are not intended to diagnose, treat, cure or prevent any disease.
+<br><br>The website's content and the product for sale is based upon the author's opinion and is provided solely on an "AS IS" and "AS AVAILABLE" basis. You should do your own research and confirm the information with other sources when searching for information regarding health issues and always review the information carefully with your professional health care provider before using any of the protocols presented on this website and/or in the product sold here. Neither ClickBank nor the author are engaged in rendering medical or similar professional services or advice via this website or in the product, and the information provided is not intended to replace medical advice offered by a physician or other licensed healthcare provider. You should not construe ClickBank's sale of this product as an endorsement by ClickBank of the views expressed herein, or any warranty or guarantee of any strategy, recommendation, treatment, action, or application of advice made by the author of the product.
+<br><br>ClickBank is the retailer of products on this site. CLICKBANK® is a registered trademark of Click
+Sales, Inc., a Delaware corporation located at 1444 South Entertainment Ave, Suite 410, Boise Idaho,
+83709, USA and used by permission. ClickBank's role as retailer does not constitute an endorsement,
+approval or review of these products or any claim, statement or opinion used in promotion of these
+products.
+<br><br>For Product Support, please contact the vendor <a href="mailto: support@getcortexi.com" class="text-white">here</a>.
+<br>For Order Support, please contact ClickBank <a href="https://www.clkbank.com/#!/" class="text-white">here</a>.
+</p>
+</div>
+</div>
+<div></div>
+<p class="text-muted mb-0 small">© Cortexi Research 2023 All Rights Reserved.</p>
+</div>
+</footer>
+<script>document.querySelectorAll("[data-disable-user-interaction]").forEach((function (e) { e.classList.add("no-user-interaction"), e.addEventListener("contextmenu", (function (e) { e.preventDefault() })) }))</script>
+<div id="reel_host"><span class="hide"></span></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body></html>
