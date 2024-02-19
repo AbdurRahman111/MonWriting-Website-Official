@@ -13,6 +13,10 @@ def product_landing_page(request, slug):
     context={'get_landing_page_by_slug':get_landing_page_by_slug}
     return render(request, 'clickbank/clickbank_products_landing.html', context)
 
+def Sugar_Defender_prod(request):
+    # return render(request, 'clickbank/Sugar_Defender.html')
+    return render(request, 'clickbank/Sugar_Defender_prod.html')
+
 def Sugar_Defender(request):
     # return render(request, 'clickbank/Sugar_Defender.html')
     return render(request, 'clickbank/Sugar_Defender_final.html')
