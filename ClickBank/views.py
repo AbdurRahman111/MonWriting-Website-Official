@@ -14,10 +14,14 @@ def product_landing_page(request, slug):
     return render(request, 'clickbank/clickbank_products_landing.html', context)
 
 def Sugar_Defender(request):
-    return render(request, 'clickbank/Sugar_Defender.html')
+    # return render(request, 'clickbank/Sugar_Defender.html')
+    return render(request, 'clickbank/Sugar_Defender_final.html')
 
 def Sugar_Defender_2(request):
     return render(request, 'clickbank/Sugar_Defender_2.html')
+
+def clickbank_redirect_url(request):
+    return render(request, 'clickbank/redirect_html.html')
 
 def Cortexi_Hearing_Support(request):
     return render(request, 'clickbank/Cortexi_Hearing_Support.html')
