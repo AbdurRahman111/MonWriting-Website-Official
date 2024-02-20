@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.clickbank_products, name="clickbank_products"),
-    path('Sugar-Defender-Products', views.Sugar_Defender_prod, name="Sugar_Defender_prod"),
+    path('Sugar-Defender-offer', views.Sugar_Defender_prod, name="Sugar_Defender_prod"),
     path('Sugar-Defender', views.Sugar_Defender, name="Sugar_Defender"),
     path('Sugar-Defender-2', views.Sugar_Defender_2, name="Sugar_Defender_2"),
     path('Cortexi-Hearing-Support', views.Cortexi_Hearing_Support, name="Cortexi_Hearing_Support"),
