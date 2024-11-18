@@ -87,23 +87,31 @@
 <!--                             <li class="nav-item {% block active_contact %}{% endblock %}">-->
 <!--                                <a href="{% url 'contact' %}" class="nav-link">Contact</a>-->
 <!--                            </li>-->
-                            <li class="nav-item {% block active_tools %}{% endblock %}">
-                                <a href="{% url 'tools_func' %}" class="nav-link"><b>Tools</b></a>
-                            </li>
+<!--                            <li class="nav-item {% block active_tools %}{% endblock %}">-->
+<!--                                <a href="{% url 'tools_func' %}" class="nav-link"><b>Tools</b></a>-->
+<!--                            </li>-->
+
                              <li class="nav-item" style="">
                                 <a href="{% if user.is_authenticated %}{% url 'Blogging' %}{% else %}{% url 'login_function' %}{% endif %}" class="nav-link" style="color: #fff;
                                 background: #000000;
                                 border-radius: 25px;
-                                background-color: #000000; margin-left: 8px">Write Blog</a>
+                                background-color: #000000; margin-left: 6px">Write Blog</a>
                             </li>
+
+
+
                             <li class="nav-item dropdown {% block active_account %}{% endblock %}">
                                 {% if user.is_authenticated %}
                                         
-                                    <a href="#" class="nav-link dropdown-toggle" style="padding: 0; margin:0; padding-left: 300px;" >
-                                    <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'images/default-profile.jpg' %}{% endif %}" width="40" class="rounded-circle"></a>
+
+                                <a href="#" class="nav-link dropdown-toggle" style="padding: 0; margin:0; padding-left: 300px;" >
+                                    <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'images/default-profile.jpg' %}{% endif %}" width="44" class="rounded-circle"></a>
                                     <ul class="dropdown-menu" style="margin-left: 250px;">
                                         <li >
-                                            <a href="#" class="dropdown-item">My Profile</a>
+                                            <a href="/BlogEarnings/my-earnings" class="dropdown-item">My Earning</a>
+                                        </li>
+                                        <li >
+                                            <a href="/account/update-profile" class="dropdown-item">My Profile</a>
                                         </li>
                                         <li >
                                             <a href="/writer/{{request.user.username}}" class="dropdown-item">My Articles</a>
@@ -130,8 +138,21 @@
                                 {% endif %}
                             </li>
 
+
+                            {% if user.is_authenticated %}
+
+                            <li class="nav-item" style="">
+                                <a href="/BlogEarnings/my-earnings" class="nav-link" style="color: #fff;
+                                background: #1260d5;
+                                border-radius: 25px;
+                                background-color: #1260d5; margin-left: 8px"><b>&#2547;0.00</b></a>
+                            </li>
+
+                            {% endif %}
+
                         </ul>
                     </div>
+
 
                     <!-- right side of header  -->
                     <div class="header-right">
@@ -180,6 +201,12 @@
                             <div>
                                 <a href="{% url 'about_us' %}" id="" class="out_round_redius" >
                                     About Us
+                                </a>
+
+                            </div><br>
+                            <div>
+                                <a href="{% url 'tools_func' %}" id="" class="out_round_redius" >
+                                    Tools
                                 </a>
                             </div>
                         </div>

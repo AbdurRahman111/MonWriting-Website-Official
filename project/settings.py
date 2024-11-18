@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'home',
     'account',
     'article',
+    'BlogEarnings',
     'tools',
     'ClickBank', # clickbank functionality
 

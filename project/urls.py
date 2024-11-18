@@ -32,6 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('account/', include('account.urls')),
+    path('BlogEarnings/', include('BlogEarnings.urls')),
     path('tools/', include('tools.urls')),
     path('CB/', include('ClickBank.urls')),
     path('froala_editor/',include('froala_editor.urls')),

@@ -42,7 +42,7 @@
                   </div>
                   <div class="form-group mt-3">
                     <label for="" style="color:#8E24AA;">Bio</label>
-                      <textarea type="text" class="form-control" name="bio" id="" aria-describedby="emailHelp"> value="{{get_profile.bio}}"</textarea>
+                      <textarea type="text" class="form-control" name="bio" id="" aria-describedby="emailHelp">{% if get_profile.bio %}{{get_profile.bio}}{% endif %}</textarea>
                   </div>
                   <div class="form-group mt-3">
                     <label for="" style="color:#8E24AA;">Facebook Profile</label>
@@ -136,24 +136,32 @@
                 <br><span>{{ get_profile.followers.all.count }} Followers</span>
 
                 <div style="font-size:36px; color:#8E24AA;">
+                    {% if get_profile.facebook_profile %}
                     <a href="{{ get_profile.facebook_profile }}" target="_blank">
                         <i class="fa fa-facebook-square"></i>
                     </a>
+                    {% endif %}
+                    {% if get_profile.Instagram_profile %}
                     <a href="{{ get_profile.Instagram_profile }}" target="_blank">
                         <i class="fa fa-instagram"></i>
                     </a>
+                    {% endif %}
+                    {% if get_profile.linkedin_profile %}
                     <a href="{{ get_profile.linkedin_profile }}" target="_blank">
                         <i class="fa fa-linkedin-square"></i>
                     </a>
+                    {% endif %}
+                    {% if get_profile.twitter_profile %}
                     <a href="{{ get_profile.twitter_profile }}" target="_blank">
                         <i class="fa fa-twitter-square"></i>
                     </a>
+                    {% endif %}
 
                 </div>
 
                 <div class="px-4 mt-1">
 
-                    <p class="fonts"> {{ get_profile.bio }}</p>
+                    <p class="fonts">{% if get_profile.bio %}{{get_profile.bio}}{% endif %}</p>
                 </div>
 
                 <div class="buttons">

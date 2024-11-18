@@ -30,6 +30,7 @@ def signup_function(request):
 def submit_signup(request):
     # check the post peramiters
     sign_email = request.POST['email']
+    sign_username = request.POST['username']
     sign_password = request.POST['password1']
     confirm_sign_password = request.POST['password2']
     sign_first_name = request.POST['first_name']
@@ -37,11 +38,15 @@ def submit_signup(request):
 
     # chech the error inputs
     user_email_info = User.objects.filter(email=sign_email)
+    user_username_info = User.objects.filter(username=sign_username)
 
     erorr_message = ""
     if user_email_info:
         # messages.error(request, "Email Already Exist")
         erorr_message = "Email Already Exist"
+
+    if user_username_info:
+        erorr_message = "Username Already Exist"
 
     elif sign_password != confirm_sign_password:
         # messages.error(request, "Passwords are not match")
@@ -53,7 +58,7 @@ def submit_signup(request):
 
     if not erorr_message:
         # create user
-        myuser = User.objects.create_user(sign_email, sign_email, sign_password)
+        myuser = User.objects.create_user(sign_username, sign_email, sign_password)
         myuser.first_name = sign_first_name
         myuser.last_name = sign_last_name
         myuser.is_active = True
@@ -63,6 +68,7 @@ def submit_signup(request):
     else:
         context= {
         'email':sign_email,
+        'username':sign_username,
         'password1':sign_password,
         'password2':confirm_sign_password,
         'first_name':sign_first_name,
@@ -80,9 +86,9 @@ def login_function(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, "You're LogedIN")
+            messages.success(request, "You're LoggedIn")
         else:
-            messages.warning(request, "Username OR Password is incorect!!")
+            messages.warning(request, "Username OR Password is incorrect!!")
     if request.user.is_authenticated:
         return redirect('update_profile')
     return render(request, 'login_function.html')
