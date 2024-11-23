@@ -21,7 +21,7 @@ def start():
     # scheduler.add_job(execute_update_status_change_every_hour, 'interval', seconds=100)
     # scheduler.add_job(execute_update_status_change_every_hour, 'interval', minutes=5, id=f'{datetime.now()}', max_instances=1)
     # scheduler.add_job(execute_update_status_change_every_hour, 'interval', hours=1)
-    scheduler.add_job(execute_save_trends_news_everyday, 'cron', day_of_week='mon-sun', hour=21, minute=6)
+    scheduler.add_job(execute_save_trends_news_everyday, 'cron', day_of_week='mon-sun', hour=21, minute=15)
     scheduler.start()
 
 # Function to check if there are any cheques in queue approaching clearance date in the current week
