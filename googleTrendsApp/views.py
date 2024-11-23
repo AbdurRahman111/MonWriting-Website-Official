@@ -275,10 +275,14 @@ def get_trending_topics(country):
     """
     if country == 'bangladesh':
         # Fetch trends for Bangladesh using interest over time
-        pytrends = TrendReq(hl='en-US', tz=360)
-        pytrends.build_payload(kw_list=[''], geo='BD', timeframe='now 1-d')
-        trends = pytrends.interest_over_time()
-        return trends.index.tolist()  # List of trending keywords (if available)
+        try:
+            pytrends = TrendReq(hl='en-US', tz=360)
+            pytrends.build_payload(kw_list=[''], geo='BD', timeframe='now 1-d')
+            trends = pytrends.interest_over_time()
+            return trends.index.tolist()  # List of trending keywords (if available)
+        except Exception as e:
+            print(f"Error fetching trending searches for {country}: {e}")
+            return []
     else:
         # Fetch trends using trending_searches for supported countries
         try:
