@@ -30,7 +30,7 @@ def index(request):
     all_categories = article_category.objects.all()
 
     # all articles in reverse
-    all_article = Article_table.objects.all().order_by('-id')
+    all_article = Article_table.objects.all().order_by('-id')[20]
 
     # popular article based on total views
     popular_article = Article_table.objects.all().order_by('-total_views')[:4]

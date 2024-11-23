@@ -64,7 +64,7 @@ def save_article(title, category_name, Short_Description, description, image_url
     # Create a new article instance
     article = Article_table(
         Title=title,
-        slug=slugify(title),  # Automatically generate a slug from the title
+        # slug=slugify(title),  # Automatically generate a slug from the title
         Category=category_name,
         Short_Description=Short_Description,  # Truncate to 150 chars for a short description
         Description=description,
