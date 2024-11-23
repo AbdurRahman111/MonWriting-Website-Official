@@ -228,7 +228,10 @@ class Article_table(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('article_details', args=[str(self.slug)])
+        if self.slug:
+            return reverse('article_details', args=[str(self.slug)])
+        else:
+            return reverse('article_details', args=[str(self.id)])
 
 
 class track_views(models.Model):
