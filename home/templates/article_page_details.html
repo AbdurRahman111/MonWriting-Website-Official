@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
+{% load custom_filters %}
 {% block title %}{{ get_article.Title }}{% endblock %}
 
 {% block page_meta_description %}{{ get_article.tags }}{% endblock %}
@@ -106,12 +106,12 @@
         <div class="col-md-10 col-md-push-6 border-top">
             <div class="post-meta d-flex mb-3">
                 <div class="bio-pic m-3">
-                    <a href="{% url 'writer' get_profile.user.username %}">
+                    <a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">
                     <img src="{% if get_profile.image %}{{ get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" width="50"  alt="Image" class="  rounded-circle">
                     </a>
                 </div>
                 <div class="vcard m-3">
-                    <span class="d-block"><a href="{% url 'writer' get_profile.user.username %}">{{ get_profile.user.first_name }} {{ get_profile.user.last_name }}</a> </span>
+                    <span class="d-block"><a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">{{ get_profile.user.first_name }} {{ get_profile.user.last_name }}</a> </span>
                     <span class="date-read">{{ get_article.created_at }} <span class="mx-1">•</span> {{ get_article.Read_Time }} read <span class="icon-star2"></span></span>
                     <span class="date-read"><span class="mx-1">•</span>{{ get_article.Category.name }}</span>
                 </div>
@@ -121,7 +121,10 @@
                 <h1>{{ get_article.Title }} </h1>
             </div>
             <div class="text-center pb-5" alt="Responsive image">
-                <img src="{% if get_article.image %}{{ get_article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="rounded" >
+
+                <img 
+                    src="{% if get_article.image %}{% if get_article.image|starts_with:'https' %}{{ get_article.image }}{% else %}{{ get_article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" 
+                    class="rounded">
             </div>
             
             {{ get_article.Description | safe }}
@@ -137,7 +140,7 @@
 <!--                -->
 <!--                <div class="text-center mt-3">-->
 <!--                    <span class="bg-secondary p-1 px-4 rounded text-white">{{ get_profile.level }}</span>-->
-<!--                    <a href="{% url 'writer' get_profile.user.username %}">-->
+<!--                    <a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">-->
 <!--                        <h5 class="mt-2 mb-0">{{ get_profile.user.username }}</h5>-->
 <!--                    </a>-->
 

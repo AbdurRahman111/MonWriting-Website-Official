@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     #3rd party app
     'ckeditor',
     'froala_editor',
+    'googleTrendsApp',
 
     'django.contrib.sites',
     'django.contrib.sitemaps',
@@ -269,3 +270,10 @@ JAZZMIN_SETTINGS = {
 # JAZZMIN_UI_TWEAKS = {
 #     "theme": "darkly",
 # }
+
+
+
+
+# News API
+# NEWS_API_KEY = env("NEWS_API_KEY")
+NEWS_API_KEY = "ce9d57f8df7c4c7b80a56b0c0d1bb61c"

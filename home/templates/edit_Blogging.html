@@ -2,7 +2,7 @@
 
 {% load static %}
 {% block title %}Edit Blog{% endblock %}
-
+{% load custom_filters %}
 
 {% block body %}
 
@@ -63,7 +63,7 @@
 <!--                    placeholder="Subchapter *">-->
 
 
-                <img src="{% if get_article.image %}{{ get_article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="img-fluid rounded mx-auto d-block" alt="..." width="40%" style="margin-top:28px; margin-bottom:22px;">
+                <img src="{% if get_article.image %}{% if get_article.image|starts_with:'https' %}{{ get_article.image }}{% else %}{{ get_article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="img-fluid rounded mx-auto d-block" alt="..." width="40%" style="margin-top:28px; margin-bottom:22px;">
                 <input type="file" name="Article_image" class="form-control w-100 text-center mb-3">
 
                 <textarea name="Short_Description" placeholder="Short Description" class="form-control">{{ get_article.Short_Description }}</textarea>

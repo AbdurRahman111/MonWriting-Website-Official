@@ -2,7 +2,7 @@
 
 {% load static %}
 {% block title %}Home{% endblock %}
-
+{% load custom_filters %}
 {% block active_article %}active{% endblock %}
 
 {% block body %}
@@ -27,22 +27,24 @@
                                             <span class="post-format-sm">
                                                 <i class="icon-picture"></i>
                                             </span>
-                                            <a href="{% url 'writer' article.get_profile.user.username %}">
+                                            <a href="{% if article.get_profile %}{% url 'writer' article.get_profile.user.username %}{% endif %}">
                                                 <div class="inner">
-                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                    <img src="{% if article.image %}{% if article.image|starts_with:'https' %}{{ article.image }}{% else %}{{ article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
                                                 </div>
                                             </a>
                                         </div>
                                         <div class="details">
                                             <ul class="meta list-inline mb-3">
                                                 <li class="list-inline-item">
-                                                    <a href="{% url 'writer' article.get_profile.user.username %}">
+                                                    <a href="{% if article.get_profile %}{% url 'writer' article.get_profile.user.username %}{% endif %}">
                                                         <img src="{% if article.get_profile %}{{ article.get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="author" alt="" style="width:28px;;">
                                                         {% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}
                                                     </a>
                                                 </li>
                                                 <li class="list-inline-item">
+                                                    {% if article.Category %}
                                                     <a href="{% url 'category_articles' article.Category.slug %}">{{ article.Category.name }}</a>
+                                                    {% endif %}
                                                 </li>
                                                 <li class="list-inline-item">{{ article.created_at.date }}</li>
                                             </ul>

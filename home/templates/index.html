@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load custom_filters %}
 {% block title %}Home - MonWriting{% endblock %}
 
 {% block active_home %}active{% endblock %}
@@ -24,14 +25,14 @@
                                 </h2>
                                 <ul class="meta list-inline mb-0">
                                     <li class="list-inline-item">
-                                        <a href="{% url 'writer' article.get_profile.user.username %}">{% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}</a>
+                                        <a href="{% if article.get_profile %}{% url 'writer' article.get_profile.user.username %}{% endif %}">{% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}</a>
                                     </li>
                                     <li class="list-inline-item">{{ article.created_at }}</li>
                                 </ul>
                             </div>
                             <a href="{% url 'article_details' article.slug %}">
                                 <div class="thumb rounded">
-                                    <div class="inner data-bg-image" data-bg-image="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}">
+                                    <div class="inner data-bg-image" data-bg-image="{% if article.image %}{% if article.image|starts_with:'https' %}{{ article.image }}{% else %}{{ article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}">
                                     </div>
                                 </div>
                             </a>
@@ -72,7 +73,7 @@
                                         <div class="thumb circle">
                                             <a href="{% url 'article_details' article.slug %}">
                                                 <div class="inner">
-                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="" style="">
+                                                    <img src="{% if article.image %}{% if article.image|starts_with:'https' %}{{ article.image }}{% else %}{{ article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="" style="">
                                                 </div>
                                             </a>
                                         </div>
@@ -97,7 +98,7 @@
                                         <div class="thumb circle">
                                             <a href="{% url 'article_details' article.slug %}">
                                                 <div class="inner">
-                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                    <img src="{% if article.image %}{% if article.image|starts_with:'https' %}{{ article.image }}{% else %}{{ article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
                                                 </div>
                                             </a>
                                         </div>
@@ -143,19 +144,22 @@
                                     {% for article in recommended_article2 %}
                                     <div class="post">
                                         <div class="thumb rounded">
+                                            {% if article.Category %}
                                             <a href="{% url 'category_articles' article.Category.slug %}" class="category-badge position-absolute">{{ article.Category.name }}</a>
+                                            {% endif %}
+                                            
                                             <span class="post-format">
                                                 <i class="icon-picture"></i>
                                             </span>
                                             <a href="{% url 'article_details' article.slug %}">
                                                 <div class="inner">
-                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                    <img src="{% if article.image %}{% if article.image|starts_with:'https' %}{{ article.image }}{% else %}{{ article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
                                                 </div>
                                             </a>
                                         </div>
                                         <ul class="meta list-inline mt-4 mb-0">
                                             <li class="list-inline-item">
-                                                <a href="{% url 'writer' article.get_profile.user.username %}">
+                                                <a href="{% if article.get_profile %}{% url 'writer' article.get_profile.user.username %}{% endif %}">
                                                     <img class="author" src="{% if article.get_profile %}{{ article.get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="" style="width:40px;">
                                                     {% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}
                                                 </a>
@@ -177,7 +181,7 @@
                                         <div class="thumb rounded">
                                             <a href="{% url 'article_details' article.slug %}">
                                                 <div class="inner">
-                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                    <img src="{% if article.image %}{% if article.image|starts_with:'https' %}{{ article.image }}{% else %}{{ article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
                                                 </div>
                                             </a>
                                         </div>
@@ -367,13 +371,16 @@
                             {% for article in trending_article %}
                             <div class="post post-over-content col-md-6">
                                 <div class="details clearfix">
+                                    {% if article.Category %}
                                     <a href="{% url 'category_articles' article.Category.slug %}" class="category-badge">{{ article.Category.name }}</a>
+                                    {% endif %}
+                                    
                                     <h4 class="post-title">
                                         <a href="{% url 'article_details' article.slug %}">{{ article.Title }}</a>
                                     </h4>
                                     <ul class="meta list-inline mb-0">
                                         <li class="list-inline-item">
-                                            <a href="{% url 'writer' article.get_profile.user.username %}">{% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}</a>
+                                            <a href="{% if article.get_profile %}{% url 'writer' article.get_profile.user.username %}{% endif %}">{% if article.get_profile %}{{ article.get_profile.user.username }}{% endif %}</a>
                                         </li>
                                         <li class="list-inline-item">{{ article.created_at }}</li>
                                     </ul>
@@ -381,7 +388,7 @@
                                 <a href="{% url 'article_details' article.slug %}">
                                     <div class="thumb rounded">
                                         <div class="inner">
-                                            <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                            <img src="{% if article.image %}{% if article.image|starts_with:'https' %}{{ article.image }}{% else %}{{ article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
                                         </div>
                                     </div>
                                 </a>
@@ -410,20 +417,23 @@
                                             </span>
                                             <a href="{% url 'article_details' article.slug %}">
                                                 <div class="inner">
-                                                    <img src="{% if article.image %}{{ article.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
+                                                    <img src="{% if article.image %}{% if article.image|starts_with:'https' %}{{ article.image }}{% else %}{{ article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" alt="">
                                                 </div>
                                             </a>
                                         </div>
                                         <div class="details">
                                             <ul class="meta list-inline mb-3">
                                                 <li class="list-inline-item">
-                                                    <a href="{% url 'writer' article.get_profile.user.username %}">
+                                                    <a href="{% if article.get_profile %}{% url 'writer' article.get_profile.user.username %}{% endif %}">
                                                         <img src="{% if article.get_profile %}{{ article.get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" class="author" alt="" style="width:28px;;">
                                                         {% if article.get_profile %}{{ article.get_profile.user.first_name }} {{ article.get_profile.user.last_name }}{% endif %}
                                                     </a>
                                                 </li>
                                                 <li class="list-inline-item">
+                                                    {% if article.Category %}
                                                     <a href="{% url 'category_articles' article.Category.slug %}">{{ article.Category.name }}</a>
+                                                    {% endif %}
+                                                    
                                                 </li>
                                                 <li class="list-inline-item">{{ article.created_at.date }}</li>
                                             </ul>

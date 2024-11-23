@@ -17,7 +17,11 @@ from django.http import HttpResponse, JsonResponse
 import operator
 from functools import reduce
 # Create your views here.
-
+from pytrends.request import TrendReq
+from django.conf import settings
+import requests
+from bs4 import BeautifulSoup
+from django.utils.text import slugify
 
 
 
@@ -122,8 +126,13 @@ def index(request):
             recommended_article = None
             recommended_article2 = None
 
+   
+
     context = {'all_categories':all_categories, 'all_article':all_article, 'popular_article':popular_article, 'recent_article':recent_article, 'bennar_article':bennar_article, 'trending_article':trending_article, 'recommended_article':recommended_article, 'recommended_article2':recommended_article2}
     return render(request, 'index.html', context)
+
+
+
 
 
 def privacy_policy(request):
@@ -192,14 +201,19 @@ def article_details(request, slug):
         get_article = Article_table.objects.get(slug=slug)
         get_article.total_views = get_article.total_views + 1
         get_article.save()
+        try:
+            get_profile = Profile.objects.get(user=get_article.Author)
+            var_follow = False
+            if request.user.is_authenticated:
+                if request.user in get_profile.followers.all():
+                    var_follow = True
+            else:
+                pass
+        except:
+            get_profile = None
+            var_follow = False
 
-        get_profile = Profile.objects.get(user=get_article.Author)
-        var_follow = False
-        if request.user.is_authenticated:
-            if request.user in get_profile.followers.all():
-                var_follow = True
-        else:
-            pass
+
         context = {'get_article':get_article, 'get_profile':get_profile, 'var_follow':var_follow}
 
         response = render(request, 'article_page_details.html', context)
