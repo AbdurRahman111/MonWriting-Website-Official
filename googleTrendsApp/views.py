@@ -172,6 +172,18 @@ import feedparser
 news_api_limit_reached = False
 
 
+
+
+
+
+# def generate_keywords_with_transformers(title):
+#     generator = pipeline("text-generation", model="gpt2")
+#     prompt = f"Generate keyword phrases for: {title}"
+#     keywords = generator(prompt, max_length=50, num_return_sequences=1)
+#     return keywords[0]["generated_text"]
+
+
+
 def Daily_News_Update_Jobs_function():
     """
     Main function to update news daily by fetching data from NewsAPI, Guardian API, and RSS feeds.
@@ -323,11 +335,21 @@ def save_newsapi_article(article):
     content = scrape_full_content(article['url']) or article.get('content', '')
     image_url = article.get('urlToImage', None)
 
+    try:
+        # genarate_keys_for_title = generate_keywords_with_transformers(title)
+        genarate_keys_for_title = str(title) + str(short_description)
+    except Exception as exc:
+        print(f"[Failed to generate keyword]: {exc}")
+        genarate_keys_for_title = str(title) + str(short_description)
+        print("No Keyword Generated. Title + Short Description")
+    print(f"[Generated Keywords]: {genarate_keys_for_title}")
+
     article_instance = Article_table(
         Title=title,
         Short_Description=short_description,
         Description=content,
         image=image_url,
+        tags = genarate_keys_for_title,
     )
     article_instance.save()
     print(f"NewsAPI Article '{title}' saved successfully!")
@@ -340,11 +362,21 @@ def save_guardian_article(article):
     title = article.get('webTitle', 'No Title')
     content = scrape_full_content(article['webUrl']) or 'Content not available'
 
+    try:
+        # genarate_keys_for_title = generate_keywords_with_transformers(title)
+        genarate_keys_for_title = str(title) + str(short_description)
+    except Exception as exc:
+        print(f"[Failed to generate keyword]: {exc}")
+        genarate_keys_for_title = str(title) + str(content)
+        print("No Keyword Generated. Title + Short Description")
+    print(f"[Generated Keywords]: {genarate_keys_for_title}")
+
     article_instance = Article_table(
         Title=title,
         Short_Description=None,
         Description=content,
         image=None,
+        tags = genarate_keys_for_title,
     )
     article_instance.save()
     print(f"Guardian Article '{title}' saved successfully!")
@@ -358,11 +390,21 @@ def save_rss_article(article):
     short_description = article.get('description', '')[:150]
     content = scrape_full_content(article.get('link', '')) or 'Content not available'
 
+    try:
+        # genarate_keys_for_title = generate_keywords_with_transformers(title)
+        genarate_keys_for_title = str(title) + str(short_description)
+    except Exception as exc:
+        print(f"[Failed to generate keyword]: {exc}")
+        genarate_keys_for_title = str(title) + str(short_description)
+        print("No Keyword Generated. Title + Short Description")
+    print(f"[Generated Keywords]: {genarate_keys_for_title}")
+
     article_instance = Article_table(
         Title=title,
         Short_Description=short_description,
         Description=content,
         image=None,
+        tags = genarate_keys_for_title,
     )
     article_instance.save()
     print(f"RSS Article '{title}' saved successfully!")

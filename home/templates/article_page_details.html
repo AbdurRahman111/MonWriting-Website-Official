@@ -4,8 +4,8 @@
 {% load custom_filters %}
 {% block title %}{{ get_article.Title }}{% endblock %}
 
-{% block page_meta_description %}{{ get_article.tags }}{% endblock %}
-{% block page_meta_keywords %}{{ get_article.tags }}{% endblock %}
+{% block page_meta_description %}{{ get_article.Title }}, {{ get_article.tags }}{% endblock %}
+{% block page_meta_keywords %}{{ get_article.Title }}, {{ get_article.tags }}{% endblock %}
 
 {% block body %}
 

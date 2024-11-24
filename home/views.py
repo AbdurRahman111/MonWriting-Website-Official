@@ -24,7 +24,6 @@ from bs4 import BeautifulSoup
 from django.utils.text import slugify
 
 
-
 def index(request):
     # all category list
     all_categories = article_category.objects.all()
@@ -125,7 +124,6 @@ def index(request):
         else:
             recommended_article = None
             recommended_article2 = None
-
    
 
     context = {'all_categories':all_categories, 'all_article':all_article, 'popular_article':popular_article, 'recent_article':recent_article, 'bennar_article':bennar_article, 'trending_article':trending_article, 'recommended_article':recommended_article, 'recommended_article2':recommended_article2}
