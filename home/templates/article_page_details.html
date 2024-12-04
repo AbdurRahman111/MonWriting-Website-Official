@@ -99,107 +99,162 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
+<div class="row">
+    <div class="col-md-2" style="margin-left:auto; margin-right:auto">
+        <div>
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '48b6716ee233465fdc59dd1944a2a781',
+                    'format' : 'iframe',
+                    'height' : 600,
+                    'width' : 160,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/48b6716ee233465fdc59dd1944a2a781/invoke.js"></script>
+        </div>
+    </div>
 
-<div class="col-md-8" style="margin-left:auto; margin-right:auto">
-<div class="container ">
-    <div class="row">
-        <div class="col-md-10 col-md-push-6 border-top">
-            <div class="post-meta d-flex mb-3">
-                <div class="bio-pic m-3">
-                    <a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">
-                    <img src="{% if get_profile.image %}{{ get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" width="50"  alt="Image" class="  rounded-circle">
+    <div class="col-md-8" style="margin-left:auto; margin-right:auto">
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-10 col-md-push-6 border-top">
+                <div class="post-meta d-flex mb-3">
+                    <div class="bio-pic m-3">
+                        <a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">
+                        <img src="{% if get_profile.image %}{{ get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" width="50"  alt="Image" class="  rounded-circle">
+                        </a>
+                    </div>
+                    <div class="vcard m-3">
+                        <span class="d-block"><a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">{{ get_profile.user.first_name }} {{ get_profile.user.last_name }}</a> </span>
+                        <span class="date-read">{{ get_article.created_at }} <span class="mx-1">•</span> {{ get_article.Read_Time }} read <span class="icon-star2"></span></span>
+                        <span class="date-read"><span class="mx-1">•</span>{{ get_article.Category.name }}</span>
+                    </div>
+                </div>
+                <div>
+                    {% if request.user == get_article.Author %}<a href="{% url 'edit_article' get_article.slug %}" class="btn btn-primary" style="font-size:14px;float: right;"><i class='fas fa-edit'></i> Edit</a>{% endif %}
+                    <h1>{{ get_article.Title }} </h1>
+                </div>
+                <div class="text-center pb-5" alt="Responsive image">
+
+                    <img 
+                        src="{% if get_article.image %}{% if get_article.image|starts_with:'https' %}{{ get_article.image }}{% else %}{{ get_article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" 
+                        class="rounded">
+                </div>
+                
+                {{ get_article.Description | safe }}
+                <br>
+                <br>
+                <div style="text-align: center; margin-bottom: 50px;">
+                    <a href="https://www.profitablecpmrate.com/p82ukjm2qj?key=64c8940228264dd6df0c8bde3ace4ea0" 
+                       class="btn-primary" 
+                       style="
+                           display: inline-block;
+                           text-decoration: none;
+                           text-align: center;
+                           color: #fff;
+                           background: linear-gradient(45deg, #4CAF50, #81C784);
+                           border: none;
+                           padding: 15px 30px;
+                           font-size: 22px;
+                           border-radius: 12px;
+                           box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+                           transition: transform 0.2s, box-shadow 0.2s;
+                       "
+                       onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 12px 20px rgba(0, 0, 0, 0.3)';"
+                       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 15px rgba(0, 0, 0, 0.2)';">
+                        More Details
                     </a>
                 </div>
-                <div class="vcard m-3">
-                    <span class="d-block"><a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">{{ get_profile.user.first_name }} {{ get_profile.user.last_name }}</a> </span>
-                    <span class="date-read">{{ get_article.created_at }} <span class="mx-1">•</span> {{ get_article.Read_Time }} read <span class="icon-star2"></span></span>
-                    <span class="date-read"><span class="mx-1">•</span>{{ get_article.Category.name }}</span>
-                </div>
+                
             </div>
-            <div>
-                {% if request.user == get_article.Author %}<a href="{% url 'edit_article' get_article.slug %}" class="btn btn-primary" style="font-size:14px;float: right;"><i class='fas fa-edit'></i> Edit</a>{% endif %}
-                <h1>{{ get_article.Title }} </h1>
-            </div>
-            <div class="text-center pb-5" alt="Responsive image">
 
-                <img 
-                    src="{% if get_article.image %}{% if get_article.image|starts_with:'https' %}{{ get_article.image }}{% else %}{{ get_article.image.url }}{% endif %}{% else %}{% static 'images/default-img.webp' %}{% endif %}" 
-                    class="rounded">
-            </div>
-            
-            {{ get_article.Description | safe }}
+                <!-- PROFILE SECTION -->
+    <!--        <div class="col-md-4 col-md-pull-6">-->
+    <!--            <div class="card p-3 py-4 border-right-0">-->
+    <!--                -->
+    <!--                <div class="text-center">-->
+    <!--                    <img src="{% if get_profile.image %}{{ get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" width="100" class="rounded-circle">-->
+    <!--                </div>-->
+    <!--                -->
+    <!--                <div class="text-center mt-3">-->
+    <!--                    <span class="bg-secondary p-1 px-4 rounded text-white">{{ get_profile.level }}</span>-->
+    <!--                    <a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">-->
+    <!--                        <h5 class="mt-2 mb-0">{{ get_profile.user.username }}</h5>-->
+    <!--                    </a>-->
+
+    <!--                    <span>{{ get_profile.designation }}</span>-->
+
+    <!--                    <br><span>{{ get_profile.followers.all.count }} Followers</span>-->
+
+    <!--                    <div style="font-size:36px; color:#8E24AA;">-->
+    <!--                        <a href="{{ get_profile.facebook_profile }}" target="_blank">-->
+    <!--                            <i class="fa fa-facebook-square"></i>-->
+    <!--                        </a>-->
+    <!--                        <a href="{{ get_profile.Instagram_profile }}" target="_blank">-->
+    <!--                            <i class="fa fa-instagram"></i>-->
+    <!--                        </a>-->
+    <!--                        <a href="{{ get_profile.linkedin_profile }}" target="_blank">-->
+    <!--                            <i class="fa fa-linkedin-square"></i>-->
+    <!--                        </a>-->
+    <!--                        <a href="{{ get_profile.twitter_profile }}" target="_blank">-->
+    <!--                            <i class="fa fa-twitter-square"></i>-->
+    <!--                        </a>-->
+
+    <!--                    </div>-->
+    <!--                    -->
+    <!--                    <div class="px-4 mt-1">-->
+
+    <!--                        <p class="fonts"> {{ get_profile.bio }}</p>-->
+    <!--                    </div>-->
+    <!--                    -->
+    <!--                    <div class="buttons">-->
+    <!--                        {% if request.user.is_authenticated %}-->
+    <!--                            {% if var_follow %}-->
+    <!--&lt;!&ndash;                            <button class="btn px-4 ms-3" style="background-color:#8E24AA; color:white;">&#10003; Followed </button>&ndash;&gt;-->
+    <!--                            <form action="{% url 'follow_writer' %}" method="POST">{% csrf_token %}-->
+    <!--                                <input name="profile_id" type="hidden" value="{{ get_profile.id }}">-->
+    <!--                                <button class="btn px-4 ms-3" style="background-color:#0039D2; color:white;">&#10003; Unfollow </button>-->
+    <!--                            </form>-->
+    <!--                            {% else %}-->
+    <!--                            <form action="{% url 'follow_writer' %}" method="POST">{% csrf_token %}-->
+    <!--                                <input name="profile_id" type="hidden" value="{{ get_profile.id }}">-->
+    <!--                                <button class="btn px-4 ms-3" style="background-color:#8E24AA; color:white;">Follow <span><st>+</st></span></button>-->
+    <!--                            </form>-->
+    <!--                            {% endif %}-->
+    <!--                        {% else %}-->
+    <!--                        <a class="btn px-4 ms-3" href="{% url 'login_function' %}">Login</a>-->
+    <!--                        {% endif %}-->
+    <!--&lt;!&ndash;                        <button class="btn btn-outline-primary px-4">Message</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <button class="btn btn-primary px-4 ms-3">Contact</button>&ndash;&gt;-->
+    <!--                    </div>-->
+    <!--                    -->
+    <!--                    -->
+    <!--                </div>-->
+    <!--                -->
+    <!--               -->
+    <!--                -->
+    <!--                -->
+    <!--            </div>-->
+    <!--        </div>-->
         </div>
-
-            <!-- PROFILE SECTION -->
-<!--        <div class="col-md-4 col-md-pull-6">-->
-<!--            <div class="card p-3 py-4 border-right-0">-->
-<!--                -->
-<!--                <div class="text-center">-->
-<!--                    <img src="{% if get_profile.image %}{{ get_profile.image.url }}{% else %}{% static 'images/default-img.webp' %}{% endif %}" width="100" class="rounded-circle">-->
-<!--                </div>-->
-<!--                -->
-<!--                <div class="text-center mt-3">-->
-<!--                    <span class="bg-secondary p-1 px-4 rounded text-white">{{ get_profile.level }}</span>-->
-<!--                    <a href="{% if get_profile %}{% url 'writer' get_profile.user.username %}{% endif %}">-->
-<!--                        <h5 class="mt-2 mb-0">{{ get_profile.user.username }}</h5>-->
-<!--                    </a>-->
-
-<!--                    <span>{{ get_profile.designation }}</span>-->
-
-<!--                    <br><span>{{ get_profile.followers.all.count }} Followers</span>-->
-
-<!--                    <div style="font-size:36px; color:#8E24AA;">-->
-<!--                        <a href="{{ get_profile.facebook_profile }}" target="_blank">-->
-<!--                            <i class="fa fa-facebook-square"></i>-->
-<!--                        </a>-->
-<!--                        <a href="{{ get_profile.Instagram_profile }}" target="_blank">-->
-<!--                            <i class="fa fa-instagram"></i>-->
-<!--                        </a>-->
-<!--                        <a href="{{ get_profile.linkedin_profile }}" target="_blank">-->
-<!--                            <i class="fa fa-linkedin-square"></i>-->
-<!--                        </a>-->
-<!--                        <a href="{{ get_profile.twitter_profile }}" target="_blank">-->
-<!--                            <i class="fa fa-twitter-square"></i>-->
-<!--                        </a>-->
-
-<!--                    </div>-->
-<!--                    -->
-<!--                    <div class="px-4 mt-1">-->
-
-<!--                        <p class="fonts"> {{ get_profile.bio }}</p>-->
-<!--                    </div>-->
-<!--                    -->
-<!--                    <div class="buttons">-->
-<!--                        {% if request.user.is_authenticated %}-->
-<!--                            {% if var_follow %}-->
-<!--&lt;!&ndash;                            <button class="btn px-4 ms-3" style="background-color:#8E24AA; color:white;">&#10003; Followed </button>&ndash;&gt;-->
-<!--                            <form action="{% url 'follow_writer' %}" method="POST">{% csrf_token %}-->
-<!--                                <input name="profile_id" type="hidden" value="{{ get_profile.id }}">-->
-<!--                                <button class="btn px-4 ms-3" style="background-color:#0039D2; color:white;">&#10003; Unfollow </button>-->
-<!--                            </form>-->
-<!--                            {% else %}-->
-<!--                            <form action="{% url 'follow_writer' %}" method="POST">{% csrf_token %}-->
-<!--                                <input name="profile_id" type="hidden" value="{{ get_profile.id }}">-->
-<!--                                <button class="btn px-4 ms-3" style="background-color:#8E24AA; color:white;">Follow <span><st>+</st></span></button>-->
-<!--                            </form>-->
-<!--                            {% endif %}-->
-<!--                        {% else %}-->
-<!--                        <a class="btn px-4 ms-3" href="{% url 'login_function' %}">Login</a>-->
-<!--                        {% endif %}-->
-<!--&lt;!&ndash;                        <button class="btn btn-outline-primary px-4">Message</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <button class="btn btn-primary px-4 ms-3">Contact</button>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    -->
-<!--                    -->
-<!--                </div>-->
-<!--                -->
-<!--               -->
-<!--                -->
-<!--                -->
-<!--            </div>-->
-<!--        </div>-->
     </div>
-</div>
+    </div>
+
+    <div class="col-md-2" style="margin-left:auto; margin-right:auto">
+        <div>
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '48b6716ee233465fdc59dd1944a2a781',
+                    'format' : 'iframe',
+                    'height' : 600,
+                    'width' : 160,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/48b6716ee233465fdc59dd1944a2a781/invoke.js"></script>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
