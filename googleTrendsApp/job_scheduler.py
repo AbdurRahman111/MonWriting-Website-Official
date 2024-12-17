@@ -25,6 +25,7 @@ def start():
     # scheduler.add_job(execute_save_trends_news_everyday, 'cron', day_of_week='mon-sun', hour=12, minute=0)
     # scheduler.add_job(execute_save_trends_news_everyday, 'cron', day_of_week='mon-sun', hour=20, minute=15)
     # scheduler.add_job(execute_save_trends_news_everyday, 'cron', day_of_week='mon-sun', hour=21, minute=27)
+    #asasadasdsa
     scheduler.start()
 
 # Function to check if there are any cheques in queue approaching clearance date in the current week
