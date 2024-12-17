@@ -44,7 +44,10 @@ class article_chapter(models.Model):
         return article_subchapter.objects.filter(Chapter = self)
 
     def get_absolute_url(self):
-        return reverse('article_details', args=[str(self.slug)])
+        try:
+            return reverse('article_details', args=[str(self.slug)])
+        except:
+            return reverse('article_details', args=[str(self.id)])
 
 
 class article_subchapter(models.Model):
@@ -77,7 +80,10 @@ class article_subchapter(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('subchapter', args=[str(self.slug)])
+        try:
+            return reverse('subchapter', args=[str(self.slug)])
+        except:
+            return reverse('subchapter', args=[str(self.id)])
 
 
 
@@ -113,7 +119,10 @@ class article_category(models.Model):
         return Article_table.objects.filter(Category=self).count()
 
     def get_absolute_url(self):
-        return reverse('category_articles', args=[str(self.slug)])
+        try:
+            return reverse('category_articles', args=[str(self.slug)])
+        except:
+            return reverse('category_articles', args=[str(self.id)])
 
 
 # class Article_table(models.Model):
@@ -201,7 +210,10 @@ class Article_table(models.Model):
     updated_to = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.slug
+        try:
+            return self.slug
+        except:
+            return self.id
 
     def get_profile(self):
         return Profile.objects.filter(user=self.Author).first()
