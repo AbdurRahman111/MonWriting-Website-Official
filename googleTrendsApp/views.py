@@ -343,16 +343,18 @@ def save_newsapi_article(article):
         genarate_keys_for_title = str(title) + str(short_description)
         print("No Keyword Generated. Title + Short Description")
     print(f"[Generated Keywords]: {genarate_keys_for_title}")
-
-    article_instance = Article_table(
-        Title=title,
-        Short_Description=short_description,
-        Description=content,
-        image=image_url,
-        tags = genarate_keys_for_title,
-    )
-    article_instance.save()
-    print(f"NewsAPI Article '{title}' saved successfully!")
+    if title == '[Removed]':
+        pass 
+    else:
+        article_instance = Article_table(
+            Title=title,
+            Short_Description=short_description,
+            Description=content,
+            image=image_url,
+            tags = genarate_keys_for_title,
+        )
+        article_instance.save()
+        print(f"NewsAPI Article '{title}' saved successfully!")
 
 
 def save_guardian_article(article):
